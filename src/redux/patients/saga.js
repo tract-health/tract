@@ -16,7 +16,6 @@ import {
   removePatientsItemError
 } from "./actions";
 
-import patientsData from "Data/patients.json";
 
 const getPatientsListRequest = async () => {
   return database.ref('patients')
@@ -45,7 +44,7 @@ function* getPatientsListItems() {
 }
 
 const addPatientsItemRequest = async item => {
-  let items = patientsData.data;
+  let items = {};
   item.createDate = getDateWithFormat();
   items.splice(0, 0, item);
 
