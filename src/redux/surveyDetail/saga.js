@@ -11,9 +11,11 @@ import {
 	saveSurvey
 } from './actions';
 
+import surveyDetailData from 'Data/survey.detail.json';
+
 const getSurveyDetailRequest = async () => {
 		return await new Promise((success, fail) => {
-      return success({});
+      return success(surveyDetailData.data);
 		})
 			.then(response => response)
 			.catch(error => error);

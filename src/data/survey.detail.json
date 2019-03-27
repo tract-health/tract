@@ -1,0 +1,128 @@
+{
+  "data": {
+    "survey": [
+      {
+        "id": 1,
+        "factor": "Health Status",
+        "definition": "Factors relating to an individual's diagnosis and health status that may impact on trajectory management.",
+        "questions": [
+          "How certain is the individual's diagnosis?",
+          "Does the individual have more than one health condition?",
+          "If the individual has more than one health condition, do they affect each other?",
+          "How stable is the individual's condition?",
+          "How familiar is the nursing staff with the individual's health needs?"
+        ]
+      },
+      {
+        "id": 2,
+        "factor": "Care needs",
+        "definition": "Factors relating to an individual's care needs that may impact on trajectory management",
+        "questions": [
+          "What is the extend of the individual's care needs?",
+          "What is the complexity of the individual's care needs?",
+          "How stable and predictable are the individual's care needs?",
+          "How familiar is the nursing staff in meeting the individual's care needs?"
+        ]
+      },
+      {
+        "id": 3,
+        "factor": "Care Team",
+        "definition": "Factors relating to the health and social care team that may impact on trajectory management",
+        "questions": [
+          "How many different health and social care providers are involved in the case?",
+          "Are the team familiar with each other?",
+          "How easy is it for all team members to communicate and share information and knowledge about the individual?",
+          "Is there agreement within the team about care and treatment plans?",
+          "Is there agreement between the individual/family and health/social care team about  care and treatment plans?",
+          "Is there a requirement for case conferences or dedicated multidisciplinary team meetings?"
+        ]
+      },
+      {
+        "id": 4,
+        "factor": "Social",
+        "definition": "Factors relating to an individual's social circumstances that may impact on trajectory management",
+        "questions": [
+          "Does the individual have the support of a family/social network?",
+          "Do the individual and family agree on their health and social care arrangements?",
+          "Does the individual's family/social network have implications for their health and social care arrangements?"
+        ]
+      },
+      {
+        "id": 5,
+        "factor": "Psychological",
+        "definition": "Factors relating to an individual's psychological status that may impact on trajectory management",
+        "questions": [
+          "Is the individual affected by the psychological impact of an illness or injury",
+          "Is the family affected by the psychological impact of the individual's illness or injury"
+        ]
+      },
+      {
+        "id": 6,
+        "factor": "Cognitive",
+        "definition": "Factors relating to an individual's cognitive status that ma impact on trajectory management",
+        "questions": [
+          "Does the individual have problems with memory?",
+          "Does the individual have problems with thinking skills?",
+          "Does the individual have a learning disability?"
+        ]
+      },
+      {
+        "id": 7,
+        "factor": "Legal",
+        "definition": "Factors relating to the legal aspects of individual's care that may impact on trajectory management",
+        "questions": [
+          "Are there safeguarding/guardianship issues involved in the case?",
+          "Are there issues relating to decision making and power of attorney in the case?"
+        ]
+      },
+      {
+        "id": 8,
+        "factor": "Financial",
+        "definition": "Factors relating to financial aspects of an individual's care that may impact on trajectory management",
+        "questions": [
+          "Are there issues in relation to the funding of care arrangements"
+        ]
+      },
+      {
+        "id": 9,
+        "factor": "Resources",
+        "definition": "Factors relating to the organisation and maintenance of an individual's material resources (equipment and/or physical aides) that may impact on trajectory management",
+        "questions": [
+          "Does the individual require equipment and/or physical aides to support their health and social care needs?",
+          "Does the ward/unit have in place the equipment and aides requires",
+          "Are adaptations and/or modifications to the individual's home required",
+          "Are special arrangements required to support medications management",
+          "Is there a requirement for education and knowledge sharing with non-specialists care providers?",
+          "Is there a need for education and knowledge sharing with individuals and/or family"
+        ]
+      },
+      {
+        "id": 10,
+        "factor": "Interventions and Procedures",
+        "definition": "Factors relating to an individual's care and procedures/treatment interventions that impact on care trajectory management",
+        "questions": [
+          "Is the individual scheduled to undergo any procedures: surgery, diagnostic tests, interventions?",
+          "How familiar is the nursing staff with the requirements for these procedures?"
+        ]
+      },
+      {
+        "id": 11,
+        "factor": "Transfers of care",
+        "definition": "Factors relating to the information requirements of admission, discharge and transfers of care which may have an impact on trajectory management",
+        "questions": [
+          "Has the individual been transferred from another department/ward/hospital?",
+          "Does the plan of care involve transfers of care?",
+          "Are the arrangements for discharge complex?"
+        ]
+      },
+      {
+        "id": "S",
+        "factor": "Overall Tract Assessment",
+        "definition": "Decide for overall Tract Assessment for each patient",
+        "questions": [
+          "Have you checked summary after you saved Assessment?"
+        ]
+      }
+    ]
+  }
+}

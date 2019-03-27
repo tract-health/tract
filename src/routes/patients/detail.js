@@ -207,6 +207,7 @@ class PatientsDetail extends Component {
 
   render() {
     const { survey, loading } = this.props.surveyDetailApp;
+
     const patient = this.getPatient();
     const patientSurvey = this.getSurvey();
 
@@ -368,7 +369,7 @@ class PatientsDetail extends Component {
 
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
-                        {survey.survey.map((item, index) => {
+                        {survey && survey.survey ? survey.survey.map((item, index) => {
                           return (
                             <li data-id={item.id} key={item.id}>
                               <SurveyItem
@@ -383,7 +384,7 @@ class PatientsDetail extends Component {
                               />
                             </li>
                           );
-                        })}
+                        }) : null}
                     </ul>
                   </Colxx>
                 </Row>
@@ -419,7 +420,7 @@ class PatientsDetail extends Component {
   }
 }
 
-const mapStateToProps = ({  patientsApp, surveyDetailApp }) => {
+const mapStateToProps = ({ patientsApp, surveyDetailApp }) => {
   return {
       patientsApp,
       surveyDetailApp
