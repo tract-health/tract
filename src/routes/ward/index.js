@@ -14,7 +14,7 @@ import {getPatientsList, getSurveyDetail} from 'Redux/actions'
 import { connect } from 'react-redux'
 import SummaryTable from "Components/SummaryTable";
 
-class Dashboard extends Component {
+class Ward extends Component {
   constructor(props) {
     super(props);
 
@@ -131,7 +131,7 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({  patientsApp, surveyDetailApp }) => {
+const mapStateToProps = ({ patientsApp, surveyDetailApp }) => {
   return {
     patientsApp,
     surveyDetailApp
@@ -143,4 +143,4 @@ export default connect(
     getSurveyDetail,
     getPatientsList
   }
-)(Dashboard);
+)(Ward);
