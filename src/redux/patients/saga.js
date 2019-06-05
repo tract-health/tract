@@ -44,9 +44,7 @@ function* getPatientsListItems() {
 }
 
 const addPatientsItemRequest = async item => {
-  let items = {};
   item.createDate = getDateWithFormat();
-  items.splice(0, 0, item);
 
   return database.ref('patients/' + item.id)
     .once('value')
