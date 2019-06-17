@@ -18,7 +18,7 @@ import {
 
 
 const getPatientsListRequest = async () => {
-  return database.ref('patients')
+  return database.ref(localStorage.getItem('user_id') + '/patients')
     .once('value')
     .then(response => {
       response = response.val();
@@ -46,17 +46,17 @@ function* getPatientsListItems() {
 const addPatientsItemRequest = async item => {
   item.createDate = getDateWithFormat();
 
-  return database.ref('patients/' + item.id)
+  return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id)
     .once('value')
     .then(response => {
       if (response.exists()) {
-        return database.ref('patients/' + item.id).set({
+        return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id).set({
           name: item.name
         }).then(response => {
           return getPatientsListRequest()
         }).catch(error => error);
       } else {
-        return database.ref('patients/' + item.id).set({
+        return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id).set({
           name: item.name,
           createDate: item.createDate,
           assessmentLevel: null,
@@ -78,7 +78,7 @@ function* addPatientsItem({ payload }) {
 }
 
 const removePatientsItemRequest = async id => {
-  return database.ref('patients/' + id)
+  return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
     .remove()
     .then(response => {
       return getPatientsListRequest()

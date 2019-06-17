@@ -114,8 +114,10 @@ class PatientsDetail extends Component {
 
   getSurvey() {
     const patient = this.getPatient();
+    console.log(patient)
     if (patient) {
       const date = this.getDate();
+      console.log(date)
       if (date) {
         return patient.surveys && patient.surveys[date] ? patient.surveys[date] : null
       }
@@ -142,7 +144,7 @@ class PatientsDetail extends Component {
   handleSaveSurvey() {
     if (this.patientId) {
       const surveyId = this.getDate();
-      const surveyPath = `patients/${this.patientId}/surveys/${surveyId}`;
+      const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
 
       return database.ref(surveyPath).set({
         answers: this.state.survey,
@@ -158,7 +160,7 @@ class PatientsDetail extends Component {
   handleDeleteSurvey() {
     if (this.patientId) {
       const surveyId = this.getDate();
-      const surveyPath = `patients/${this.patientId}/surveys/${surveyId}`;
+      const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
 
       return database.ref(surveyPath).remove()
         .then(response => {
@@ -370,6 +372,7 @@ class PatientsDetail extends Component {
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
                         {survey && survey.survey ? survey.survey.map((item, index) => {
+                          console.log(this.state.survey)
                           return (
                             <li data-id={item.id} key={item.id}>
                               <SurveyItem
