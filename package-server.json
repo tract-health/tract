@@ -1,0 +1,24 @@
+{
+    "name": "tract-backend-server",
+    "version": "1.0.0",
+    "description": "TRACT - Point of Care Tool. Express Server",
+    "scripts": {
+      "dev": "webpack-dev-server --mode development --hot --progress --open",
+      "build": "webpack --mode production"
+    },
+    "keywords": [
+      "tract",
+      "care",
+      "health",
+      "server"
+    ],
+    "author": "Maxim Filimonov",
+    "license": "ISC",
+    "devDependencies": {
+    },
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.17.1"
+    }
+  }
+  
