@@ -57,32 +57,32 @@ class PatientsDetail extends Component {
       surveyData: surveyData,
       embeddedDate: moment(this.date, "YYYY-MM-DD"),
       defaultSurvey: {
-        1: null,
-        2: null,
-        3: null,
-        4: null,
-        5: null,
-        6: null,
-        7: null,
-        8: null,
-        9: null,
-        10: null,
-        11: null,
-        "S": null
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        "S": 0
       },
       survey: {
-        1: null,
-        2: null,
-        3: null,
-        4: null,
-        5: null,
-        6: null,
-        7: null,
-        8: null,
-        9: null,
-        10: null,
-        11: null,
-        "S": null
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        "S": 0
       }
     };
   }
@@ -148,9 +148,12 @@ class PatientsDetail extends Component {
 
       return database.ref(surveyPath).set({
         answers: this.state.survey,
+        na: this.getSum("na"),
+        verylow: this.getSum("verylow"),
         low: this.getSum("low"),
         medium: this.getSum("medium"),
         high: this.getSum("high"),
+        veryhigh: this.getSum("veryhigh")
       }).then(response => {
         this.props.getPatientsList();
       }).catch(error => error);
@@ -174,6 +177,12 @@ class PatientsDetail extends Component {
 
     const id = e.target.getAttribute('data-id');
     let className = null;
+    if (e.target.classList.contains("na")) {
+      className = "na"
+    }
+    if (e.target.classList.contains("verylow")) {
+      className = "verylow"
+    }
     if (e.target.classList.contains("low")) {
       className = "low"
     }
@@ -182,6 +191,9 @@ class PatientsDetail extends Component {
     }
     if (e.target.classList.contains("high")) {
       className = "high"
+    }
+    if (e.target.classList.contains("veryhigh")) {
+      className = "veryhigh"
     }
 
     this.setState((prevState) => ({
@@ -216,14 +228,23 @@ class PatientsDetail extends Component {
     const getOverAllBadge = (patientSurvey) => {
       const s = patientSurvey && patientSurvey.answers && patientSurvey.answers['S'] ? patientSurvey.answers['S'] : null;
 
+      if (s === 'na') {
+        return <Badge color="na" pill>N/A</Badge>
+      }
+      if (s === 'verylow') {
+        return <Badge color="verylow" pill>VERY LOW</Badge>
+      }
       if (s === 'low') {
-        return <Badge color="primary" pill>LOW</Badge>
+        return <Badge color="low" pill>LOW</Badge>
       }
       if (s === 'medium') {
-        return <Badge color="secondary" pill>MEDIUM</Badge>
+        return <Badge color="medium" pill>MEDIUM</Badge>
       }
       if (s === 'high') {
-        return <Badge color="info" pill>HIGH</Badge>
+        return <Badge color='high' pill>HIGH</Badge>
+      }
+      if (s === 'veryhigh') {
+        return <Badge color='veryhigh' pill>VERY HIGH</Badge>
       }
     };
 
@@ -344,16 +365,28 @@ class PatientsDetail extends Component {
                     <Card className="mt-4">
                       <CardBody>
                         <Row>
-                          <Colxx><Badge color="primary" pill>LOW</Badge></Colxx>
+                          <Colxx><Badge color="na" pill>N/A</Badge></Colxx>
+                          <Colxx>{patientSurvey ? patientSurvey.na : 0}</Colxx>
+                        </Row>
+                        <Row className="mt-1 mb-1">
+                          <Colxx><Badge color="verylow" pill>VERY LOW</Badge></Colxx>
+                          <Colxx>{patientSurvey ? patientSurvey.verylow : 0}</Colxx>
+                        </Row>
+                        <Row className="mt-1 mb-1">
+                          <Colxx><Badge color="low" pill>LOW</Badge></Colxx>
                           <Colxx>{patientSurvey ? patientSurvey.low : 0}</Colxx>
                         </Row>
                         <Row className="mt-1 mb-1">
-                          <Colxx><Badge color="secondary" pill>MEDIUM</Badge></Colxx>
+                          <Colxx><Badge color="medium" pill>MEDIUM</Badge></Colxx>
                           <Colxx>{patientSurvey ? patientSurvey.medium : 0}</Colxx>
                         </Row>
-                        <Row>
-                          <Colxx><Badge color="info" pill>HIGH</Badge></Colxx>
+                        <Row className="mt-1 mb-1">
+                          <Colxx><Badge color="high" pill>HIGH</Badge></Colxx>
                           <Colxx>{patientSurvey ? patientSurvey.high : 0}</Colxx>
+                        </Row>
+                        <Row>
+                          <Colxx><Badge color="veryhigh" pill>VERY HIGH</Badge></Colxx>
+                          <Colxx>{patientSurvey ? patientSurvey.veryhigh : 0}</Colxx>
                         </Row>
                       </CardBody>
                     </Card>

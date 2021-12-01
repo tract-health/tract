@@ -28,14 +28,20 @@ export default class SummaryTable extends React.Component {
     const getClassName = (variable) => {
       let score = 0;
       const scores  = {
-        "low": 1,
-        "medium": 2,
-        "high": 3
+        "na": 0,
+        "verylow": 1,
+        "low": 2,
+        "medium": 3,
+        "high": 4,
+        "veryhigh": 5
       };
       const scoresReverse = {
-        1: "low",
-        2: "medium",
-        3: "high"
+        0: "na",
+        1: "verylow",
+        2: "low",
+        3: "medium",
+        4: "high",
+        5: "veryhigh"
       };
 
       let count = 0;

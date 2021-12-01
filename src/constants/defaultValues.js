@@ -29,12 +29,20 @@ export const firebaseConfig = {
 
 export const assessmentLevelToColor = (assessmentLevel) => {
   switch (assessmentLevel.toLowerCase()) {
+    case 'na':
+      return 'na';
+    case 'verylow':
+      return 'verylow';
     case 'low':
-      return 'primary';
+      return 'low';
     case 'medium':
-      return 'secondary';
+      return 'medium';
     case 'high':
-      return 'info'
+      return 'high';
+    case 'veryhigh':
+      return 'veryhigh';
+    default:
+      return 'na';
   }
 };
 

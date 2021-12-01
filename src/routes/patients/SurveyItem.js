@@ -9,30 +9,65 @@ export default class SurveyItem extends React.Component {
   constructor(...params) {
     super(...params);
     this.toggleClick = this.toggleClick.bind(this);
+    this.naOnClick = this.naOnClick.bind(this);
+    this.verylowOnClick = this.verylowOnClick.bind(this);
     this.lowOnClick = this.lowOnClick.bind(this);
     this.mediumOnClick = this.mediumOnClick.bind(this);
     this.highOnClick = this.highOnClick.bind(this);
+    this.veryhighOnClick = this.veryhighOnClick.bind(this);
 
     this.state = {
       collapse: this.props.expanded || false,
       title: this.props.title || "",
+      na: false,
+      verylow: false,
       low: false,
       medium: false,
-      high: false
+      high: false,
+      veryhigh: false
     };
   }
 
   toggleClick() {
     this.setState({ collapse: !this.state.collapse });
   }
+  
+  naOnClick(e) {
+    e.preventDefault();
+    const value = !this.state.na;
+    this.setState({
+      na: value,
+      verylow: !value,
+      low: !value,
+      medium: !value,
+      high: !value,
+      veryhigh: !value
+    })
+  }
+
+  verylowOnClick(e) {
+    e.preventDefault();
+    const value = this.state.verylow;
+    this.setState({
+      na: !value,
+      verylow: value,
+      low: !value,
+      medium: !value,
+      high: !value,
+      veryhigh: !value
+    })
+  }
 
   lowOnClick(e) {
     e.preventDefault();
     const value = !this.state.low;
     this.setState({
+      na: !value,
+      verylow: !value,
       low: value,
       medium: !value,
-      high: !value
+      high: !value,
+      veryhigh: !value
     })
   }
 
@@ -40,9 +75,12 @@ export default class SurveyItem extends React.Component {
     e.preventDefault();
     const value = !this.state.medium;
     this.setState({
+      na: !value,
+      verylow: !value,
       low: !value,
       medium: value,
-      high: !value
+      high: !value,
+      veryhigh: !value
     })
   }
 
@@ -50,34 +88,71 @@ export default class SurveyItem extends React.Component {
     e.preventDefault();
     const value = !this.state.high;
     this.setState({
+      na: !value,
+      verylow: !value,
       low: !value,
       medium: !value,
-      high: value
+      high: value,
+      veryhigh: !value
+    })
+  }
+
+  veryhighOnClick(e) {
+    e.preventDefault();
+    const value = !this.state.veryhigh;
+    this.setState({
+      na: !value,
+      verylow: !value,
+      low: !value,
+      medium: !value,
+      high: !value,
+      veryhigh: value
     })
   }
 
   render() {
     const {definition, questions, surveyItem, onClick, id} = this.props;
 
-    let lowClass = "mb-1 badge badge-outline-primary badge-pill low";
+    let naClass = "mb-1 badge badge-outline-na badge-pill na";
+    let naStyle = null;
+    if (surveyItem === "na") {
+      naClass = "mb-1 badge badge-na badge-pill na";
+      naStyle = { border: "1px transparent solid" }
+    }
+
+    let verylowClass = "mb-1 badge badge-outline-verylow badge-pill verylow";
+    let verylowStyle = null;
+    if (surveyItem === "verylow") {
+      verylowClass = "mb-1 badge badge-verylow badge-pill verylow";
+      verylowStyle = { border: "1px transparent solid" }
+    }
+
+    let lowClass = "mb-1 badge badge-outline-low badge-pill low";
     let lowStyle = null;
     if (surveyItem === "low") {
-      lowClass = "mb-1 badge badge-primary badge-pill low";
+      lowClass = "mb-1 badge badge-low badge-pill low";
       lowStyle = { border: "1px transparent solid" }
     }
 
-    let mediumClass = "mb-1 badge badge-outline-secondary badge-pill medium";
+    let mediumClass = "mb-1 badge badge-outline-medium badge-pill medium";
     let mediumStyle = null;
     if (surveyItem === "medium") {
-      mediumClass = "mb-1 badge badge-secondary badge-pill medium";
+      mediumClass = "mb-1 badge badge-medium badge-pill medium";
       mediumStyle = { border: "1px transparent solid" }
     }
 
-    let highClass = "mb-1 badge badge-outline-info badge-pill high";
+    let highClass = "mb-1 badge badge-outline-high badge-pill high";
     let highStyle = null;
     if (surveyItem === "high") {
-      highClass = "mb-1 badge badge-info badge-pill high";
+      highClass = "mb-1 badge badge-high badge-pill high";
       highStyle = { border: "1px transparent solid" }
+    }
+
+    let veryhighClass = "mb-1 badge badge-outline-veryhigh badge-pill veryhigh";
+    let veryhighStyle = null;
+    if (surveyItem === "veryhigh") {
+      veryhighClass = "mb-1 badge badge-veryhigh badge-pill veryhigh";
+      veryhighStyle = { border: "1px transparent solid" }
     }
 
     return (
@@ -90,15 +165,24 @@ export default class SurveyItem extends React.Component {
               </span>
               {this.state.title}
             </div>
-            <div className="list-item-heading">
+            <div className="list-item-heading align-self-center d-flex justify-content-between align-items-md-center">
               <a href="#" onClick={onClick}>
+                <span className={naClass} style={naStyle} data-id={id}>N/A</span>
+              </a>
+              <a href="#" onClick={onClick} className="ml-2">
+                <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+              </a>
+              <a href="#" onClick={onClick} className="ml-2">
                 <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
               </a>
-              <a href="#" onClick={onClick} className="ml-2 mr-2">
+              <a href="#" onClick={onClick} className="ml-2">
                 <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
               </a>
-              <a href="#" onClick={onClick}>
+              <a href="#" onClick={onClick} className="ml-2 mr-2">
                 <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+              </a>
+              <a href="#" onClick={onClick}>
+                <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
               </a>
             </div>
           </div>

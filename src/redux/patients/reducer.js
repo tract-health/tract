@@ -23,9 +23,12 @@ const INIT_STATE = {
 	orderColumn: null,
 	loading: false,
 	labels: [
-		{ label: "LOW", color: "primary" },
-		{ label: "MEDIUM", color: "secondary" },
-		{ label: "HIGH", color: "info" }
+		{ label: "NA", color: "na" },
+		{ label: "VERY LOW", color: "verylow" },
+		{ label: "LOW", color: "low" },
+		{ label: "MEDIUM", color: "medium" },
+		{ label: "HIGH", color: "high" },
+		{ label: "VERY HIGH", color: "veryhigh" }
 	],
 	orderColumns: [
     { column: "id", label: "ID" },
