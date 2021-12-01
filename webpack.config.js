@@ -83,15 +83,35 @@ module.exports = (env, argv) => ({
               test: /\.css$/,
               use: [MiniCssExtractPlugin.loader, "css-loader"]
           },
-          // Scss compiler
           {
               test: /\.scss$/,
               use: [
-                  MiniCssExtractPlugin.loader,
-                  "css-loader",
-                  "sass-loader"
+                  {
+                    loader: MiniCssExtractPlugin.loader
+                  },
+                  {
+                    loader: "css-loader",
+                    options: {
+                        url: false
+                    }
+                  },
+                  {
+                    loader: "sass-loader",
+                    options: {
+                        data: `$publicPath: ' ';`
+                        //data: `$publicPath : ${argv.mode === 'production' ? '/tract' : ' '};`,
+                    }
+                  }
               ]
-          }
+          },
+          {
+            test: /\.(png|jpe?g|gif)$/i,
+            use: [
+              {
+                loader: 'file-loader',
+              },
+            ],
+          },
       ]
   },
   optimization: {
