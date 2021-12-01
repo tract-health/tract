@@ -15,16 +15,16 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 const InitialPath = ({ component: Component, ...rest, authUser }) =>
 	<Route
 		{...rest}
-		// render={props =>
-		// 	authUser
-		// 		? <Component {...props} />
-		// 		: <Redirect
-		// 			to={{
-		// 				pathname: '/login',
-		// 				state: { from: props.location }
-		// 			}}
-		// 		/>}
-		render = {props => <Component {...props}/>}
+		render={props =>
+			authUser
+				? <Component {...props} />
+				: <Redirect
+					to={{
+						pathname: '/login',
+						state: { from: props.location }
+					}}
+				/>}
+		//render = {props => <Component {...props}/>}
 	/>;
 
 class App extends Component {
