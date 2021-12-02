@@ -156,9 +156,10 @@ export default class SurveyItem extends React.Component {
     }
 
     return (
-      <Card className={`question d-flex mb-4 ${this.state.mode}`}>
+      <Card className={`question d-flex mb-3 ${this.state.mode}`}>
         <div className="d-flex flex-grow-1 min-width-zero">
-          <div className="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+          <div 
+            className="card-body card-assessment align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <div className="list-item-heading mb-0 truncate w-50 mb-1 mt-1">
               <span className="heading-number d-inline-block">
                 {this.props.order}
