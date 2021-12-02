@@ -13,14 +13,19 @@ import {getPatientsList, getSurveyDetail} from 'Redux/actions'
 
 import { connect } from 'react-redux'
 import SummaryTable from "Components/SummaryTable";
+import moment from 'moment';
 
 class Ward extends Component {
   constructor(props) {
     super(props);
 
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+    const endDate = new Date();
+
     this.state = {
-      startDateRange: null,
-      endDateRange: null,
+      startDateRange: moment(startDate),
+      endDateRange: moment(endDate),
     };
 
     this.handleChangeStart = this.handleChangeStart.bind(this);
@@ -81,6 +86,7 @@ class Ward extends Component {
                 <div className="d-block mb-2 d-md-inline-block">
                   <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                     <DatePicker
+                      dateFormat='DD/MM/YYYY'
                       selected={this.state.startDateRange}
                       selectsStart
                       startDate={this.state.startDateRange}
@@ -93,6 +99,7 @@ class Ward extends Component {
                 <div className="d-block mb-2 d-md-inline-block">
                   <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                     <DatePicker
+                      dateFormat='DD/MM/YYYY'
                       selected={this.state.endDateRange}
                       selectsEnd
                       startDate={this.state.startDateRange}
