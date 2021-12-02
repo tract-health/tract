@@ -5551,15 +5551,27 @@ div.summary-table th {
   padding: 0.5em;
 }
 
+div.summary-table td.veryhigh {
+  background-color: $veryhigh-color !important;
+}
+
 div.summary-table td.high {
-  background-color: $info-color !important;
+  background-color: $high-color !important;
 }
 
 div.summary-table td.medium {
-  background-color: $theme-color-2 !important;
+  background-color: $medium-color !important;
 }
 
 div.summary-table td.low {
-  background-color: $theme-color-1 !important;
+  background-color: $low-color !important;
+}
+
+div.summary-table td.verylow {
+  background-color: $verylow-color !important;
+}
+
+div.summary-table td.na {
+  background-color: $na-color !important;
 }
 
