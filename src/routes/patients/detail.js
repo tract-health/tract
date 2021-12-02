@@ -43,6 +43,7 @@ class PatientsDetail extends Component {
   constructor(props) {
     super(props);
 
+
     this.patientId = this.props.match.params.patientId;
     this.date = this.props.match.params.date;
 
@@ -114,10 +115,10 @@ class PatientsDetail extends Component {
 
   getSurvey() {
     const patient = this.getPatient();
-    console.log(patient)
+    //console.log(patient)
     if (patient) {
       const date = this.getDate();
-      console.log(date)
+      //console.log(date)
       if (date) {
         return patient.surveys && patient.surveys[date] ? patient.surveys[date] : null
       }
@@ -405,7 +406,7 @@ class PatientsDetail extends Component {
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
                         {survey && survey.survey ? survey.survey.map((item, index) => {
-                          console.log(this.state.survey)
+                          //console.log(this.state.survey)
                           return (
                             <li data-id={item.id} key={item.id}>
                               <SurveyItem
