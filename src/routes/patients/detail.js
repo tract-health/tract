@@ -284,38 +284,7 @@ class PatientsDetail extends Component {
             <h1>
               <span className="align-middle d-inline-block pt-1">Patient TRACT Assessment</span>
             </h1>
-            <div className="float-sm-right mb-2">
-              <ButtonDropdown
-                className="top-right-button top-right-button-single"
-                isOpen={this.state.dropdownSplitOpen}
-                toggle={this.toggleSplit}
-              >
-                <Button
-                  outline
-                  className="flex-grow-1"
-                  size="lg"
-                  color="primary"
-                  onClick={this.handleSaveSurvey}
-                >
-                  SAVE
-                </Button>
-                <DropdownToggle
-                  size="lg"
-                  className="pr-4 pl-4"
-                  caret
-                  outline
-                  color="primary"
-                />
-                <DropdownMenu right>
-                  <DropdownItem
-                    header
-                    onClick={() => this.handleDeleteSurvey()}
-                  >
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </div>
+            
 
             <BreadcrumbItems match={this.props.match} />
             {loading ?
@@ -423,6 +392,37 @@ class PatientsDetail extends Component {
                           );
                         }) : null}
                     </ul>
+                    <div className="float-sm-right mb-4">
+                    <ButtonDropdown
+                      className="top-right-button top-right-button-single"
+                      isOpen={this.state.dropdownSplitOpen}
+                      toggle={this.toggleSplit}
+                    >
+                      <Button
+                        outline
+                        className="flex-grow-1"
+                        size="lg"
+                        color="primary"
+                        onClick={this.handleSaveSurvey}
+                      >
+                        SAVE
+                      </Button>
+                      <DropdownToggle
+                        size="lg"
+                        className="pr-4 pl-4"
+                        caret
+                        outline
+                        color="primary"
+                      />
+                      <DropdownMenu right>
+                        <DropdownItem
+                          onClick={() => this.handleDeleteSurvey()}
+                        >
+                          DELETE
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </ButtonDropdown>
+                  </div>
                   </Colxx>
                 </Row>
               </TabPane>
