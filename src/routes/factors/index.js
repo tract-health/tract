@@ -10,6 +10,7 @@ import {
   DropdownItem,
   DropdownMenu,
   Collapse,
+  Badge
 } from "reactstrap";
 import { Colxx, Separator } from "Components/CustomBootstrap";
 import BreadcrumbContainer from "Components/BreadcrumbContainer";
@@ -123,6 +124,17 @@ class Factors extends Component {
                 heading="TRACT Factors"
                 match={this.props.match}
               />
+            </div>
+            <div className="mb-4 mr-5 float-sm-right">
+              <Row>
+                <div class="ml-3 mr-2">Heatmap:</div>
+                <div class="mr-2"><Badge color="na" pill>N/A</Badge></div>
+                <div class="mr-2"><Badge color="verylow" pill>VERY LOW</Badge></div>
+                <div class="mr-2"><Badge color="low" pill>LOW</Badge></div>
+                <div class="mr-2"><Badge color="medium" pill>MEDIUM</Badge></div>
+                <div class="mr-2"><Badge color="high" pill>HIGH</Badge></div>
+                <div><Badge color="veryhigh" pill>VERY HIGH</Badge></div>
+              </Row>
             </div>
             <div className="mb-2">
               <Button
