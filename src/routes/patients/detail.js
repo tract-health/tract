@@ -364,7 +364,7 @@ class PatientsDetail extends Component {
                     <Card className="mt-4">
                       <CardBody>
                         <Row>
-                          <Colxx><div class="badge badge-pill badge-outline-primary">Overall Tract Assessment</div></Colxx>
+                          <Colxx><div className="badge badge-pill badge-outline-primary">Overall Tract Assessment</div></Colxx>
                           <Colxx>{ getOverAllBadge(patientSurvey) }</Colxx>
                         </Row>
                       </CardBody>
