@@ -127,12 +127,12 @@ class Factors extends Component {
             </div>
             <div className="mb-4 mr-5 float-sm-right">
               <Row>
-                <div class="ml-3 mr-2">Heatmap:</div>
-                <div class="mr-2"><Badge color="na" pill>N/A</Badge></div>
-                <div class="mr-2"><Badge color="verylow" pill>VERY LOW</Badge></div>
-                <div class="mr-2"><Badge color="low" pill>LOW</Badge></div>
-                <div class="mr-2"><Badge color="medium" pill>MEDIUM</Badge></div>
-                <div class="mr-2"><Badge color="high" pill>HIGH</Badge></div>
+                <div className="ml-3 mr-2">Heatmap:</div>
+                <div className="mr-2"><Badge color="na" pill>N/A</Badge></div>
+                <div className="mr-2"><Badge color="verylow" pill>VERY LOW</Badge></div>
+                <div className="mr-2"><Badge color="low" pill>LOW</Badge></div>
+                <div className="mr-2"><Badge color="medium" pill>MEDIUM</Badge></div>
+                <div className="mr-2"><Badge color="high" pill>HIGH</Badge></div>
                 <div><Badge color="veryhigh" pill>VERY HIGH</Badge></div>
               </Row>
             </div>
