@@ -38,7 +38,8 @@ import {
   getPatientsListSearch,
   addPatientsItem,
   removePatientsItem,
-  selectedPatientsItemsChange
+  selectedPatientsItemsChange,
+  dischargePatientsItem
 } from "Redux/actions";
 
 import { assessmentLevelToColor } from "../../constants/defaultValues"
@@ -61,7 +62,9 @@ class Patients extends Component {
       category: {},
       status: "PENDING",
       displayOptionsIsOpen:false,
-      selectedItems: []
+      selectedItems: [],
+      showOptions: ['Active', 'Discharged'],
+      showOptionCurrent: "Active"
     };
   }
 
@@ -87,6 +90,13 @@ class Patients extends Component {
 
   addFilter(column, value) {
     this.props.getPatientsListWithFilter(column, value);
+  }
+
+  changeShow(value) {
+    this.setState({
+      showOptionCurrent: value
+    });
+    
   }
 
   changeOrderBy(column) {
@@ -181,6 +191,12 @@ class Patients extends Component {
     }
   }
 
+  handleDischargeAll() {
+    for (let item of this.state.selectedItems) {
+      this.props.dischargePatientsItem(item);
+    }
+  }
+
   getIndex(value, arr, prop) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i][prop] === value) {
@@ -199,7 +215,7 @@ class Patients extends Component {
       loading,
       orderColumn,
       orderColumns,
-      selectedItems
+      selectedItems,
     } = this.props.patientsApp;
 
     return (
@@ -309,6 +325,9 @@ class Patients extends Component {
                     <DropdownItem onClick={() => this.handleDeleteAll()}>
                       Delete
                     </DropdownItem>
+                    <DropdownItem onClick={() => this.handleDischargeAll()}>
+                      Discharge
+                    </DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>
@@ -348,7 +367,25 @@ class Patients extends Component {
                       })}
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                    <DropdownToggle caret color="outline-dark" size="xs">
+                      <IntlMessages id="todo.show" />
+                      {this.state.showOptionCurrent}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {this.state.showOptions.map((val, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => this.changeShow(val)}
+                          >
+                            {val}
+                          </DropdownItem>
+                        );
+                      })}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <div className="search-sm d-inline-block mr-1 mb-1 align-top">
                     <input
                       type="text"
                       name="keyword"
@@ -434,7 +471,7 @@ class Patients extends Component {
                 <NavItem className={classnames({ active: !filter })}>
                   <NavLink to="#" onClick={e => this.addFilter("", "")}>
                     <i className="simple-icon-people" />
-                    All Patients
+                    All Active Patients
                     <span className="float-right">
                       {loading && allPatientsItems.length}
                     </span>
@@ -464,6 +501,7 @@ export default injectIntl(connect(
     getPatientsListSearch,
     addPatientsItem,
     removePatientsItem,
-    selectedPatientsItemsChange
+    selectedPatientsItemsChange,
+    dischargePatientsItem
   }
 )(Patients));

@@ -23,4 +23,5 @@ module.exports = {
   "todo.completed-tasks": "Completed Tasks",
   "todo.categories": "Categories",
   "todo.labels": "Labels",
+  "todo.show": "Show: "
 };

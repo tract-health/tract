@@ -11,7 +11,10 @@ import {
     PATIENTS_REMOVE_ITEM,
     PATIENTS_REMOVE_ITEM_SUCCESS,
     PATIENTS_REMOVE_ITEM_ERROR,
-    PATIENTS_SELECTED_ITEMS_CHANGE
+    PATIENTS_SELECTED_ITEMS_CHANGE,
+    PATIENTS_DISCHARGE_ITEM,
+    PATIENTS_DISCHARGE_ITEM_SUCCESS,
+    PATIENTS_DISCHARGE_ITEM_ERROR,
 } from 'Constants/actionTypes';
 
 
@@ -77,4 +80,19 @@ export const removePatientsItemError = (error) => ({
 export const selectedPatientsItemsChange = (selectedItems) => ({
     type: PATIENTS_SELECTED_ITEMS_CHANGE,
     payload: selectedItems
+});
+
+export const dischargePatientsItem = (id) => ({
+    type: PATIENTS_DISCHARGE_ITEM,
+    payload: id
+});
+
+export const dischargePatientsItemSuccess = (items) => ({
+    type: PATIENTS_DISCHARGE_ITEM_SUCCESS,
+    payload: items
+});
+
+export const dischargePatientsItemError = (error) => ({
+    type: PATIENTS_DISCHARGE_ITEM_ERROR,
+    payload: error
 });
