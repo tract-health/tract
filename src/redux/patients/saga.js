@@ -6,7 +6,9 @@ import {
   PATIENTS_ADD_ITEM,
   PATIENTS_REMOVE_ITEM,
   PATIENTS_DISCHARGE_ITEM,
-  PATIENTS_GET_LIST_DISCHARGED
+  PATIENTS_GET_LIST_DISCHARGED,
+  PATIENTS_ADMIT_ITEM,
+  PATIENTS_DISCHARGED_REMOVE_ITEM
 } from 'Constants/actionTypes'
 
 import {
@@ -18,8 +20,12 @@ import {
   removePatientsItemError,
   dischargePatientsItemSuccess,
   dischargePatientsItemError,
+  removeDischargedPatientsItemSuccess,
+  removeDischargedPatientsItemError,
   getDischargedPatientsListSuccess,
-  getDischargedPatientsListError
+  getDischargedPatientsListError,
+  admitPatientsItemSuccess,
+  admitPatientsItemError
 } from "./actions";
 
 
@@ -189,6 +195,23 @@ function* dischargePatientsItem({ payload }) {
   }
 }
 
+const removeDischargedPatientsItemRequest = async id => {
+  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+    .remove()
+    .then(response => {
+      return getDischargedPatientsListRequest()
+    }).catch(error => error);
+};
+
+function* removeDischargedPatientsItem({ payload }) {
+  try {
+    const response = yield call(removeDischargedPatientsItemRequest, payload);
+    yield put(removeDischargedPatientsItemSuccess(response));
+  } catch (error) {
+    yield put(removeDischargedPatientsItemError(error));
+  }
+}
+
 const getDischargedPatientsListRequest = async () => {
   return database.ref(localStorage.getItem('user_id') + '/dischargedPatients')
     .once('value')
@@ -215,6 +238,51 @@ function* getDischargedPatientsListItems() {
   }
 }
 
+const admitPatientsItemRequest = async id => {
+  // find the correct discharged patient
+  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+    .once('value')
+    .then(response => {
+      // get values
+      let surveys = null;
+      let assessmentLevel = null
+      if (response.val().surveys) {
+        surveys = response.val().surveys;
+      } 
+      if (response.val().assessmentLevel) {
+        assessmentLevel = response.val().assessmentLevel;
+      } 
+      // copy the discharged patient into active patients list
+      return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
+        .set({
+          name: response.val().name,
+          createDate: response.val().createDate,
+          assessmentLevel: assessmentLevel,
+          surveys: surveys
+        })
+        .then(response => {
+          // delete patient from discharged patients
+          return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+            .remove()
+            .then(response => {
+              return getPatientsListRequest();
+            })
+            .catch(error => error);
+        })
+        .catch(error => error);
+    })
+    .catch(error => error);
+}
+
+function* admitPatientsItem({ payload }) {
+  try {
+    const response = yield call(admitPatientsItemRequest, payload);
+    yield put(admitPatientsItemSuccess(response));
+  } catch (error) {
+    yield put(admitPatientsItemError(error));
+  }
+}
+
 export function* watchGetList() {
   yield takeEvery(PATIENTS_GET_LIST, getPatientsListItems);
 }
@@ -231,8 +299,16 @@ export function* watchDischargeItem() {
   yield takeEvery(PATIENTS_DISCHARGE_ITEM, dischargePatientsItem);
 }
 
+export function* watchRemoveDischargedItem() {
+  yield takeEvery(PATIENTS_DISCHARGED_REMOVE_ITEM, removeDischargedPatientsItem);
+}
+
 export function* watchGetDischargedList() {
   yield takeEvery(PATIENTS_GET_LIST_DISCHARGED, getDischargedPatientsListItems);
+}
+
+export function* watchAdmitItem() {
+  yield takeEvery(PATIENTS_ADMIT_ITEM, admitPatientsItem);
 }
 
 export default function* rootSaga() {
@@ -241,6 +317,8 @@ export default function* rootSaga() {
     fork(watchAddItem),
     fork(watchRemoveItem),
     fork(watchDischargeItem),
-    fork(watchGetDischargedList)
+    fork(watchGetDischargedList),
+    fork(watchAdmitItem),
+    fork(watchRemoveDischargedItem)
   ]);
 }

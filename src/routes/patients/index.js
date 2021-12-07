@@ -40,7 +40,9 @@ import {
   removePatientsItem,
   selectedPatientsItemsChange,
   dischargePatientsItem,
-  getDischargedPatientsList
+  getDischargedPatientsList,
+  admitPatientsItem,
+  removeDischargedPatientsItem
 } from "Redux/actions";
 
 import { assessmentLevelToColor } from "../../constants/defaultValues"
@@ -216,6 +218,30 @@ class Patients extends Component {
     });
   }
 
+  // function to admit all selected discharged patients
+  handleAdmitAll() {
+    // discharge one by one
+    for (let item of this.state.selectedItems) {
+      this.props.admitPatientsItem(item);
+    }
+    // null selected items list and move to active list
+    this.setState({
+      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length),
+      showOptionCurrent: 'Active'
+    });
+  }
+
+  handleDeleteDischargedAll() {
+    for (let item of this.state.selectedItems) {
+      this.props.removeDischargedPatientsItem(item);
+    }
+    // null selected items list
+    this.setState({
+      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+    });
+    this.props.getDischargedPatientsList();
+  }
+
   getIndex(value, arr, prop) {
     for (var i = 0; i < arr.length; i++) {
       if (arr[i][prop] === value) {
@@ -236,6 +262,27 @@ class Patients extends Component {
       orderColumns,
       selectedItems,
     } = this.props.patientsApp;
+
+    let dropdownMenu;
+    if (this.state.showOptionCurrent === 'Active') {
+      dropdownMenu = <DropdownMenu right>
+                      <DropdownItem onClick={() => this.handleDeleteAll()}>
+                        Delete
+                      </DropdownItem>
+                      <DropdownItem onClick={() => this.handleDischargeAll()}>
+                        Discharge
+                      </DropdownItem>
+                    </DropdownMenu>
+    } else if (this.state.showOptionCurrent === 'Discharged') {
+      dropdownMenu = <DropdownMenu right>
+                      <DropdownItem onClick={() => this.handleDeleteDischargedAll()}>
+                        Delete
+                      </DropdownItem>
+                      <DropdownItem onClick={() => this.handleAdmitAll()}>
+                        Admit
+                      </DropdownItem>
+                    </DropdownMenu>
+    }
 
     return (
       <Fragment>
@@ -340,14 +387,7 @@ class Patients extends Component {
                     color="primary"
                     className="dropdown-toggle-split pl-2 pr-2"
                   />
-                  <DropdownMenu right>
-                    <DropdownItem onClick={() => this.handleDeleteAll()}>
-                      Delete
-                    </DropdownItem>
-                    <DropdownItem onClick={() => this.handleDischargeAll()}>
-                      Discharge
-                    </DropdownItem>
-                  </DropdownMenu>
+                  {dropdownMenu}
                 </ButtonDropdown>
               </div>
               <BreadcrumbItems match={this.props.match} />
@@ -522,6 +562,8 @@ export default injectIntl(connect(
     removePatientsItem,
     selectedPatientsItemsChange,
     dischargePatientsItem,
-    getDischargedPatientsList
+    getDischargedPatientsList,
+    admitPatientsItem,
+    removeDischargedPatientsItem
   }
 )(Patients));
