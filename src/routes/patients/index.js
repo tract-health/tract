@@ -467,7 +467,7 @@ class Patients extends Component {
                         <div className="d-flex flex-grow-1 min-width-zero">
                           <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                             <NavLink
-                              to={`/app/patients/detail/${item.id}/${moment().format("YYYY-MM-DD")}`}
+                              to={`/app/patients/detail/${item.id}/${moment().format("YYYY-MM-DD")}/${this.state.showOptionCurrent}`}
                               id={`toggler${item.id}`}
                               className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
                             >

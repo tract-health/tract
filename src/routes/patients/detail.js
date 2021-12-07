@@ -30,7 +30,8 @@ import {
     getSurveyDetail,
     deleteSurveyQuestion,
     saveSurvey,
-    getPatientsList
+    getPatientsList,
+    getDischargedPatientsList
 } from "Redux/actions";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -46,6 +47,7 @@ class PatientsDetail extends Component {
 
     this.patientId = this.props.match.params.patientId;
     this.date = this.props.match.params.date;
+    this.status = this.props.match.params.status;
 
     this.toggleTab = this.toggleTab.bind(this);
     this.toggleSplit = this.toggleSplit.bind(this);
@@ -90,7 +92,12 @@ class PatientsDetail extends Component {
 
   componentDidMount() {
     this.props.getSurveyDetail();
-    this.props.getPatientsList();
+    if (this.status === "Active") {
+      this.props.getPatientsList();
+    } else if (this.stats === "Discharged") {
+      this.props.getDischargedPatientsList();
+    }
+
   }
 
   componentDidUpdate() {
@@ -263,11 +270,47 @@ class PatientsDetail extends Component {
         selected={this.state.embeddedDate}
         onChange={(date) => {
           this.patientSurveyUpdated = false
-          history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}`)
+          history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
         }}
         highlightDates={highlightDates}
       />
     ));
+
+    let saveButton;
+    if (this.status === 'Active') {
+      saveButton = <ButtonDropdown
+                      className="top-right-button top-right-button-single"
+                      isOpen={this.state.dropdownSplitOpen}
+                      toggle={this.toggleSplit}
+                    >
+                      <Button
+                        outline
+                        className="flex-grow-1"
+                        size="lg"
+                        color="primary"
+                        onClick={this.handleSaveSurvey}
+                      >
+                        SAVE
+                      </Button>
+                      <DropdownToggle
+                        size="lg"
+                        className="pr-4 pl-4"
+                        caret
+                        outline
+                        color="primary"
+                      />
+                      <DropdownMenu right>
+                        <DropdownItem
+                          onClick={() => this.handleDeleteSurvey()}
+                        >
+                          DELETE
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </ButtonDropdown>
+    } else {
+      saveButton = null;
+    }
+    
 
     return (
       <Fragment>
@@ -393,36 +436,8 @@ class PatientsDetail extends Component {
                         }) : null}
                     </ul>
                     <div className="float-sm-right mb-4">
-                    <ButtonDropdown
-                      className="top-right-button top-right-button-single"
-                      isOpen={this.state.dropdownSplitOpen}
-                      toggle={this.toggleSplit}
-                    >
-                      <Button
-                        outline
-                        className="flex-grow-1"
-                        size="lg"
-                        color="primary"
-                        onClick={this.handleSaveSurvey}
-                      >
-                        SAVE
-                      </Button>
-                      <DropdownToggle
-                        size="lg"
-                        className="pr-4 pl-4"
-                        caret
-                        outline
-                        color="primary"
-                      />
-                      <DropdownMenu right>
-                        <DropdownItem
-                          onClick={() => this.handleDeleteSurvey()}
-                        >
-                          DELETE
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </ButtonDropdown>
-                  </div>
+                      {saveButton}
+                    </div>
                   </Colxx>
                 </Row>
               </TabPane>
@@ -469,6 +484,7 @@ export default connect(
       getSurveyDetail,
       deleteSurveyQuestion,
       saveSurvey,
-      getPatientsList
+      getPatientsList,
+      getDischargedPatientsList
   }
 )(PatientsDetail);

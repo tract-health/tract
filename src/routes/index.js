@@ -25,7 +25,7 @@ class MainApp extends Component {
               <Route path={`${match.url}/ward`} component={Ward} />
               <Route path={`${match.url}/factors`} component={Factors} />
               <Route
-                path={`${match.url}/patients/detail/:patientId/:date`}
+                path={`${match.url}/patients/detail/:patientId/:date/:status`}
                 component={PatientsDetail}
                 isExact
               />
