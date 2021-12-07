@@ -86,12 +86,21 @@ $success-color: #3e884f;
 $warning-color: #b69329;
 $error-color: #c43d4b;
 
-$na-color: grey;
+/* traffic light heatmap */
+$na-color: lightgrey;
 $verylow-color:#2dc937;
 $low-color: #99c140;
 $medium-color: #e7b416;
 $high-color: #db7b2b;
 $veryhigh-color: #cc3232;
+
+/* colourblind traffic light heatmap */
+// $na-color: grey;
+// $verylow-color:#e5fe7b;
+// $low-color: #fee919;
+// $medium-color: #e7b416;
+// $high-color: #db7b2b;
+// $veryhigh-color: #cc3232;
 
 /* 01.Base */
 html {
