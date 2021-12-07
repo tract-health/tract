@@ -183,7 +183,7 @@ class Patients extends Component {
       ) {
         this.props.selectedPatientsItemsChange([]);
         this.setState({
-          selectedItems: []
+          selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
         });
       } else {
         this.props.selectedPatientsItemsChange(
@@ -410,24 +410,6 @@ class Patients extends Component {
                 <div className="d-block mb-2 d-md-inline-block">
                   <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                     <DropdownToggle caret color="outline-dark" size="xs">
-                      <IntlMessages id="todo.orderby" />
-                      {orderColumn ? orderColumn.label : ""}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {orderColumns.map((o, index) => {
-                        return (
-                          <DropdownItem
-                            key={index}
-                            onClick={() => this.changeOrderBy(o.column)}
-                          >
-                            {o.label}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                    <DropdownToggle caret color="outline-dark" size="xs">
                       <IntlMessages id="todo.show" />
                       {this.state.showOptionCurrent}
                     </DropdownToggle>
@@ -439,6 +421,24 @@ class Patients extends Component {
                             onClick={() => this.changeShow(val)}
                           >
                             {val}
+                          </DropdownItem>
+                        );
+                      })}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                    <DropdownToggle caret color="outline-dark" size="xs">
+                      <IntlMessages id="todo.orderby" />
+                      {orderColumn ? orderColumn.label : ""}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {orderColumns.map((o, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => this.changeOrderBy(o.column)}
+                          >
+                            {o.label}
                           </DropdownItem>
                         );
                       })}
