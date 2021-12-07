@@ -97,6 +97,7 @@ class Patients extends Component {
       showOptionCurrent: value
     });
     
+    
   }
 
   changeOrderBy(column) {
@@ -189,12 +190,22 @@ class Patients extends Component {
     for (let item of this.state.selectedItems) {
       this.props.removePatientsItem(item);
     }
+    // null selected items list
+    this.setState({
+      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+    });
   }
 
+  // function to discharge all selected patients
   handleDischargeAll() {
+    // discharge one by one
     for (let item of this.state.selectedItems) {
       this.props.dischargePatientsItem(item);
     }
+    // null selected items list
+    this.setState({
+      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+    });
   }
 
   getIndex(value, arr, prop) {
