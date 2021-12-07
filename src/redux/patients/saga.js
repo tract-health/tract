@@ -5,7 +5,8 @@ import {
   PATIENTS_GET_LIST,
   PATIENTS_ADD_ITEM,
   PATIENTS_REMOVE_ITEM,
-  PATIENTS_DISCHARGE_ITEM
+  PATIENTS_DISCHARGE_ITEM,
+  PATIENTS_GET_LIST_DISCHARGED
 } from 'Constants/actionTypes'
 
 import {
@@ -16,7 +17,9 @@ import {
   removePatientsItemSuccess,
   removePatientsItemError,
   dischargePatientsItemSuccess,
-  dischargePatientsItemError
+  dischargePatientsItemError,
+  getDischargedPatientsListSuccess,
+  getDischargedPatientsListError
 } from "./actions";
 
 
@@ -186,6 +189,32 @@ function* dischargePatientsItem({ payload }) {
   }
 }
 
+const getDischargedPatientsListRequest = async () => {
+  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients')
+    .once('value')
+    .then(response => {
+      response = response.val();
+      const array = [];
+      for (let k in response) {
+        if (response.hasOwnProperty(k)) {
+          let item = response[k];
+          item.id = k;
+          array.push(item)
+        }
+      }
+      return array
+    }).catch(error => error);
+};
+
+function* getDischargedPatientsListItems() {
+  try {
+    const response = yield call(getDischargedPatientsListRequest);
+    yield put(getDischargedPatientsListSuccess(response));
+  } catch (error) {
+    yield put(getDischargedPatientsListError(error));
+  }
+}
+
 export function* watchGetList() {
   yield takeEvery(PATIENTS_GET_LIST, getPatientsListItems);
 }
@@ -202,11 +231,16 @@ export function* watchDischargeItem() {
   yield takeEvery(PATIENTS_DISCHARGE_ITEM, dischargePatientsItem);
 }
 
+export function* watchGetDischargedList() {
+  yield takeEvery(PATIENTS_GET_LIST_DISCHARGED, getDischargedPatientsListItems);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(watchGetList),
     fork(watchAddItem),
     fork(watchRemoveItem),
-    fork(watchDischargeItem)
+    fork(watchDischargeItem),
+    fork(watchGetDischargedList)
   ]);
 }

@@ -15,6 +15,9 @@ import {
     PATIENTS_DISCHARGE_ITEM,
     PATIENTS_DISCHARGE_ITEM_SUCCESS,
     PATIENTS_DISCHARGE_ITEM_ERROR,
+    PATIENTS_GET_LIST_DISCHARGED,
+    PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
+    PATIENTS_GET_LIST_DISCHARGED_ERROR
 } from 'Constants/actionTypes';
 
 
@@ -94,5 +97,19 @@ export const dischargePatientsItemSuccess = (items) => ({
 
 export const dischargePatientsItemError = (error) => ({
     type: PATIENTS_DISCHARGE_ITEM_ERROR,
+    payload: error
+});
+
+export const getDischargedPatientsList = () => ({
+    type: PATIENTS_GET_LIST_DISCHARGED
+});
+
+export const getDischargedPatientsListSuccess = (items) => ({
+    type: PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
+    payload: items
+});
+
+export const getDischargedPatientsListError = (error) => ({
+    type: PATIENTS_GET_LIST_DISCHARGED_ERROR,
     payload: error
 });

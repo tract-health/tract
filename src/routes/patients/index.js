@@ -39,7 +39,8 @@ import {
   addPatientsItem,
   removePatientsItem,
   selectedPatientsItemsChange,
-  dischargePatientsItem
+  dischargePatientsItem,
+  getDischargedPatientsList
 } from "Redux/actions";
 
 import { assessmentLevelToColor } from "../../constants/defaultValues"
@@ -69,6 +70,9 @@ class Patients extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      showOptionCurrent: "Active"
+    });
     this.props.getPatientsList();
   }
 
@@ -96,8 +100,11 @@ class Patients extends Component {
     this.setState({
       showOptionCurrent: value
     });
-    
-    
+    if (value === 'Active') {
+      this.props.getPatientsList();
+    } else if (value === "Discharged") {
+      this.props.getDischargedPatientsList();
+    }
   }
 
   changeOrderBy(column) {
@@ -113,7 +120,8 @@ class Patients extends Component {
     this.toggleModal();
     this.setState({
       id: "",
-      name: ""
+      name: "",
+      showOptionCurrent: 'Active'
     });
   }
 
@@ -513,6 +521,7 @@ export default injectIntl(connect(
     addPatientsItem,
     removePatientsItem,
     selectedPatientsItemsChange,
-    dischargePatientsItem
+    dischargePatientsItem,
+    getDischargedPatientsList
   }
 )(Patients));

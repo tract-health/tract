@@ -14,7 +14,10 @@ import {
   PATIENTS_SELECTED_ITEMS_CHANGE,
   PATIENTS_DISCHARGE_ITEM,
   PATIENTS_DISCHARGE_ITEM_SUCCESS,
-  PATIENTS_DISCHARGE_ITEM_ERROR
+  PATIENTS_DISCHARGE_ITEM_ERROR,
+  PATIENTS_GET_LIST_DISCHARGED,
+  PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
+  PATIENTS_GET_LIST_DISCHARGED_ERROR
 } from 'Constants/actionTypes'
 
 const INIT_STATE = {
@@ -110,27 +113,36 @@ export default (state = INIT_STATE, action) => {
 		case PATIENTS_ADD_ITEM_ERROR:
 			return { ...state, loading: true, error: action.payload };
 
-    case PATIENTS_REMOVE_ITEM:
-      return { ...state, loading: false };
+		case PATIENTS_REMOVE_ITEM:
+		return { ...state, loading: false };
 
-    case PATIENTS_REMOVE_ITEM_SUCCESS:
-      return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+		case PATIENTS_REMOVE_ITEM_SUCCESS:
+		return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
 
-    case PATIENTS_REMOVE_ITEM_ERROR:
-      return { ...state, loading: true, error: action.payload };
+		case PATIENTS_REMOVE_ITEM_ERROR:
+		return { ...state, loading: true, error: action.payload };
 
-	case PATIENTS_SELECTED_ITEMS_CHANGE:
-		return { ...state, loading: true, selectedItems: action.payload};
+		case PATIENTS_SELECTED_ITEMS_CHANGE:
+			return { ...state, loading: true, selectedItems: action.payload};
 
-	case PATIENTS_DISCHARGE_ITEM:
-      return { ...state, loading: false };
+		case PATIENTS_DISCHARGE_ITEM:
+		return { ...state, loading: false };
 
-    case PATIENTS_DISCHARGE_ITEM_SUCCESS:
-      return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+		case PATIENTS_DISCHARGE_ITEM_SUCCESS:
+		return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
 
-    case PATIENTS_DISCHARGE_ITEM_ERROR:
-      return { ...state, loading: true, error: action.payload };
+		case PATIENTS_DISCHARGE_ITEM_ERROR:
+		return { ...state, loading: true, error: action.payload };
 
-	default: return { ...state };
+		case PATIENTS_GET_LIST_DISCHARGED:
+			return { ...state, loading: false };
+
+		case PATIENTS_GET_LIST_DISCHARGED_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+
+		case PATIENTS_GET_LIST_DISCHARGED_ERROR:
+			return { ...state, loading: true, error: action.payload };
+
+		default: return { ...state };
 	}
 }
