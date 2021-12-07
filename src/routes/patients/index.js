@@ -530,7 +530,7 @@ class Patients extends Component {
                 <NavItem className={classnames({ active: !filter })}>
                   <NavLink to="#" onClick={e => this.addFilter("", "")}>
                     <i className="simple-icon-people" />
-                    All Active Patients
+                    All {this.state.showOptionCurrent} Patients
                     <span className="float-right">
                       {loading && allPatientsItems.length}
                     </span>
