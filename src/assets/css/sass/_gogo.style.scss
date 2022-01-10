@@ -2657,6 +2657,23 @@ main {
     padding: 1.0rem !important;
   }
 
+  .card-overallassessment {
+    border: 1px solid $theme-color-1;
+    //border-radius: 00.25rem;
+  }
+
+  .card-overallassessmenttop {
+    border: 1px solid $theme-color-1;
+    border-bottom: none;
+    //border-radius: 00.25rem;
+  }
+
+  .card-overallassessmentbottom {
+    border: 1px solid $theme-color-1;
+    border-top: none;
+    //border-radius: 00.25rem;
+  }
+
   .card-title {
     margin-bottom: 2rem;
 

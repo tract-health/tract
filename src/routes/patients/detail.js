@@ -89,7 +89,8 @@ class PatientsDetail extends Component {
         10: 'na',
         11: 'na',
         "S": 'na'
-      }
+      },
+      warningMessage: ''
     };
   }
 
@@ -108,6 +109,7 @@ class PatientsDetail extends Component {
     const patientSurvey = this.getSurvey();
     if (!this.patientSurveyUpdated) {
       this.setState({
+        warningMessage: "",
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
         survey: patientSurvey ? patientSurvey.answers : this.state.defaultSurvey
       });
@@ -158,17 +160,29 @@ class PatientsDetail extends Component {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
 
-      return database.ref(surveyPath).set({
-        answers: this.state.survey,
-        na: this.getSum("na"),
-        verylow: this.getSum("verylow"),
-        low: this.getSum("low"),
-        medium: this.getSum("medium"),
-        high: this.getSum("high"),
-        veryhigh: this.getSum("veryhigh")
-      }).then(response => {
-        this.props.getPatientsList();
-      }).catch(error => error);
+      if (this.state.survey.S === 'na') {
+        this.setState({
+          warningMessage: `Please decide for "Overall Tract Assessment"!`,
+        });
+        return;
+      } else {
+        this.setState({
+          warningMessage: ``,
+        });
+        return database.ref(surveyPath).set({
+          answers: this.state.survey,
+          na: this.getSum("na"),
+          verylow: this.getSum("verylow"),
+          low: this.getSum("low"),
+          medium: this.getSum("medium"),
+          high: this.getSum("high"),
+          veryhigh: this.getSum("veryhigh")
+        }).then(response => {
+          this.props.getPatientsList();
+        }).catch(error => error);
+      }
+
+      
     }
   }
 
@@ -414,6 +428,19 @@ class PatientsDetail extends Component {
     } else {
       savePlannerButton = null;
     }
+
+    let warningBox;
+    let warningStyle = { 
+      "text-align": "center",
+    };
+    if (this.state.warningMessage.length > 0) {
+      warningBox = 
+      <div className="notification-error mb-2" style={warningStyle}>
+        {this.state.warningMessage}
+      </div>
+    } else {
+      warningBox = null;
+    }
     
 
     return (
@@ -552,6 +579,7 @@ class PatientsDetail extends Component {
                           );
                         }) : null}
                     </ul>
+                    {warningBox}
                     <div className="float-sm-right mb-4">
                       {saveAssessmentButton}
                     </div>

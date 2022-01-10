@@ -155,8 +155,23 @@ export default class SurveyItem extends React.Component {
       veryhighStyle = { border: "1px transparent solid" }
     }
 
-    return (
-      <Card className={`question d-flex mb-3 ${this.state.mode}`}>
+    let listItemCardClass
+    if (this.props.order !== "S") {
+      listItemCardClass = `question d-flex mb-3 ${this.state.mode}`;
+    } else {
+      listItemCardClass = `question d-flex mt-5 ${this.state.mode}`;
+    }
+
+    let listItemCardOverallClass;
+    if (!this.state.collapse) {
+      listItemCardOverallClass = "d-flex card-overallassessment flex-grow-1 min-width-zero";
+    } else {
+      listItemCardOverallClass = "d-flex card-overallassessmenttop flex-grow-1 min-width-zero";
+    }
+
+    let listItem;
+    if (this.props.order !== "S") {
+      listItem = 
         <div className="d-flex flex-grow-1 min-width-zero">
           <div 
             className="card-body card-assessment align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
@@ -188,7 +203,6 @@ export default class SurveyItem extends React.Component {
             </div>
           </div>
           <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
-
             <Button
               outline
               color={"theme-3"}
@@ -202,9 +216,62 @@ export default class SurveyItem extends React.Component {
 
           </div>
         </div>
+    } else {
+      listItem = 
+        <div className={listItemCardOverallClass}>
+          <div 
+            className="card-body card-assessment align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+            <div className="list-item-heading mb-0 truncate w-50 mb-1 mt-1">
+              {this.state.title}
+            </div>
+            <div className="list-item-heading align-self-center d-flex justify-content-between align-items-md-center">
+              <a href="#" onClick={onClick} className="ml-2">
+                <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+              </a>
+              <a href="#" onClick={onClick} className="ml-2">
+                <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
+              </a>
+              <a href="#" onClick={onClick} className="ml-2">
+                <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
+              </a>
+              <a href="#" onClick={onClick} className="ml-2 mr-2">
+                <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+              </a>
+              <a href="#" onClick={onClick}>
+                <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
+              </a>
+            </div>
+          </div>
+          <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
+            <Button
+              outline
+              color={"theme-3"}
+              className={`icon-button ml-1 rotate-icon-click ${
+                this.state.collapse ? "rotate" : ""
+              }`}
+              onClick={this.toggleClick}
+            >
+              <i className="simple-icon-arrow-down" />
+            </Button>
+
+          </div>
+        </div>
+    }
+
+    let cardCollapseClass;
+    if (!this.state.collapse) {
+      cardCollapseClass = "card-body pt-0";
+    } else {
+      cardCollapseClass = "card-body card-overallassessmentbottom pt-0";
+    }
+
+
+    return (
+      <Card className={listItemCardClass}>
+        {listItem}
 
         <Collapse isOpen={this.state.collapse}>
-          <div className="card-body pt-0">
+          <div className={cardCollapseClass}>
             <div className="edit-mode">
               <h5>Definition</h5>
               <p>{definition}</p>
