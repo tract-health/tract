@@ -155,7 +155,6 @@ class PatientsDetail extends Component {
   }
 
   handleSaveSurvey() {
-    console.log(this.patientId);
     if (this.patientId) {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
