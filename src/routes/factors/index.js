@@ -16,7 +16,11 @@ import { Colxx, Separator } from "Components/CustomBootstrap";
 import BreadcrumbContainer from "Components/BreadcrumbContainer";
 
 import DatePicker from "react-datepicker";
-import {getPatientsList, getSurveyDetail} from 'Redux/actions'
+import {
+  getPatientsList,
+  getSurveyDetail,
+  getPatientsListSearch
+} from 'Redux/actions'
 
 import { connect } from 'react-redux'
 import SummaryTable from "Components/SummaryTable";
@@ -67,10 +71,22 @@ class Factors extends Component {
     this.props.getPatientsList();
   }
 
+  handleKeyPress(e) {
+    if (e.key === "Enter") {
+      this.props.getPatientsListSearch(e.target.value);
+    }
+  }
+
+  handleSearchChange(e) {
+    this.props.getPatientsListSearch(e.target.value);
+  }
+
   render() {
 
     const {
-      allPatientsItems
+      allPatientsItems,
+      patientsItems,
+      searchKeyword
     } = this.props.patientsApp;
 
     const { survey } = this.props.surveyDetailApp;
@@ -150,7 +166,7 @@ class Factors extends Component {
                 className="d-md-block"
                 isOpen={true}
               >
-                <div className="d-block mb-2 d-md-inline-block">
+                <div className="mb-2">
                   <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                     <DropdownToggle caret color="outline-dark" size="xs">
                       { this.state.selectedPatient ? this.state.selectedPatient.name : 'Select Patient ...'}
@@ -163,8 +179,8 @@ class Factors extends Component {
                         All Patients
                       </DropdownItem>
                       {
-                        allPatientsItems ?
-                          allPatientsItems.map((item) =>
+                        patientsItems ?
+                          patientsItems.map((item) =>
                             <DropdownItem
                               key={ item.id }
                               onClick={() => this.selectPatient(item)}
@@ -178,6 +194,17 @@ class Factors extends Component {
                       }
                     </DropdownMenu>
                   </UncontrolledDropdown>
+                  <div className="search-sm d-inline-block mb-1 align-top">
+                    <input
+                      type="text"
+                      name="keyword"
+                      id="search"
+                      placeholder="Filter"
+                      defaultValue={searchKeyword}
+                      onKeyPress={e => this.handleKeyPress(e)}
+                      onChange={e => this.handleSearchChange(e)}
+                    />
+                  </div>
                 </div>
                 <div className="d-block mb-2 d-md-inline-block">
                   <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
@@ -245,6 +272,7 @@ export default connect(
   mapStateToProps,
   {
     getSurveyDetail,
-    getPatientsList
+    getPatientsList,
+    getPatientsListSearch
   }
 )(Factors);
