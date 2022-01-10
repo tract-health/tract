@@ -53,6 +53,9 @@ class PatientsDetail extends Component {
     this.toggleSplit = this.toggleSplit.bind(this);
     this.handleSurveyAssessmentClick = this.handleSurveyAssessmentClick.bind(this);
     this.handleSaveSurvey = this.handleSaveSurvey.bind(this);
+    this.handleSavePlanner = this.handleSavePlanner.bind(this);
+    // this.handleDeleteSurvey = this.handleDeleteSurvey.bind(this);
+    // this.handleDeletePlanner = this.handleDeletePlanner.bind(this);
 
     this.state = {
       activeFirstTab: "1",
@@ -150,6 +153,7 @@ class PatientsDetail extends Component {
   }
 
   handleSaveSurvey() {
+    console.log(this.patientId);
     if (this.patientId) {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
@@ -169,11 +173,56 @@ class PatientsDetail extends Component {
   }
 
   handleDeleteSurvey() {
+    console.log(this.patientId);
     if (this.patientId) {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
 
       return database.ref(surveyPath).remove()
+        .then(response => {
+        this.props.getPatientsList();
+      }).catch(error => error);
+    }
+  }
+
+  handleSavePlanner() {
+    console.log(this.patientId);
+    if (this.patientId) {
+      const plannerId = this.getDate();
+      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
+
+      return database.ref(plannerPath).set({
+        issues: [
+          {
+            issue: 'Not enough'
+          },
+          {
+            issue: 'Too slow'
+          }
+        ],
+        actions: [
+          {
+            action: 'Find more',
+            complete: false
+          },
+          {
+            action: 'Be quicker',
+            complete: true
+          }
+        ]
+      }).then(response => {
+        this.props.getPatientsList();
+      }).catch(error => error);
+    }
+  }
+
+  handleDeletePlanner() {
+    console.log(this.patientId);
+    if (this.patientId) {
+      const plannerId = this.getDate();
+      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
+
+      return database.ref(plannerPath).remove()
         .then(response => {
         this.props.getPatientsList();
       }).catch(error => error);
@@ -256,14 +305,14 @@ class PatientsDetail extends Component {
       }
     };
 
-    let highlightDates = [];
+    let highlightAssessmentDates = [];
     if (patient && patient.surveys) {
       for (let k in patient.surveys) {
-        highlightDates.push(moment(k, "YYYY-MM-DD"))
+        highlightAssessmentDates.push(moment(k, "YYYY-MM-DD"))
       }
     }
 
-    const MyDatePicker = withRouter(({history}) => (
+    const AssessmentDatePicker = withRouter(({history}) => (
       <DatePicker
         calendarClassName="embedded"
         inline
@@ -272,13 +321,33 @@ class PatientsDetail extends Component {
           this.patientSurveyUpdated = false
           history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
         }}
-        highlightDates={highlightDates}
+        highlightDates={highlightAssessmentDates}
       />
     ));
 
-    let saveButton;
+    let highlightPlannerDates = [];
+    if (patient && patient.planners) {
+      for (let k in patient.planners) {
+        highlightPlannerDates.push(moment(k, "YYYY-MM-DD"))
+      }
+    }
+
+    const PlannerDatePicker = withRouter(({history}) => (
+      <DatePicker
+        calendarClassName="embedded"
+        inline
+        selected={this.state.embeddedDate}
+        onChange={(date) => {
+          this.patientSurveyUpdated = false
+          history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
+        }}
+        highlightDates={highlightPlannerDates}
+      />
+    ));
+
+    let saveAssessmentButton;
     if (this.status === 'Active') {
-      saveButton = <ButtonDropdown
+      saveAssessmentButton = <ButtonDropdown
                       className="top-right-button top-right-button-single"
                       isOpen={this.state.dropdownSplitOpen}
                       toggle={this.toggleSplit}
@@ -308,7 +377,42 @@ class PatientsDetail extends Component {
                       </DropdownMenu>
                     </ButtonDropdown>
     } else {
-      saveButton = null;
+      saveAssessmentButton = null;
+    }
+
+    let savePlannerButton;
+    if (this.status === 'Active') {
+      savePlannerButton = <ButtonDropdown
+                      className="top-right-button top-right-button-single"
+                      isOpen={this.state.dropdownSplitOpen}
+                      toggle={this.toggleSplit}
+                    >
+                      <Button
+                        outline
+                        className="flex-grow-1"
+                        size="lg"
+                        color="primary"
+                        onClick={this.handleSavePlanner}
+                      >
+                        SAVE
+                      </Button>
+                      <DropdownToggle
+                        size="lg"
+                        className="pr-4 pl-4"
+                        caret
+                        outline
+                        color="primary"
+                      />
+                      <DropdownMenu right>
+                        <DropdownItem
+                          onClick={() => this.handleDeletePlanner()}
+                        >
+                          DELETE
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </ButtonDropdown>
+    } else {
+      savePlannerButton = null;
     }
     
 
@@ -344,14 +448,27 @@ class PatientsDetail extends Component {
                   }}
                   to="#"
                 >
-                  DETAILS
+                  ASSESSMENT
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeFirstTab === "2",
+                    "nav-link": true
+                  })}
+                  onClick={() => {
+                    this.toggleTab("2");
+                  }}
+                  to="#"
+                >
+                  PLANNER
                 </NavLink>
               </NavItem>
             </Nav>
 
             <TabContent activeTab={this.state.activeFirstTab}>
               <TabPane tabId="1">
-   
                 <Row>
                   <Colxx xxs="12" lg="4" className="mb-4">
                     <Card className="mb-4">
@@ -371,7 +488,7 @@ class PatientsDetail extends Component {
 
                     <Card>
                       <CardBody>
-                        <MyDatePicker/>
+                        <AssessmentDatePicker/>
                       </CardBody>
                     </Card>
 
@@ -436,8 +553,38 @@ class PatientsDetail extends Component {
                         }) : null}
                     </ul>
                     <div className="float-sm-right mb-4">
-                      {saveButton}
+                      {saveAssessmentButton}
                     </div>
+                  </Colxx>
+                </Row>
+              </TabPane>
+              <TabPane tabId="2">
+                <Row>
+                  <Colxx xxs="12" lg="4" className="mb-4">
+                    <Card className="mb-4">
+                      <CardBody>
+
+                        <p className="text-muted text-small mb-2">ID</p>
+                        <p className="mb-3">{patient ? patient.id : null}</p>
+
+                        <p className="text-muted text-small mb-2">Name</p>
+                        <p className="mb-3">{patient ? patient.name: null}</p>
+
+                        <p className="text-muted text-small mb-2">Created Date</p>
+                        <p className="mb-3">{patient ? patient.createDate: null}</p>
+
+                      </CardBody>
+                    </Card>
+
+                    <Card>
+                      <CardBody>
+                        <PlannerDatePicker/>
+                      </CardBody>
+                    </Card>
+                  </Colxx>
+                  <Colxx xxs="12" lg="8">
+                    {savePlannerButton}
+                    Planner will be here
                   </Colxx>
                 </Row>
               </TabPane>
@@ -460,6 +607,11 @@ class PatientsDetail extends Component {
                     <i className="simple-icon-check" />
                     Completed Surveys
                     <span className="float-right">{patient && patient.surveys ? Object.keys(patient.surveys).length : 0 }</span>{" "}
+                  </NavLink>
+                  <NavLink to="#">
+                    <i className="simple-icon-check" />
+                    Completed Planners
+                    <span className="float-right">{patient && patient.planners ? Object.keys(patient.planners).length : 0 }</span>{" "}
                   </NavLink>
                 </li>
               </ul>
