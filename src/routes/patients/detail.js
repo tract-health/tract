@@ -431,6 +431,7 @@ class PatientsDetail extends Component {
     let warningBox;
     let warningStyle = { 
       "text-align": "center",
+      "font-weight": "bolder"
     };
     if (this.state.warningMessage.length > 0) {
       warningBox = 

@@ -2659,12 +2659,14 @@ main {
 
   .card-overallassessment {
     border: 1px solid $theme-color-1;
+    font-weight: bolder;
     //border-radius: 00.25rem;
   }
 
   .card-overallassessmenttop {
     border: 1px solid $theme-color-1;
     border-bottom: none;
+    font-weight: bolder;
     //border-radius: 00.25rem;
   }
 
