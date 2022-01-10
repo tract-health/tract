@@ -1670,12 +1670,14 @@ button {
   }
 
   .navbar-logo {
-    width: 110px;
+    width: 550px;
     height: 35px;
     position: absolute;
     left: 0;
     right: 0;
     margin: 0 auto;
+    line-break: pre;
+    text-align: center;
 
     .logo {
       width: 100%;
@@ -1692,11 +1694,11 @@ button {
     }
 
     @include respond-below(sm) {
-      width: 80px;
+      width: 300px;
     }
 
     @include respond-below(xxs) {
-      width: 20px;
+      width: 300px;
     }
   }
 
