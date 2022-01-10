@@ -81,7 +81,8 @@ const addPatientsItemRequest = async item => {
                 name: item.name,
                 createDate: item.createDate,
                 assessmentLevel: null,
-                surveys: null
+                surveys: null,
+                planners: null
               }).then(response => {
                 return getPatientsListRequest()
               }).catch(error => error);
@@ -95,19 +96,24 @@ const addPatientsItemRequest = async item => {
         let existingPatientCreateDate = response.val().createDate;
         let existingPatientSurveys = null;
         let existingPatientAssessmentLevel = null;
+        let existingPatientPlanners = null
         if (response.val().surveys) {
           existingPatientSurveys = response.val().surveys;
         } 
         if (response.val().assessmentLevel) {
           existingPatientAssessmentLevel = response.val().assessmentLevel;
         }
+        if (response.val().planners) {
+          existingPatientPlanners = response.val().planners;
+        } 
         // add that entry into active patients
         return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id)
           .set({
             name: existingPatientName,
             createDate: existingPatientCreateDate,
             assessmentLevel: existingPatientAssessmentLevel,
-            surveys: existingPatientSurveys
+            surveys: existingPatientSurveys,
+            planners: existingPatientPlanners
           })
           .then(response => {
             // delete entry from discharged patients
@@ -157,9 +163,13 @@ const dischargePatientsItemRequest = async id => {
     .then(response => {
       // get values
       let surveys = null;
-      let assessmentLevel = null
+      let assessmentLevel = null;
+      let planners = null;
       if (response.val().surveys) {
         surveys = response.val().surveys;
+      } 
+      if (response.val().planners) {
+        planners = response.val().planners;
       } 
       if (response.val().assessmentLevel) {
         assessmentLevel = response.val().assessmentLevel;
@@ -170,7 +180,8 @@ const dischargePatientsItemRequest = async id => {
           name: response.val().name,
           createDate: response.val().createDate,
           assessmentLevel: assessmentLevel,
-          surveys: surveys
+          surveys: surveys,
+          planners: planners
         })
         .then(response => {
           // delete patient from active patients
@@ -245,9 +256,13 @@ const admitPatientsItemRequest = async id => {
     .then(response => {
       // get values
       let surveys = null;
-      let assessmentLevel = null
+      let assessmentLevel = null;
+      let planners = null;
       if (response.val().surveys) {
         surveys = response.val().surveys;
+      } 
+      if (response.val().planners) {
+        planners = response.val().planners;
       } 
       if (response.val().assessmentLevel) {
         assessmentLevel = response.val().assessmentLevel;
@@ -258,7 +273,8 @@ const admitPatientsItemRequest = async id => {
           name: response.val().name,
           createDate: response.val().createDate,
           assessmentLevel: assessmentLevel,
-          surveys: surveys
+          surveys: surveys,
+          planners: planners
         })
         .then(response => {
           // delete patient from discharged patients
