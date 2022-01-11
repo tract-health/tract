@@ -259,10 +259,10 @@ export default class SurveyItem extends React.Component {
     }
 
     let cardCollapseClass;
-    if (!this.state.collapse) {
-      cardCollapseClass = "card-body pt-0";
-    } else {
+    if (this.state.collapse && this.props.order === "S") {
       cardCollapseClass = "card-body card-overallassessmentbottom pt-0";
+    } else {
+      cardCollapseClass = "card-body pt-0";
     }
 
 
