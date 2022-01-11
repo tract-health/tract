@@ -23,5 +23,7 @@ module.exports = {
   "todo.completed-tasks": "Completed Tasks",
   "todo.categories": "Categories",
   "todo.labels": "Labels",
-  "todo.show": "Show: "
+  "todo.show": "Show: ",
+  "todo.add-planneritem": "Add",
+  "todo.delete-planneritem": "Delete"
 };

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import IntlMessages from "Util/IntlMessages";
 import {
   Row,
   Card,
@@ -12,7 +13,9 @@ import {
   TabContent,
   TabPane,
   Badge,
-  ButtonDropdown
+  ButtonDropdown,
+  Input,
+  Label
 } from "reactstrap";
 import { Colxx } from "Components/CustomBootstrap";
 import { BreadcrumbItems } from "Components/BreadcrumbContainer";
@@ -54,6 +57,7 @@ class PatientsDetail extends Component {
     this.handleSurveyAssessmentClick = this.handleSurveyAssessmentClick.bind(this);
     this.handleSaveSurvey = this.handleSaveSurvey.bind(this);
     this.handleSavePlanner = this.handleSavePlanner.bind(this);
+    this.handlePlannerSumbit = this.handlePlannerSubmit.bind(this);
     // this.handleDeleteSurvey = this.handleDeleteSurvey.bind(this);
     // this.handleDeletePlanner = this.handleDeletePlanner.bind(this);
 
@@ -90,7 +94,15 @@ class PatientsDetail extends Component {
         11: 'na',
         "S": 'na'
       },
-      warningMessage: ''
+      warningMessage: '',
+      defaultPlannerItems: [
+        {issue: '', action: '', complete: false},
+        {issue: '', action: '', complete: false}
+      ],
+      plannerItems: [
+        {issue: '', action: '', complete: false},
+        {issue: '', action: '', complete: false}
+      ]
     };
   }
 
@@ -198,50 +210,6 @@ class PatientsDetail extends Component {
     }
   }
 
-  handleSavePlanner() {
-    console.log(this.patientId);
-    if (this.patientId) {
-      const plannerId = this.getDate();
-      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
-
-      return database.ref(plannerPath).set({
-        issues: [
-          {
-            issue: 'Not enough'
-          },
-          {
-            issue: 'Too slow'
-          }
-        ],
-        actions: [
-          {
-            action: 'Find more',
-            complete: false
-          },
-          {
-            action: 'Be quicker',
-            complete: true
-          }
-        ]
-      }).then(response => {
-        this.props.getPatientsList();
-      }).catch(error => error);
-    }
-  }
-
-  handleDeletePlanner() {
-    console.log(this.patientId);
-    if (this.patientId) {
-      const plannerId = this.getDate();
-      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
-
-      return database.ref(plannerPath).remove()
-        .then(response => {
-        this.props.getPatientsList();
-      }).catch(error => error);
-    }
-  }
-
   handleSurveyAssessmentClick(e) {
     e.preventDefault();
 
@@ -288,6 +256,115 @@ class PatientsDetail extends Component {
       dropdownSplitOpen: !prevState.dropdownSplitOpen
     }));
   }
+  
+  getPlanner() {
+    const patient = this.getPatient();
+    //console.log(patient)
+    if (patient) {
+      const date = this.getDate();
+      //console.log(date)
+      if (date) {
+        return patient.planners && patient.planners[date] ? patient.planners[date] : null
+      }
+    }
+    return null
+  }
+
+  handleSavePlanner() {
+    console.log(this.patientId);
+    if (this.patientId) {
+      const plannerId = this.getDate();
+      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
+
+      return database.ref(plannerPath).set({
+        issues: [
+          {
+            issue: 'Not enough'
+          },
+          {
+            issue: 'Too slow'
+          }
+        ],
+        actions: [
+          {
+            action: 'Find more',
+            complete: false
+          },
+          {
+            action: 'Be quicker',
+            complete: true
+          }
+        ]
+      }).then(response => {
+        this.props.getPatientsList();
+      }).catch(error => error);
+    }
+  }
+
+  handleDeletePlanner() {
+    console.log(this.patientId);
+    if (this.patientId) {
+      const plannerId = this.getDate();
+      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
+
+      return database.ref(plannerPath).remove()
+        .then(response => {
+        this.props.getPatientsList();
+      }).catch(error => error);
+    }
+  }
+  
+  handlePlannerChange(i, event) {
+    let plannerItems = [...this.state.plannerItems];
+    plannerItems[i] = event.target.value;
+    this.setState({ plannerItems });
+  }
+
+  addPlannerClick(){
+    this.setState(prevState => ({ plannerItems: [...prevState.plannerItems, '']}))
+  }
+
+  removePlannerClick(i){
+    let plannerItems = [...this.state.plannerItems];
+    plannerItems.splice(i,1);
+    this.setState({ plannerItems });
+  }
+
+  handlePlannerSubmit(event) {
+    alert('A planner was submitted: ' + this.state.plannerItems.join(', '));
+    event.preventDefault();
+  }
+
+  createPlannerUI(){
+    return this.state.plannerItems.map((plannerItem, i) => 
+        <div key={i}>
+           <Card className="question d-flex mb-3">
+             <div className="d-flex flex-grow-1 min-width-zero">
+               <div className="card-body align-self-center d-flex flex-column justify-content-between min-width-zero">
+                 <Label>
+                   Issue
+                 </Label>
+                 <Input
+                   type="text"
+                   value={plannerItem.issue}
+                   onChange={this.handlePlannerChange.bind(this, i)}
+                 />
+                 <Label className="mt-4">
+                     Action
+                 </Label>
+                 <Input
+                   type="text"
+                   value={plannerItem.action}
+                   onChange={this.handlePlannerChange.bind(this, i)}
+                 />
+               </div>
+             </div>
+
+           </Card>
+          
+        </div>          
+    )
+ }       
 
   render() {
     const { survey, loading } = this.props.surveyDetailApp;
@@ -611,8 +688,30 @@ class PatientsDetail extends Component {
                     </Card>
                   </Colxx>
                   <Colxx xxs="12" lg="8">
-                    {savePlannerButton}
-                    Planner will be here
+                    <form className="mb-4" onSubmit={this.handlePlannerSubmit}>
+                      <div className="mb-2">
+                        {this.createPlannerUI()}     
+                      </div>
+                      <div className="mb-4">
+                        <Button
+                          className="mr-2"
+                          color="primary"
+                          onClick={this.addPlannerClick.bind(this)}
+                          >
+                          <IntlMessages id="todo.add-planneritem" />
+                        </Button>
+                        <Button
+                          color="secondary"
+                          outline
+                          onClick={this.removePlannerClick.bind(this)}
+                          >
+                          <IntlMessages id="todo.delete-planneritem" />
+                        </Button>
+                      </div>
+                    </form>
+                    <div className="float-sm-right mb-4">
+                      {savePlannerButton}
+                    </div>
                   </Colxx>
                 </Row>
               </TabPane>
