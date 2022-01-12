@@ -59,8 +59,6 @@ class PatientsDetail extends Component {
     this.handleSaveSurvey = this.handleSaveSurvey.bind(this);
     this.handleSavePlanner = this.handleSavePlanner.bind(this);
     this.handlePlannerSumbit = this.handlePlannerSubmit.bind(this);
-    // this.handleDeleteSurvey = this.handleDeleteSurvey.bind(this);
-    // this.handleDeletePlanner = this.handleDeletePlanner.bind(this);
 
     this.state = {
       activeTab: "1",
@@ -207,7 +205,6 @@ class PatientsDetail extends Component {
   }
 
   handleDeleteSurvey() {
-    console.log(this.patientId);
     if (this.patientId) {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
@@ -215,6 +212,7 @@ class PatientsDetail extends Component {
       return database.ref(surveyPath).remove()
         .then(response => {
         this.props.getPatientsList();
+        this.patientSurveyUpdated = false;
       }).catch(error => error);
     }
   }
@@ -329,6 +327,7 @@ class PatientsDetail extends Component {
       return database.ref(plannerPath).remove()
         .then(response => {
         this.props.getPatientsList();
+        this.patientPlannerUpdated = false;
       }).catch(error => error);
     }
   }
@@ -406,6 +405,7 @@ class PatientsDetail extends Component {
                     <CustomInput
                       color="secondary"
                       type="checkbox"
+                      id={`check_${i}`}
                       checked={plannerItem.complete}
                       onChange={this.handlePlannerChange.bind(this, i, 'complete')}
                     />
@@ -518,9 +518,11 @@ class PatientsDetail extends Component {
                         outline
                         color="primary"
                       />
-                      <DropdownMenu right>
+                      <DropdownMenu persist>
                         <DropdownItem
-                          onClick={() => this.handleDeleteSurvey()}
+                          onClick={() => { 
+                            this.handleDeleteSurvey(); 
+                          }}
                         >
                           DELETE
                         </DropdownItem>
@@ -553,9 +555,11 @@ class PatientsDetail extends Component {
                         outline
                         color="primary"
                       />
-                      <DropdownMenu right>
+                      <DropdownMenu persist>
                         <DropdownItem
-                          onClick={() => this.handleDeletePlanner()}
+                          onClick={() => { 
+                            this.handleDeletePlanner(); 
+                          }}
                         >
                           DELETE
                         </DropdownItem>
