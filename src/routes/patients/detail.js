@@ -62,7 +62,7 @@ class PatientsDetail extends Component {
     // this.handleDeletePlanner = this.handleDeletePlanner.bind(this);
 
     this.state = {
-      activeFirstTab: "1",
+      activeTab: "1",
       dropdownSplitOpen: false,
       surveyData: surveyData,
       embeddedDate: moment(this.date, "YYYY-MM-DD"),
@@ -95,12 +95,11 @@ class PatientsDetail extends Component {
         "S": 'na'
       },
       warningMessage: '',
+      defaultPlannerItem: {issue: '', action: '', complete: false},
       defaultPlannerItems: [
-        {issue: '', action: '', complete: false},
         {issue: '', action: '', complete: false}
       ],
       plannerItems: [
-        {issue: '', action: '', complete: false},
         {issue: '', action: '', complete: false}
       ]
     };
@@ -113,11 +112,11 @@ class PatientsDetail extends Component {
     } else if (this.stats === "Discharged") {
       this.props.getDischargedPatientsList();
     }
-
   }
 
   componentDidUpdate() {
     this.date = this.props.match.params.date;
+    // update survey
     const patientSurvey = this.getSurvey();
     if (!this.patientSurveyUpdated) {
       this.setState({
@@ -125,8 +124,17 @@ class PatientsDetail extends Component {
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
         survey: patientSurvey ? patientSurvey.answers : this.state.defaultSurvey
       });
-
       this.patientSurveyUpdated = true
+    }
+    // update planner
+    const patientPlanner = this.getPlanner();
+    if (!this.patientPlannerUpdated) {
+      this.setState({
+        warningMessage: "",
+        embeddedDate: moment(this.date, "YYYY-MM-DD"),
+        plannerItems: patientPlanner ? patientPlanner.data : this.state.defaultPlannerItems
+      });
+      this.patientPlannerUpdated = true
     }
   }
 
@@ -212,7 +220,6 @@ class PatientsDetail extends Component {
 
   handleSurveyAssessmentClick(e) {
     e.preventDefault();
-
     const id = e.target.getAttribute('data-id');
     let className = null;
     if (e.target.classList.contains("na")) {
@@ -246,8 +253,10 @@ class PatientsDetail extends Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeFirstTab: tab
+        activeTab: tab
       });
+      this.patientSurveyUpdated = false;
+      this.patientPlannerUpdated = false;
     }
   }
 
@@ -259,10 +268,8 @@ class PatientsDetail extends Component {
   
   getPlanner() {
     const patient = this.getPatient();
-    //console.log(patient)
     if (patient) {
       const date = this.getDate();
-      //console.log(date)
       if (date) {
         return patient.planners && patient.planners[date] ? patient.planners[date] : null
       }
@@ -271,38 +278,39 @@ class PatientsDetail extends Component {
   }
 
   handleSavePlanner() {
-    console.log(this.patientId);
+    //console.log(this.patientId);
     if (this.patientId) {
       const plannerId = this.getDate();
       const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
 
-      return database.ref(plannerPath).set({
-        issues: [
-          {
-            issue: 'Not enough'
-          },
-          {
-            issue: 'Too slow'
-          }
-        ],
-        actions: [
-          {
-            action: 'Find more',
-            complete: false
-          },
-          {
-            action: 'Be quicker',
-            complete: true
-          }
-        ]
-      }).then(response => {
-        this.props.getPatientsList();
-      }).catch(error => error);
+
+      let isPlannerEmpty = true;
+      for (let i = 0; i < this.state.plannerItems.length; i++) {
+        let plannerItem = this.state.plannerItems[i];
+        if (plannerItem.issue || plannerItem.action) {
+          isPlannerEmpty = false;
+          break;
+        }
+      }
+      if (isPlannerEmpty) {
+        this.setState({
+          warningMessage: `Cannot save an empty planner!`,
+        });
+        return;
+      } else {
+        this.setState({
+          warningMessage: ``,
+        });
+        return database.ref(plannerPath).set({
+          data: this.state.plannerItems
+        }).then(response => {
+          this.props.getPatientsList();
+        }).catch(error => error);
+      }
     }
   }
 
   handleDeletePlanner() {
-    console.log(this.patientId);
     if (this.patientId) {
       const plannerId = this.getDate();
       const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
@@ -314,19 +322,25 @@ class PatientsDetail extends Component {
     }
   }
   
-  handlePlannerChange(i, event) {
-    let plannerItems = [...this.state.plannerItems];
-    plannerItems[i] = event.target.value;
-    this.setState({ plannerItems });
+  handlePlannerChange(i, type, event) {
+    //let plannerItems = [...this.state.plannerItems];
+    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+    if (type === 'issue') {
+      plannerItems[i].issue = event.target.value;
+    } else if (type === 'action') {
+      plannerItems[i].action = event.target.value;
+    }
+    this.setState({ plannerItems }); 
   }
 
-  addPlannerClick(){
-    this.setState(prevState => ({ plannerItems: [...prevState.plannerItems, '']}))
+  addPlannerItemClick() {
+    this.setState(prevState => ({ plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem]}))
   }
 
-  removePlannerClick(i){
-    let plannerItems = [...this.state.plannerItems];
-    plannerItems.splice(i,1);
+  removePlannerItemClick(i)  {
+    //let plannerItems = [...this.state.plannerItems];
+    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+    plannerItems.splice(i, 1);
     this.setState({ plannerItems });
   }
 
@@ -347,16 +361,24 @@ class PatientsDetail extends Component {
                  <Input
                    type="text"
                    value={plannerItem.issue}
-                   onChange={this.handlePlannerChange.bind(this, i)}
+                   onChange={this.handlePlannerChange.bind(this, i, 'issue')}
                  />
+                  
                  <Label className="mt-4">
                      Action
                  </Label>
                  <Input
                    type="text"
                    value={plannerItem.action}
-                   onChange={this.handlePlannerChange.bind(this, i)}
+                   onChange={this.handlePlannerChange.bind(this, i, 'action')}
                  />
+                 <Button
+                  color="secondary"
+                  outline
+                  onClick={this.removePlannerItemClick.bind(this, i)}
+                  >
+                  <IntlMessages id="todo.delete-planneritem" />
+                </Button>
                </div>
              </div>
 
@@ -428,7 +450,7 @@ class PatientsDetail extends Component {
         inline
         selected={this.state.embeddedDate}
         onChange={(date) => {
-          this.patientSurveyUpdated = false
+          this.patientPlannerUpdated = false
           history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
         }}
         highlightDates={highlightPlannerDates}
@@ -507,8 +529,8 @@ class PatientsDetail extends Component {
 
     let warningBox;
     let warningStyle = { 
-      "text-align": "center",
-      "font-weight": "bolder"
+      "textAlign": "center",
+      "fontWeight": "bolder"
     };
     if (this.state.warningMessage.length > 0) {
       warningBox = 
@@ -544,7 +566,7 @@ class PatientsDetail extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeFirstTab === "1",
+                    active: this.state.activeTab === "1",
                     "nav-link": true
                   })}
                   onClick={() => {
@@ -558,7 +580,7 @@ class PatientsDetail extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeFirstTab === "2",
+                    active: this.state.activeTab === "2",
                     "nav-link": true
                   })}
                   onClick={() => {
@@ -571,7 +593,7 @@ class PatientsDetail extends Component {
               </NavItem>
             </Nav>
 
-            <TabContent activeTab={this.state.activeFirstTab}>
+            <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
                 <Row>
                   <Colxx xxs="12" lg="4" className="mb-4">
@@ -696,19 +718,13 @@ class PatientsDetail extends Component {
                         <Button
                           className="mr-2"
                           color="primary"
-                          onClick={this.addPlannerClick.bind(this)}
+                          onClick={this.addPlannerItemClick.bind(this)}
                           >
                           <IntlMessages id="todo.add-planneritem" />
                         </Button>
-                        <Button
-                          color="secondary"
-                          outline
-                          onClick={this.removePlannerClick.bind(this)}
-                          >
-                          <IntlMessages id="todo.delete-planneritem" />
-                        </Button>
                       </div>
                     </form>
+                    {warningBox}
                     <div className="float-sm-right mb-4">
                       {savePlannerButton}
                     </div>
