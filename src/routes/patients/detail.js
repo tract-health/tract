@@ -15,7 +15,8 @@ import {
   Badge,
   ButtonDropdown,
   Input,
-  Label
+  Label,
+  CustomInput
 } from "reactstrap";
 import { Colxx } from "Components/CustomBootstrap";
 import { BreadcrumbItems } from "Components/BreadcrumbContainer";
@@ -283,7 +284,7 @@ class PatientsDetail extends Component {
       const plannerId = this.getDate();
       const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
 
-
+      // check if planner is entirely empty
       let isPlannerEmpty = true;
       for (let i = 0; i < this.state.plannerItems.length; i++) {
         let plannerItem = this.state.plannerItems[i];
@@ -298,11 +299,21 @@ class PatientsDetail extends Component {
         });
         return;
       } else {
+        // cut empty entries
+        let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
+        for (let i = 0; i < plannerItems.length; i++) {
+          if (plannerItems[i].issue.length == 0 && plannerItems[i].action.length == 0) {
+            plannerItems.splice(i, 1);
+            i--;
+          }
+        }
+        // null warning message
         this.setState({
           warningMessage: ``,
         });
+        // save planner into database
         return database.ref(plannerPath).set({
-          data: this.state.plannerItems
+          data: plannerItems
         }).then(response => {
           this.props.getPatientsList();
         }).catch(error => error);
@@ -329,8 +340,14 @@ class PatientsDetail extends Component {
       plannerItems[i].issue = event.target.value;
     } else if (type === 'action') {
       plannerItems[i].action = event.target.value;
+    } else if (type === 'complete') {
+      plannerItems[i].complete = !plannerItems[i].complete;
     }
     this.setState({ plannerItems }); 
+  }
+
+  handlePlannerCompleteActionCheckChange(event) {
+    console.log("Checkbox pressed");
   }
 
   addPlannerItemClick() {
@@ -350,27 +367,50 @@ class PatientsDetail extends Component {
   }
 
   createPlannerUI(){
+
+    let plannerCardClass = [];
+    for (let i = 0; i < this.state.plannerItems.length; i++) {
+      if (this.state.plannerItems[i].complete) {
+        plannerCardClass.push("d-flex flex-grow-1 min-width-zero flex-row card-planner-complete")
+      } else {
+        plannerCardClass.push("d-flex flex-grow-1 min-width-zero flex-row card-planner-noncomplete")
+      }
+    }
+
     return this.state.plannerItems.map((plannerItem, i) => 
         <div key={i}>
           <Card className="question d-flex mb-3">
-            <div className="d-flex flex-grow-1 min-width-zero flex-row">
-              <div className="card-body align-self-center d-flex flex-column justify-content-between min-width-zero">
+            <div className={plannerCardClass[i]}>
+              <div className="card-body card-planner align-self-center d-flex flex-column justify-content-between min-width-zero">
                 <Label className="list-item-heading">
-                  Issue
+                  Care trajectory managemenent issue:
                 </Label>
                 <Input
                   type="text"
                   value={plannerItem.issue}
                   onChange={this.handlePlannerChange.bind(this, i, 'issue')}
                 />
-                <Label className="list-item-heading mt-4">
-                    Action
+                <Label className="list-item-heading mt-2">
+                    Action:
                 </Label>
                 <Input
                   type="text"
                   value={plannerItem.action}
                   onChange={this.handlePlannerChange.bind(this, i, 'action')}
                 />
+                <div className="d-flex flex-grow-1 min-width-zero flex-row mt-2">
+                  <Label className="list-item-heading mt-2">
+                      Action complete?
+                  </Label>
+                  <div className="custom-control custom-checkbox align-self-center justify-content-between">
+                    <CustomInput
+                      color="secondary"
+                      type="checkbox"
+                      checked={plannerItem.complete}
+                      onChange={this.handlePlannerChange.bind(this, i, 'complete')}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="card-top-buttons">
                 <Button 
@@ -537,8 +577,7 @@ class PatientsDetail extends Component {
       </div>
     } else {
       warningBox = null;
-    }
-    
+    }    
 
     return (
       <Fragment>
