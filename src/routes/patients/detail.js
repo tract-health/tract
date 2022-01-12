@@ -352,38 +352,36 @@ class PatientsDetail extends Component {
   createPlannerUI(){
     return this.state.plannerItems.map((plannerItem, i) => 
         <div key={i}>
-           <Card className="question d-flex mb-3">
-             <div className="d-flex flex-grow-1 min-width-zero">
-               <div className="card-body align-self-center d-flex flex-column justify-content-between min-width-zero">
-                 <Label>
-                   Issue
-                 </Label>
-                 <Input
-                   type="text"
-                   value={plannerItem.issue}
-                   onChange={this.handlePlannerChange.bind(this, i, 'issue')}
-                 />
-                  
-                 <Label className="mt-4">
-                     Action
-                 </Label>
-                 <Input
-                   type="text"
-                   value={plannerItem.action}
-                   onChange={this.handlePlannerChange.bind(this, i, 'action')}
-                 />
-                 <Button
-                  color="secondary"
-                  outline
+          <Card className="question d-flex mb-3">
+            <div className="d-flex flex-grow-1 min-width-zero flex-row">
+              <div className="card-body align-self-center d-flex flex-column justify-content-between min-width-zero">
+                <Label className="list-item-heading">
+                  Issue
+                </Label>
+                <Input
+                  type="text"
+                  value={plannerItem.issue}
+                  onChange={this.handlePlannerChange.bind(this, i, 'issue')}
+                />
+                <Label className="list-item-heading mt-4">
+                    Action
+                </Label>
+                <Input
+                  type="text"
+                  value={plannerItem.action}
+                  onChange={this.handlePlannerChange.bind(this, i, 'action')}
+                />
+              </div>
+              <div className="card-top-buttons">
+                <Button 
+                  close
                   onClick={this.removePlannerItemClick.bind(this, i)}
                   >
-                  <IntlMessages id="todo.delete-planneritem" />
+                  <span aria-hidden="true">&times;</span>
                 </Button>
-               </div>
-             </div>
-
-           </Card>
-          
+              </div>
+            </div>
+          </Card>
         </div>          
     )
  }       
@@ -717,6 +715,7 @@ class PatientsDetail extends Component {
                       <div className="mb-4">
                         <Button
                           className="mr-2"
+                          outline
                           color="primary"
                           onClick={this.addPlannerItemClick.bind(this)}
                           >
