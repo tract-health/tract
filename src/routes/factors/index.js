@@ -272,6 +272,7 @@ class Factors extends Component {
           }
           <div className="float-sm-right mt-3">
             <Button 
+              className="mb-4"
               color="primary"
               onClick={() => this.onCapture('mainfragment')}
               >
