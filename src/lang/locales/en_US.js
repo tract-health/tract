@@ -25,5 +25,6 @@ module.exports = {
   "todo.labels": "Labels",
   "todo.show": "Show: ",
   "todo.add-planneritem": "Add",
-  "todo.delete-planneritem": "Delete"
+  "todo.delete-planneritem": "Delete",
+  "todo.exportimage": "Export image"
 };
