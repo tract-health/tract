@@ -214,7 +214,7 @@ class Factors extends Component {
                         name="keyword"
                         id="search"
                         placeholder="Filter"
-                        defaultValue={searchKeyword}
+                        defaultValue=''
                         onKeyPress={e => this.handleKeyPress(e)}
                         onChange={e => this.handleSearchChange(e)}
                       />

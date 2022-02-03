@@ -450,7 +450,7 @@ class Patients extends Component {
                       name="keyword"
                       id="search"
                       placeholder="Search"
-                      defaultValue={searchKeyword}
+                      defaultValue=''
                       onKeyPress={e => this.handleKeyPress(e)}
                     />
                   </div>
