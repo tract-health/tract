@@ -102,7 +102,6 @@ class Ward extends Component {
               <div className="mb-4 mr-5 float-sm-right">
                 <Row>
                   <div className="ml-3 mr-2">Heatmap:</div>
-                  <div className="mr-2"><Badge color="na" pill>N/A</Badge></div>
                   <div className="mr-2"><Badge color="verylow" pill>VERY LOW</Badge></div>
                   <div className="mr-2"><Badge color="low" pill>LOW</Badge></div>
                   <div className="mr-2"><Badge color="medium" pill>MEDIUM</Badge></div>
