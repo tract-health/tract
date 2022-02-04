@@ -12,7 +12,7 @@
     "care",
     "health"
   ],
-  "author": "Polona Stefacic, Maxim Filimonov",
+  "author": "version 2: Maxim Filimonov, version 1: Polona Stefacic",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
