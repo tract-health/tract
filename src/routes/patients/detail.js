@@ -308,6 +308,7 @@ class PatientsDetail extends Component {
         }
         // null warning message
         this.setState({
+          plannerItems,
           warningMessage: ``,
         });
         // save planner into database
