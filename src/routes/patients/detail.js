@@ -245,7 +245,8 @@ class PatientsDetail extends Component {
       survey: {
         ...prevState.survey,
         [id]: prevState.survey[id] !== className ? className: null
-      }
+      },
+      warningMessage: `You have unsaved changes!`
     }))
   }
 
@@ -342,7 +343,10 @@ class PatientsDetail extends Component {
     } else if (type === 'complete') {
       plannerItems[i].complete = !plannerItems[i].complete;
     }
-    this.setState({ plannerItems }); 
+    this.setState({ 
+      plannerItems,
+      warningMessage: `You have unsaved changes!`
+    }); 
   }
 
   handlePlannerCompleteActionCheckChange(event) {
@@ -350,14 +354,20 @@ class PatientsDetail extends Component {
   }
 
   addPlannerItemClick() {
-    this.setState(prevState => ({ plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem]}))
+    this.setState(prevState => ({
+      plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
+      warningMessage: `You have unsaved changes!`
+    }))
   }
 
   removePlannerItemClick(i)  {
     //let plannerItems = [...this.state.plannerItems];
     let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
     plannerItems.splice(i, 1);
-    this.setState({ plannerItems });
+    this.setState({ 
+      plannerItems,
+      warningMessage: `You have unsaved changes!`
+    }); 
   }
 
   handlePlannerSubmit(event) {
