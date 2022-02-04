@@ -219,35 +219,41 @@ class PatientsDetail extends Component {
 
   handleSurveyAssessmentClick(e) {
     e.preventDefault();
-    const id = e.target.getAttribute('data-id');
-    let className = null;
-    if (e.target.classList.contains("na")) {
-      className = "na"
-    }
-    if (e.target.classList.contains("verylow")) {
-      className = "verylow"
-    }
-    if (e.target.classList.contains("low")) {
-      className = "low"
-    }
-    if (e.target.classList.contains("medium")) {
-      className = "medium"
-    }
-    if (e.target.classList.contains("high")) {
-      className = "high"
-    }
-    if (e.target.classList.contains("veryhigh")) {
-      className = "veryhigh"
-    }
 
-    this.setState((prevState) => ({
-      ...prevState,
-      survey: {
-        ...prevState.survey,
-        [id]: prevState.survey[id] !== className ? className: null
-      },
-      warningMessage: `You have unsaved changes!`
-    }))
+    // if active patient, then allow changes
+    if (this.status === 'Active') {
+      const id = e.target.getAttribute('data-id');
+      let className = null;
+      if (e.target.classList.contains("na")) {
+        className = "na"
+      }
+      if (e.target.classList.contains("verylow")) {
+        className = "verylow"
+      }
+      if (e.target.classList.contains("low")) {
+        className = "low"
+      }
+      if (e.target.classList.contains("medium")) {
+        className = "medium"
+      }
+      if (e.target.classList.contains("high")) {
+        className = "high"
+      }
+      if (e.target.classList.contains("veryhigh")) {
+        className = "veryhigh"
+      }
+  
+      this.setState((prevState) => ({
+        ...prevState,
+        survey: {
+          ...prevState.survey,
+          [id]: prevState.survey[id] !== className ? className: null
+        },
+        warningMessage: `You have unsaved changes!`
+      }))
+    } else {
+      // do nothing because discharged patient
+    }
   }
 
   toggleTab(tab) {
@@ -335,40 +341,50 @@ class PatientsDetail extends Component {
   }
   
   handlePlannerChange(i, type, event) {
-    //let plannerItems = [...this.state.plannerItems];
-    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-    if (type === 'issue') {
-      plannerItems[i].issue = event.target.value;
-    } else if (type === 'action') {
-      plannerItems[i].action = event.target.value;
-    } else if (type === 'complete') {
-      plannerItems[i].complete = !plannerItems[i].complete;
+    // if active patient then allow changes
+    if (this.status === 'Active') {
+      let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+      if (type === 'issue') {
+        plannerItems[i].issue = event.target.value;
+      } else if (type === 'action') {
+        plannerItems[i].action = event.target.value;
+      } else if (type === 'complete') {
+        plannerItems[i].complete = !plannerItems[i].complete;
+      }
+      this.setState({ 
+        plannerItems,
+        warningMessage: `You have unsaved changes!`
+      }); 
+    } else {
+      // if discharged patient then simply do nothing
     }
-    this.setState({ 
-      plannerItems,
-      warningMessage: `You have unsaved changes!`
-    }); 
-  }
-
-  handlePlannerCompleteActionCheckChange(event) {
-    console.log("Checkbox pressed");
+    
   }
 
   addPlannerItemClick() {
-    this.setState(prevState => ({
-      plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
-      warningMessage: `You have unsaved changes!`
-    }))
+    // if active patient then allow changes
+    if (this.status === 'Active') {
+      this.setState(prevState => ({
+        plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
+        warningMessage: `You have unsaved changes!`
+      }))
+    } else {
+      // if discharged patient then simply do nothing
+    }
   }
 
   removePlannerItemClick(i)  {
-    //let plannerItems = [...this.state.plannerItems];
-    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-    plannerItems.splice(i, 1);
-    this.setState({ 
-      plannerItems,
-      warningMessage: `You have unsaved changes!`
-    }); 
+    // if active patient then allow changes
+    if (this.status === 'Active') {
+      let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+      plannerItems.splice(i, 1);
+      this.setState({ 
+        plannerItems,
+        warningMessage: `You have unsaved changes!`
+      }); 
+    } else {
+      // if discharged patient then simply do nothing¬
+    }
   }
 
   handlePlannerSubmit(event) {
