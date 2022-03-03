@@ -5,7 +5,8 @@ module.exports = {
   "menu.patients": "Patient assessment and planning",
   "menu.detail": "Patients",
 
-  "todo.add-new": "ADD NEW",
+  "todo.admit": "ADMIT",
+  "todo.discharge": "DISCHARGE",
   "todo.add-new-title": "Add New Todo",
   "todo.title": "Title",
   "todo.detail": "Detail",
