@@ -112,7 +112,7 @@
       {
         "id": "S",
         "factor": "Overall Tract Assessment",
-        "definition": "Decide for overall Tract Assessment for each patient",
+        "definition": "Consider the individual TRACT Factor scores in the round to reach an overall TRACT assessment",
         "questions": [
           "Have you checked summary after you saved Assessment?"
         ]
