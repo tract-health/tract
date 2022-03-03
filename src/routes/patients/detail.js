@@ -684,8 +684,9 @@ class PatientsDetail extends Component {
                         <AssessmentDatePicker/>
                       </CardBody>
                     </Card>
-
-                    <Card className="mt-4">
+                    
+                    {/* Assessment summary card */}
+                    {/* <Card className="mt-4">
                       <CardBody>
                         <CardTitle>Assessment summary</CardTitle>
                         <Row>
@@ -717,7 +718,8 @@ class PatientsDetail extends Component {
                           <Colxx>{ getOverAllBadge(patientSurvey) }</Colxx>
                         </Row>
                       </CardBody>
-                    </Card>
+                    </Card> */}
+                    {/* Assessment overall score card */}
                     {/* 
                     <Card className="mt-4">
                       <CardBody>
@@ -727,9 +729,8 @@ class PatientsDetail extends Component {
                         </Row>
                       </CardBody>
                     </Card> */}
-
                   </Colxx>
-
+                  
                   <Colxx xxs="12" lg="8">
                     <ul className="list-unstyled mb-4">
                         {survey && survey.survey ? survey.survey.map((item, index) => {
