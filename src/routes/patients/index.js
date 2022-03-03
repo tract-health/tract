@@ -114,6 +114,9 @@ class Patients extends Component {
   }
 
   addNetItem() {
+    if ((this.state.id.length === 0) || (this.state.name.length === 0)) {
+      return;
+    }
     const newItem = {
       id: this.state.id,
       name: this.state.name,
@@ -247,6 +250,7 @@ class Patients extends Component {
       this.props.removeDischargedPatientsItem(item);
     }
     // null selected items list
+    this.props.selectedPatientsItemsChange([]);
     this.setState({
       selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
     });
@@ -267,7 +271,6 @@ class Patients extends Component {
       allPatientsItems,
       patientsItems,
       filter,
-      searchKeyword,
       loading,
       orderColumn,
       orderColumns,
@@ -278,12 +281,12 @@ class Patients extends Component {
     let patientListButtons;
     if (this.state.showOptionCurrent === 'Active') {
       dropdownMenu = <DropdownMenu right>
-                      {/* <DropdownItem onClick={() => this.handleDeleteAll()}>
+                      <DropdownItem onClick={() => this.handleDeleteAll()}>
                         Delete
-                      </DropdownItem> */}
-                      <DropdownItem onClick={() => this.handleDischargeAll()}>
-                        Discharge
                       </DropdownItem>
+                      {/* <DropdownItem onClick={() => this.handleDischargeAll()}>
+                        Discharge
+                      </DropdownItem> */}
                     </DropdownMenu>
       patientListButtons = <div className="float-sm-right mb-2">
                             <Button
@@ -302,7 +305,7 @@ class Patients extends Component {
                             >
                               <IntlMessages id="todo.discharge" />
                             </Button>
-                            <div className="btn btn-primary pl-3 pr-2 mr-2 check-button">
+                            {/* <div className="btn btn-primary pl-3 pr-2 mr-2 check-button">
                               <Label
                                 for="checkAll"
                                 className="custom-control custom-checkbox mb-0 d-inline-block"
@@ -328,7 +331,7 @@ class Patients extends Component {
                                     }`}
                                 />
                               </Label>
-                            </div>
+                            </div> */}
                             <Modal
                               isOpen={this.state.modalOpen}
                               toggle={this.toggleModal}
@@ -378,7 +381,7 @@ class Patients extends Component {
                                 </Button>
                               </ModalFooter>
                             </Modal>
-                            {/* <ButtonDropdown
+                            <ButtonDropdown
                               isOpen={this.state.dropdownSplitOpen}
                               toggle={this.toggleSplit}
                             >
@@ -415,16 +418,16 @@ class Patients extends Component {
                                 className="dropdown-toggle-split pl-2 pr-2"
                               />
                               {dropdownMenu}
-                            </ButtonDropdown> */}
+                            </ButtonDropdown>
                           </div>
     } else if (this.state.showOptionCurrent === 'Discharged') {
       dropdownMenu = <DropdownMenu right>
-                      {/* <DropdownItem onClick={() => this.handleDeleteDischargedAll()}>
+                      <DropdownItem onClick={() => this.handleDeleteDischargedAll()}>
                         Delete
-                      </DropdownItem> */}
-                      <DropdownItem onClick={() => this.handleAdmitAll()}>
-                        Admit
                       </DropdownItem>
+                      {/* <DropdownItem onClick={() => this.handleAdmitAll()}>
+                        Admit
+                      </DropdownItem> */}
                     </DropdownMenu>
       patientListButtons = <div className="float-sm-right mb-2">
                               <Button
