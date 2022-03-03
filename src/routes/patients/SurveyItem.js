@@ -265,6 +265,28 @@ export default class SurveyItem extends React.Component {
       cardCollapseClass = "card-body pt-0";
     }
 
+    let cardItem;
+    if (this.props.order !== "S") {
+      cardItem = <div className="edit-mode">
+                    <h5>Definition</h5>
+                    <p>{definition}</p>
+                    <br />
+                    <h5>Questions</h5>
+                    <ul>
+                      {
+                        questions.map((item, idx) => {
+                          return <li key={idx}>{item}</li>
+                        })
+                      }
+                    </ul>
+                  </div>
+    } else {
+      cardItem = <div className="edit-mode">
+                    <h5>Definition</h5>
+                    <p>{definition}</p>
+                  </div>
+    }
+
 
     return (
       <Card className={listItemCardClass}>
@@ -272,19 +294,7 @@ export default class SurveyItem extends React.Component {
 
         <Collapse isOpen={this.state.collapse}>
           <div className={cardCollapseClass}>
-            <div className="edit-mode">
-              <h5>Definition</h5>
-              <p>{definition}</p>
-              <br />
-              <h5>Questions</h5>
-              <ul>
-                {
-                  questions.map((item, idx) => {
-                    return <li key={idx}>{item}</li>
-                  })
-                }
-              </ul>
-            </div>
+            {cardItem}
           </div>
         </Collapse>
       </Card>
