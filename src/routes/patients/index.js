@@ -41,6 +41,7 @@ import {
   selectedPatientsItemsChange,
   dischargePatientsItem,
   getDischargedPatientsList,
+  selectedDischargedPatientsItemsChange,
   admitPatientsItem,
   removeDischargedPatientsItem
 } from "Redux/actions";
@@ -186,7 +187,8 @@ class Patients extends Component {
       ) {
         this.props.selectedPatientsItemsChange([]);
         this.setState({
-          selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+          //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+          selectedItems: []
         });
       } else {
         this.props.selectedPatientsItemsChange(
@@ -197,6 +199,7 @@ class Patients extends Component {
         });
       }
     }
+    
   }
 
   handleDeleteAll() {
@@ -206,7 +209,8 @@ class Patients extends Component {
     // null selected items list
     this.props.selectedPatientsItemsChange([]);
     this.setState({
-      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
     });
   }
 
@@ -223,7 +227,8 @@ class Patients extends Component {
     // null selected items list
     this.props.selectedPatientsItemsChange([]);
     this.setState({
-      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
     });
   }
 
@@ -240,7 +245,8 @@ class Patients extends Component {
     // null selected items list and move to active list
     this.props.selectedPatientsItemsChange([]);
     this.setState({
-      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length),
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length),
+      selectedItems: [],
       showOptionCurrent: 'Active'
     });
   }
@@ -252,7 +258,8 @@ class Patients extends Component {
     // null selected items list
     this.props.selectedPatientsItemsChange([]);
     this.setState({
-      selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
     });
     this.props.getDischargedPatientsList();
   }
@@ -656,6 +663,7 @@ export default injectIntl(connect(
     dischargePatientsItem,
     getDischargedPatientsList,
     admitPatientsItem,
-    removeDischargedPatientsItem
+    removeDischargedPatientsItem,
+    selectedDischargedPatientsItemsChange
   }
 )(Patients));
