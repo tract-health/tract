@@ -26,7 +26,7 @@ class Ward extends Component {
     super(props);
 
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7);
+    startDate.setDate(startDate.getDate() - 6);
     const endDate = new Date();
 
     this.state = {
