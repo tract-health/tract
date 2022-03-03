@@ -88,6 +88,8 @@ class Ward extends Component {
       }
     }
 
+    let title = <IntlMessages id="menu.ward" />
+
     return (
       <div className="mainfragment">
         <Fragment>
@@ -95,7 +97,7 @@ class Ward extends Component {
             <Colxx xxs="12">
               <div className="mb-2">
                 <BreadcrumbContainer
-                  heading="Ward Case Load"
+                  heading={title}
                   match={this.props.match}
                 />
               </div>

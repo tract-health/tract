@@ -621,7 +621,7 @@ class PatientsDetail extends Component {
         <Row className="app-row survey-app">
           <Colxx xxs="12">
             <h1>
-              <span className="align-middle d-inline-block pt-1">Patient TRACT Assessment</span>
+              <span className="align-middle d-inline-block pt-1"><IntlMessages id="menu.patients" /></span>
             </h1>
             
 

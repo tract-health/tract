@@ -144,6 +144,8 @@ class Factors extends Component {
       }
     }
 
+    let title = <IntlMessages id="menu.factors" />
+
     return (
       <div className="mainfragment">
         <Fragment>
@@ -151,7 +153,7 @@ class Factors extends Component {
             <Colxx xxs="12">
               <div className="mb-2">
                 <BreadcrumbContainer
-                  heading="TRACT Factors"
+                  heading={title}
                   match={this.props.match}
                 />
               </div>

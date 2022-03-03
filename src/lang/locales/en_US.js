@@ -1,8 +1,8 @@
 module.exports = {
   "menu.app": "Home",
-  "menu.factors": "Factors",
-  "menu.ward": "Ward",
-  "menu.patients": "Patients",
+  "menu.factors": "TRACT factor heatmap",
+  "menu.ward": "Caseload heatmap",
+  "menu.patients": "Patient assessment and planning",
   "menu.detail": "Patients",
 
   "todo.add-new": "ADD NEW",

@@ -222,6 +222,19 @@ class Sidebar extends Component {
               <Nav vertical className="list-unstyled">
                 <NavItem
                   className={classnames({
+                    active: this.state.selectedMenu.toString() === "patients"
+                  })}
+                >
+                  <NavLink
+                    to="/app/patients"
+                    onClick={e => {this.setState({selectedMenu: "patients"})}}
+                  >
+                    <i className="iconsmind-Digital-Drawing" />{" "}
+                    Patient Assessment and Planning
+                  </NavLink>
+                </NavItem>
+                <NavItem
+                  className={classnames({
                     active: this.state.selectedMenu.toString() === "ward"
                   })}
                 >
@@ -230,7 +243,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "ward"})}}
                   >
                     <i className="iconsmind-Air-Balloon" />{" "}
-                    Ward
+                    Caseload Heatmap
                   </NavLink>
                 </NavItem>
                 <NavItem
@@ -243,20 +256,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "factors"})}}
                   >
                     <i className="iconsmind-Shop-4" />{" "}
-                    Factors
-                  </NavLink>
-                </NavItem>
-                <NavItem
-                  className={classnames({
-                    active: this.state.selectedMenu.toString() === "patients"
-                  })}
-                >
-                  <NavLink
-                    to="/app/patients"
-                    onClick={e => {this.setState({selectedMenu: "patients"})}}
-                  >
-                    <i className="iconsmind-Digital-Drawing" />{" "}
-                    Patients
+                    TRACT Factor Heatmap
                   </NavLink>
                 </NavItem>
               </Nav>
