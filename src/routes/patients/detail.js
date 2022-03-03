@@ -16,7 +16,8 @@ import {
   ButtonDropdown,
   Input,
   Label,
-  CustomInput
+  CustomInput,
+  CardTitle
 } from "reactstrap";
 import { Colxx } from "Components/CustomBootstrap";
 import { BreadcrumbItems } from "Components/BreadcrumbContainer";
@@ -686,6 +687,7 @@ class PatientsDetail extends Component {
 
                     <Card className="mt-4">
                       <CardBody>
+                        <CardTitle>Assessment summary</CardTitle>
                         <Row>
                           <Colxx><Badge color="na" pill>N/A</Badge></Colxx>
                           <Colxx>{patientSurvey ? patientSurvey.na : 0}</Colxx>
@@ -710,9 +712,13 @@ class PatientsDetail extends Component {
                           <Colxx><Badge color="veryhigh" pill>VERY HIGH</Badge></Colxx>
                           <Colxx>{patientSurvey ? patientSurvey.veryhigh : 0}</Colxx>
                         </Row>
+                        <Row className="mt-4 mb-1">
+                          <Colxx><div className="badge badge-pill badge-outline-primary">OVERALL TRACT ASSESSMENT</div></Colxx>
+                          <Colxx>{ getOverAllBadge(patientSurvey) }</Colxx>
+                        </Row>
                       </CardBody>
                     </Card>
-
+                    {/* 
                     <Card className="mt-4">
                       <CardBody>
                         <Row>
@@ -720,7 +726,7 @@ class PatientsDetail extends Component {
                           <Colxx>{ getOverAllBadge(patientSurvey) }</Colxx>
                         </Row>
                       </CardBody>
-                    </Card>
+                    </Card> */}
 
                   </Colxx>
 
