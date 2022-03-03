@@ -76,7 +76,6 @@ class PatientsDetail extends Component {
         8: 'na',
         9: 'na',
         10: 'na',
-        11: 'na',
         "S": 'na'
       },
       survey: {
@@ -90,7 +89,6 @@ class PatientsDetail extends Component {
         8: 'na',
         9: 'na',
         10: 'na',
-        11: 'na',
         "S": 'na'
       },
       warningMessage: '',
