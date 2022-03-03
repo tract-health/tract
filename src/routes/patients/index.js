@@ -291,7 +291,7 @@ class Patients extends Component {
       patientListButtons = <div className="float-sm-right mb-2">
                             <Button
                               color="primary"
-                              size="lg"
+                              size="sm"
                               className="mr-2"
                               onClick={this.toggleModal}
                             >
@@ -299,7 +299,7 @@ class Patients extends Component {
                             </Button>
                             <Button
                               color="primary"
-                              size="lg"
+                              size="sm"
                               className="mr-2"
                               onClick={() => this.handleDischargeAll()}
                             >
@@ -339,7 +339,7 @@ class Patients extends Component {
                               backdrop="static"
                             >
                               <ModalHeader toggle={this.toggleModal}>
-                                Admit new Patient
+                                Admit new patient
                               </ModalHeader>
                               <ModalBody>
 
@@ -382,6 +382,7 @@ class Patients extends Component {
                               </ModalFooter>
                             </Modal>
                             <ButtonDropdown
+                              size="sm"
                               isOpen={this.state.dropdownSplitOpen}
                               toggle={this.toggleSplit}
                             >
@@ -432,13 +433,13 @@ class Patients extends Component {
       patientListButtons = <div className="float-sm-right mb-2">
                               <Button
                                 color="primary"
-                                size="lg"
+                                size="sm"
                                 className="mr-2"
                                 onClick={() => this.handleAdmitAll()}
                               >
                                 <IntlMessages id="todo.admit" />
                               </Button>
-                              <div className="btn btn-primary pl-3 pr-2 mr-2 check-button">
+                              <div className="btn btn-primary btn-sm pl-3 pr-2 mr-2 check-button">
                                 <Label
                                   for="checkAll"
                                   className="custom-control custom-checkbox mb-0 d-inline-block"
