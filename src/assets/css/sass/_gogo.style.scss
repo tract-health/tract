@@ -3671,6 +3671,9 @@ select.form-control:not([size]):not([multiple]) {
   border-radius: $border-radius;
   font-family: "Nunito", sans-serif;
 }
+.react-datepicker__day--highlighted {
+  background-color: lightgrey;
+}
 .react-datepicker__header {
   background-color: $input-background;
   border-bottom: initial;
@@ -3790,6 +3793,8 @@ select.form-control:not([size]):not([multiple]) {
   li.react-datepicker__time-list-item--selected {
   background: $theme-color-1;
 }
+
+
 .react-fine-uploader-gallery-dropzone,
 .react-fine-uploader-gallery-nodrop-container {
   min-height: 118px;
