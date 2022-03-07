@@ -13,6 +13,8 @@ import {
   changeDefaultClassnames
 } from "Redux/actions";
 
+import { ThemeColors } from "Util/ThemeColors";
+
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -200,6 +202,7 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
+
     window.addEventListener("resize", this.handleWindowResize);
     this.handleWindowResize();
     this.handleProps();
@@ -212,6 +215,16 @@ class Sidebar extends Component {
   }
 
   render() {
+    let menuStyle = {
+      "textAlign": "center"
+    };
+    let highlightedMenuItem = {
+      "backgroundColor": ThemeColors().themeColor5,
+    };
+    let hightlightedMenuText = {
+      "color": "#fff"
+    }
+
     return (
       <div className="sidebar">
         <div className="main-menu">
@@ -224,13 +237,15 @@ class Sidebar extends Component {
                   className={classnames({
                     active: this.state.selectedMenu.toString() === "patients"
                   })}
+                  style={highlightedMenuItem}
                 >
                   <NavLink
                     to="/app/patients"
                     onClick={e => {this.setState({selectedMenu: "patients"})}}
+                    style = {hightlightedMenuText}
                   >
                     <i className="iconsmind-Digital-Drawing" />{" "}
-                    Patient Assessment and Planning
+                    <div style={menuStyle}>Patient<br />assessment</div>
                   </NavLink>
                 </NavItem>
                 <NavItem
@@ -243,7 +258,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "ward"})}}
                   >
                     <i className="iconsmind-Air-Balloon" />{" "}
-                    Caseload Heatmap
+                    <div style={menuStyle}>Caseload</div>
                   </NavLink>
                 </NavItem>
                 <NavItem
@@ -256,7 +271,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "factors"})}}
                   >
                     <i className="iconsmind-Shop-4" />{" "}
-                    TRACT Factor Heatmap
+                    <div style={menuStyle}>TRACT factors</div>
                   </NavLink>
                 </NavItem>
               </Nav>
