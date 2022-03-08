@@ -489,7 +489,7 @@ class Patients extends Component {
 
               {patientListButtons}
               
-              <BreadcrumbItems match={this.props.match} />
+              {/* <BreadcrumbItems match={this.props.match} /> */}
             </div>
 
             <div className="mb-2">

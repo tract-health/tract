@@ -626,7 +626,7 @@ class PatientsDetail extends Component {
             </h1>
             
 
-            <BreadcrumbItems match={this.props.match} />
+            {/* <BreadcrumbItems match={this.props.match} /> */}
             {loading ?
             <Fragment>
             <Nav tabs className="separator-tabs ml-0 mb-5">

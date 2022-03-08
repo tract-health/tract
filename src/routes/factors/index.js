@@ -152,11 +152,16 @@ class Factors extends Component {
           <Row>
             <Colxx xxs="12">
               <div className="mb-2">
+                <h1>
+                  {title}
+                </h1>
+              </div>
+              {/* <div className="mb-2">
                 <BreadcrumbContainer
                   heading={title}
                   match={this.props.match}
                 />
-              </div>
+              </div> */}
               <div className="mb-4 mr-5 float-sm-right">
                 <Row>
                   <div className="ml-3 mr-2">Heatmap:</div>
