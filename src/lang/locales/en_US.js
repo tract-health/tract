@@ -27,5 +27,8 @@ module.exports = {
   "todo.show": "Show: ",
   "todo.add-planneritem": "Add",
   "todo.delete-planneritem": "Delete",
-  "todo.exportimage": "Export image"
+  "todo.exportimage": "Export image",
+  "todo.complete": "MARK AS COMPLETE",
+  "todo.incomplete": "MARK AS INCOMPLETE",
+  "todo.save": "SAVE"
 };
