@@ -17,7 +17,11 @@ import {
   Input,
   Label,
   CustomInput,
-  CardTitle
+  CardTitle,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 import { Colxx } from "Components/CustomBootstrap";
 import { BreadcrumbItems } from "Components/BreadcrumbContainer";
@@ -61,6 +65,10 @@ class PatientsDetail extends Component {
     this.handleSavePlanner = this.handleSavePlanner.bind(this);
     this.handlePlannerSumbit = this.handlePlannerSubmit.bind(this);
 
+    this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
+    this.toggleCompleteModal = this.toggleCompleteModal.bind(this);
+    this.toggleInCompleteModal = this.toggleInCompleteModal.bind(this);
+
     this.state = {
       activeTab: "1",
       dropdownSplitOpen: false,
@@ -93,6 +101,9 @@ class PatientsDetail extends Component {
         "S": 'na'
       },
       warningMessage: '',
+      deleteModalOpen: false,
+      completeModalOpen: false,
+      inCompleteModalOpen: false,
 
       defaultPlannerItem: {
         createdDate: new Date().toLocaleDateString('en-UK'),
@@ -168,6 +179,24 @@ class PatientsDetail extends Component {
       });
       this.patientPlannerUpdated = true
     }
+  }
+
+  toggleDeleteModal() {
+    this.setState({
+      deleteModalOpen: !this.state.deleteModalOpen
+    });
+  }
+
+  toggleCompleteModal() {
+    this.setState({
+      completeModalOpen: !this.state.completeModalOpen
+    });
+  }
+
+  toggleInCompleteModal() {
+    this.setState({
+      inCompleteModalOpen: !this.state.inCompleteModalOpen
+    });
   }
 
   getPatient() {
@@ -508,7 +537,7 @@ class PatientsDetail extends Component {
       }
   }
 
-  handlePlannerItemComplete(i, event) {
+  handlePlannerItemComplete(i, type, event) {
     // check if there are unsaved changes
     if (this.state.warningMessage.length > 0) {
       this.setState({ 
@@ -522,6 +551,12 @@ class PatientsDetail extends Component {
       this.setState({ 
         plannerItems,
       }, this.handleSavePlanner); 
+      if (type === 'complete') {
+        this.toggleCompleteModal();
+      } else if (type === 'incomplete') {
+        this.toggleInCompleteModal();
+      }
+
     }
   }
 
@@ -538,6 +573,7 @@ class PatientsDetail extends Component {
     this.setState({ 
       plannerItems,
     }, this.handleSavePlanner); 
+    this.toggleDeleteModal();
   }
 
   handlePlannerSubmit(event) {
@@ -577,9 +613,7 @@ class PatientsDetail extends Component {
     }
 
     let incompletePlannerItemList;
-    let incompleteTaskLabel = <Label className="list-item-heading">
-                                Incomplete tasks:
-                              </Label>
+    let incompleteTaskLabel = <h3>Incomplete tasks:</h3>
     if (incompleteTaskList.length > 0) {
       incompletePlannerItemList = incompleteTaskList.map((plannerItem, i) => (
                                       <div key={i}>
@@ -642,10 +676,27 @@ class PatientsDetail extends Component {
                                                   outline
                                                   color="primary"
                                                   size="sm"
-                                                  onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
+                                                  //onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
+                                                  onClick={this.toggleCompleteModal}
                                                 >
                                                   <IntlMessages id="todo.complete" />
                                                 </Button>
+                                                <Modal isOpen={this.state.completeModalOpen} toggle={this.toggleCompleteModal} wrapClassName="modal-middle" backdrop="static">
+                                                  <ModalHeader toggle={this.toggleCompleteModal}>
+                                                    Are you sure?
+                                                  </ModalHeader>
+                                                  <ModalBody>
+                                                    <p>Do you really want to mark this task as complete?</p>
+                                                  </ModalBody>
+                                                  <ModalFooter>
+                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1], 'complete')}>
+                                                      <IntlMessages id="todo.confirm" />
+                                                    </Button>
+                                                    <Button color="primary" outline onClick={this.toggleCompleteModal}>
+                                                      <IntlMessages id="todo.cancel" />
+                                                    </Button>
+                                                  </ModalFooter>
+                                                </Modal>
                                               </div>
                                               {warningBox}
                                             </div>
@@ -653,18 +704,33 @@ class PatientsDetail extends Component {
                                               <Button 
                                                 hidden={this.status !== "Active"}
                                                 close
-                                                onClick={this.removePlannerItemClick.bind(this, plannerItem[1])}
+                                                //onClick={this.removePlannerItemClick.bind(this, plannerItem[1])}
+                                                onClick={this.toggleDeleteModal}
                                                 >
                                                 <span aria-hidden="true">&times;</span>
                                               </Button>
+                                              <Modal isOpen={this.state.deleteModalOpen} toggle={this.toggleDeleteModal} wrapClassName="modal-middle" backdrop="static">
+                                                <ModalHeader toggle={this.toggleDeleteModal}>
+                                                  Are you sure?
+                                                </ModalHeader>
+                                                <ModalBody>
+                                                  <p>Do you really want to delete this task?</p>
+                                                  <p>This action cannot be undone!</p>
+                                                </ModalBody>
+                                                <ModalFooter>
+                                                  <Button color="primary" onClick={this.removePlannerItemClick.bind(this, plannerItem[1])}>
+                                                    <IntlMessages id="todo.confirm" />
+                                                  </Button>
+                                                  <Button color="primary" outline onClick={this.toggleDeleteModal}>
+                                                    <IntlMessages id="todo.cancel" />
+                                                  </Button>
+                                                </ModalFooter>
+                                              </Modal>
                                             </div>
                                           </div>
                                         </Card>
                                       </div>     
                                   ))
-        incompleteTaskLabel = <Label className="list-item-heading">
-          Incomplete tasks:
-        </Label>
       }
 
     let completeTaskList = [];
@@ -726,19 +792,34 @@ class PatientsDetail extends Component {
                                                   color="primary"
                                                   size="sm"
                                                   className="mt-2 mr-2"
-                                                  onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
+                                                  //onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
+                                                  onClick={this.toggleInCompleteModal}
                                                 >
                                                   <IntlMessages id="todo.incomplete" />
                                                 </Button>
+                                                <Modal isOpen={this.state.inCompleteModalOpen} toggle={this.toggleInCompleteModal} wrapClassName="modal-middle" backdrop="static">
+                                                  <ModalHeader toggle={this.toggleInCompleteModal}>
+                                                    Are you sure?
+                                                  </ModalHeader>
+                                                  <ModalBody>
+                                                    <p>Do you really want to mark this task as incomplete?</p>
+                                                  </ModalBody>
+                                                  <ModalFooter>
+                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1], 'incomplete')}>
+                                                      <IntlMessages id="todo.confirm" />
+                                                    </Button>
+                                                    <Button color="primary" outline onClick={this.toggleInCompleteModal}>
+                                                      <IntlMessages id="todo.cancel" />
+                                                    </Button>
+                                                  </ModalFooter>
+                                                </Modal>
                                               </div>
                                           </div>
                                         </div>
                                       </Card>
                                     </div>     
                                 ))
-      completeTaskLabel = <Label className="list-item-heading">
-                            Complete tasks:
-                          </Label>
+      completeTaskLabel = <h3>Complete tasks:</h3>
       }
 
     return <div>

@@ -25,10 +25,11 @@ module.exports = {
   "todo.categories": "Categories",
   "todo.labels": "Labels",
   "todo.show": "Show: ",
-  "todo.add-planneritem": "Add",
+  "todo.add-planneritem": "ADD",
   "todo.delete-planneritem": "Delete",
   "todo.exportimage": "Export image",
   "todo.complete": "MARK AS COMPLETE",
   "todo.incomplete": "MARK AS INCOMPLETE",
-  "todo.save": "SAVE"
+  "todo.save": "SAVE",
+  "todo.confirm": "CONFIRM"
 };
