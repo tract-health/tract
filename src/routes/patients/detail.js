@@ -104,10 +104,11 @@ class PatientsDetail extends Component {
       deleteModalOpen: false,
       completeModalOpen: false,
       inCompleteModalOpen: false,
+      modalIndex: 0,
 
       defaultPlannerItem: {
-        createdDate: new Date().toLocaleDateString('en-UK'),
-        updatedDate: new Date().toLocaleDateString('en-UK'),
+        createdDate: new Date().toLocaleString('en-UK'),
+        updatedDate: new Date().toLocaleString('en-UK'),
         issue: '',
         action: '',
         note: '',
@@ -115,8 +116,8 @@ class PatientsDetail extends Component {
       },
       defaultPlannerItems: [
         {
-          createdDate: new Date().toLocaleDateString('en-UK'),
-          updatedDate: new Date().toLocaleDateString('en-UK'),
+          createdDate: new Date().toLocaleString('en-UK'),
+          updatedDate: new Date().toLocaleString('en-UK'),
           issue: '',
           action: '',
           note: '',
@@ -146,6 +147,18 @@ class PatientsDetail extends Component {
     };
   }
 
+  //Comparer Function    
+  GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] < b[prop]) {    
+            return 1;    
+        } else if (a[prop] > b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+  }   
+
   componentDidMount() {
     this.props.getSurveyDetail();
     if (this.status === "Active") {
@@ -156,7 +169,7 @@ class PatientsDetail extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props.match.params);
+    //console.log(this.props.match.params);
     this.date = this.props.match.params.date;
     // update survey
     const patientSurvey = this.getSurvey();
@@ -170,32 +183,45 @@ class PatientsDetail extends Component {
     }
     // update planner
     const patientPlanner = this.getPlanner();
+
     if (!this.patientPlannerUpdated) {
+      // // sort plannerItems by updatedDate 
+      // let plannerItems;
+      // if (patientPlanner) {
+      //   plannerItems = patientPlanner.data;
+      //   plannerItems = plannerItems.sort(this.GetSortOrder('updatedDate'))
+      // } else {
+      //   plannerItems = this.state.defaultPlannerItems
+      // }
       this.setState({
         warningMessage: "",
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
         plannerItems: patientPlanner ? patientPlanner.data : this.state.defaultPlannerItems,
+        //plannerItems: plannerItems,
         displayPlannerItems: patientPlanner ? patientPlanner.data : this.state.defaultPlannerItems
       });
       this.patientPlannerUpdated = true
     }
   }
 
-  toggleDeleteModal() {
+  toggleDeleteModal(index) {
     this.setState({
-      deleteModalOpen: !this.state.deleteModalOpen
+      deleteModalOpen: !this.state.deleteModalOpen,
+      modalIndex: index
     });
   }
 
-  toggleCompleteModal() {
+  toggleCompleteModal(index) {
     this.setState({
-      completeModalOpen: !this.state.completeModalOpen
+      completeModalOpen: !this.state.completeModalOpen,
+      modalIndex: index
     });
   }
 
-  toggleInCompleteModal() {
+  toggleInCompleteModal(index) {
     this.setState({
-      inCompleteModalOpen: !this.state.inCompleteModalOpen
+      inCompleteModalOpen: !this.state.inCompleteModalOpen,
+      modalIndex: index
     });
   }
 
@@ -332,8 +358,133 @@ class PatientsDetail extends Component {
     this.setState(prevState => ({
       dropdownSplitOpen: !prevState.dropdownSplitOpen
     }));
+  } 
+
+  // new planner without calendar
+  getPlanner() {
+    const patient = this.getPatient();
+    if (patient) {
+      // no datepicker for planner
+      return patient.planner ? patient.planner : null
+    }
+    return null
+  }
+
+  handleSavePlanner() {
+    if (this.patientId) {
+      // const plannerId = this.getDate();
+      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planner`;
+
+      // check if planner is entirely empty
+      let isPlannerEmpty = true;
+      //console.log(this.state.plannerItems);
+      if (this.state.plannerItems) {
+        for (let i = 0; i < this.state.plannerItems.length; i++) {
+          let plannerItem = this.state.plannerItems[i];
+          if (plannerItem.issue || plannerItem.action || plannerItem.note) {
+            isPlannerEmpty = false;
+            break;
+          }
+        }
+      }
+      if (isPlannerEmpty) {
+        this.setState({
+          warningMessage: `Cannot save an empty planner!`,
+        });
+        return;
+      } else {
+        // cut empty incomplete entries
+        let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
+        for (let i = 0; i < plannerItems.length; i++) {
+          if (plannerItems[i].issue.length === 0 && plannerItems[i].action.length === 0 && plannerItems[i].note.length === 0) {
+            plannerItems.splice(i, 1);
+            i--;
+          }
+        }
+        // null warning message
+        this.setState({
+          plannerItems,
+          warningMessage: ``,
+        });
+        // save planner into database
+        return database.ref(plannerPath).set({
+          data: plannerItems
+        }).then(response => {
+          this.props.getPatientsList();
+        }).catch(error => error);
+      }
+    }
   }
   
+  handlePlannerChange(i, type, event) {
+    console.log("i for change", i);
+    // if active patient then allow changes
+    if (this.status === 'Active') {
+      // check if incomplete task and allow changes
+        let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+        if (type === 'issue') {
+          plannerItems[i].issue = event.target.value;
+        } else if (type === 'action') {
+          plannerItems[i].action = event.target.value;
+        } else if (type === 'note') {
+          plannerItems[i].note = event.target.value;
+        }
+        plannerItems[i].updatedDate = new Date().toLocaleString('en-UK');
+        this.setState({ 
+          plannerItems,
+          //warningMessage: `You have unsaved changes!`
+        }); 
+      } else {
+        // if discharged patient then simply do nothing
+      }
+  }
+
+  handlePlannerItemComplete(i, type, event) {
+    console.log("i for complete", i);
+    // check if there are unsaved changes
+    if (this.state.warningMessage.length > 0) {
+      this.setState({ 
+        warningMessage: `You have unsaved changes! Please save first before marking task as complete!`
+      });
+    } else {
+      let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+      plannerItems[i].complete = !plannerItems[i].complete;
+      plannerItems[i].updatedDate = new Date().toLocaleString('en-UK');
+      
+      this.setState({ 
+        plannerItems,
+      }, this.handleSavePlanner); 
+      if (type === 'complete') {
+        this.toggleCompleteModal();
+      } else if (type === 'incomplete') {
+        this.toggleInCompleteModal();
+      }
+    }
+  }
+
+  addPlannerItemClick() {
+    this.setState(prevState => ({
+      plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
+      // warningMessage: `You have unsaved changes!`
+    }))
+  }
+
+  removePlannerItemClick(i)  {
+    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+    plannerItems.splice(i, 1);
+    this.setState({ 
+      plannerItems,
+    }, this.handleSavePlanner); 
+    this.toggleDeleteModal();
+  }
+
+  handlePlannerSubmit(event) {
+    alert('A planner was submitted: ' + this.state.plannerItems.join(', '));
+    event.preventDefault();
+  }
+
+
+  // old planner implementation
   getPlanner1() {
     const patient = this.getPatient();
     if (patient) {
@@ -458,129 +609,6 @@ class PatientsDetail extends Component {
     event.preventDefault();
   }
 
-
-  // new planner without calendar
-  getPlanner() {
-    const patient = this.getPatient();
-    if (patient) {
-      // no datepicker for planner
-      return patient.planner ? patient.planner : null
-    }
-    return null
-  }
-
-  handleSavePlanner() {
-    if (this.patientId) {
-      // const plannerId = this.getDate();
-      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planner`;
-
-      // check if planner is entirely empty
-      let isPlannerEmpty = true;
-      console.log(this.state.plannerItems);
-      if (this.state.plannerItems) {
-        for (let i = 0; i < this.state.plannerItems.length; i++) {
-          let plannerItem = this.state.plannerItems[i];
-          if (plannerItem.issue || plannerItem.action || plannerItem.note) {
-            isPlannerEmpty = false;
-            break;
-          }
-        }
-      }
-      if (isPlannerEmpty) {
-        this.setState({
-          warningMessage: `Cannot save an empty planner!`,
-        });
-        return;
-      } else {
-        // cut empty incomplete entries
-        let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
-        for (let i = 0; i < plannerItems.length; i++) {
-          if (plannerItems[i].issue.length === 0 && plannerItems[i].action.length === 0 && plannerItems[i].note.length === 0) {
-            plannerItems.splice(i, 1);
-            i--;
-          }
-        }
-        // null warning message
-        this.setState({
-          plannerItems,
-          warningMessage: ``,
-        });
-        // save planner into database
-        return database.ref(plannerPath).set({
-          data: plannerItems
-        }).then(response => {
-          this.props.getPatientsList();
-        }).catch(error => error);
-      }
-    }
-  }
-  
-  handlePlannerChange(i, type, event) {
-    // if active patient then allow changes
-    if (this.status === 'Active') {
-      // check if incomplete task and allow changes
-        let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-        if (type === 'issue') {
-          plannerItems[i].issue = event.target.value;
-        } else if (type === 'action') {
-          plannerItems[i].action = event.target.value;
-        } else if (type === 'note') {
-          plannerItems[i].note = event.target.value;
-        }
-        plannerItems[i].updatedDate = new Date().toLocaleDateString('en-UK');
-        this.setState({ 
-          plannerItems,
-          //warningMessage: `You have unsaved changes!`
-        }); 
-      } else {
-        // if discharged patient then simply do nothing
-      }
-  }
-
-  handlePlannerItemComplete(i, type, event) {
-    // check if there are unsaved changes
-    if (this.state.warningMessage.length > 0) {
-      this.setState({ 
-        warningMessage: `You have unsaved changes! Please save first before marking task as complete!`
-      });
-    } else {
-      let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-      plannerItems[i].complete = !plannerItems[i].complete;
-      plannerItems[i].updatedDate = new Date().toLocaleDateString('en-UK');
-      
-      this.setState({ 
-        plannerItems,
-      }, this.handleSavePlanner); 
-      if (type === 'complete') {
-        this.toggleCompleteModal();
-      } else if (type === 'incomplete') {
-        this.toggleInCompleteModal();
-      }
-
-    }
-  }
-
-  addPlannerItemClick() {
-    this.setState(prevState => ({
-      plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
-      // warningMessage: `You have unsaved changes!`
-    }))
-  }
-
-  removePlannerItemClick(i)  {
-    let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-    plannerItems.splice(i, 1);
-    this.setState({ 
-      plannerItems,
-    }, this.handleSavePlanner); 
-    this.toggleDeleteModal();
-  }
-
-  handlePlannerSubmit(event) {
-    alert('A planner was submitted: ' + this.state.plannerItems.join(', '));
-    event.preventDefault();
-  }
-
   createPlannerUI() {
 
     let warningBox;
@@ -605,10 +633,14 @@ class PatientsDetail extends Component {
         plannerCardClass.push("d-flex flex-grow-1 min-width-zero flex-row card-planner-noncomplete")
       }
     }
+
     let incompleteTaskList = [];
+    let completeTaskList = [];
     for (let i = 0; i < this.state.plannerItems.length; i++) {
       if (this.state.plannerItems[i].complete === false) {
         incompleteTaskList.push([this.state.plannerItems[i], i])
+      } else {
+        completeTaskList.push([this.state.plannerItems[i], i])
       }
     }
 
@@ -677,22 +709,22 @@ class PatientsDetail extends Component {
                                                   color="primary"
                                                   size="sm"
                                                   //onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
-                                                  onClick={this.toggleCompleteModal}
+                                                  onClick={() => this.toggleCompleteModal(plannerItem[1])}
                                                 >
                                                   <IntlMessages id="todo.complete" />
                                                 </Button>
                                                 <Modal isOpen={this.state.completeModalOpen} toggle={this.toggleCompleteModal} wrapClassName="modal-middle" backdrop="static">
-                                                  <ModalHeader toggle={this.toggleCompleteModal}>
+                                                  <ModalHeader>
                                                     Are you sure?
                                                   </ModalHeader>
                                                   <ModalBody>
                                                     <p>Do you really want to mark this task as complete?</p>
                                                   </ModalBody>
                                                   <ModalFooter>
-                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1], 'complete')}>
+                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, this.state.modalIndex, 'complete')}>
                                                       <IntlMessages id="todo.confirm" />
                                                     </Button>
-                                                    <Button color="primary" outline onClick={this.toggleCompleteModal}>
+                                                    <Button color="primary" outline onClick={() => this.toggleCompleteModal(0)}>
                                                       <IntlMessages id="todo.cancel" />
                                                     </Button>
                                                   </ModalFooter>
@@ -705,12 +737,12 @@ class PatientsDetail extends Component {
                                                 hidden={this.status !== "Active"}
                                                 close
                                                 //onClick={this.removePlannerItemClick.bind(this, plannerItem[1])}
-                                                onClick={this.toggleDeleteModal}
+                                                onClick={() => this.toggleDeleteModal(plannerItem[1])}
                                                 >
                                                 <span aria-hidden="true">&times;</span>
                                               </Button>
                                               <Modal isOpen={this.state.deleteModalOpen} toggle={this.toggleDeleteModal} wrapClassName="modal-middle" backdrop="static">
-                                                <ModalHeader toggle={this.toggleDeleteModal}>
+                                                <ModalHeader>
                                                   Are you sure?
                                                 </ModalHeader>
                                                 <ModalBody>
@@ -718,10 +750,10 @@ class PatientsDetail extends Component {
                                                   <p>This action cannot be undone!</p>
                                                 </ModalBody>
                                                 <ModalFooter>
-                                                  <Button color="primary" onClick={this.removePlannerItemClick.bind(this, plannerItem[1])}>
+                                                  <Button color="primary" onClick={this.removePlannerItemClick.bind(this, this.state.modalIndex)}>
                                                     <IntlMessages id="todo.confirm" />
                                                   </Button>
-                                                  <Button color="primary" outline onClick={this.toggleDeleteModal}>
+                                                  <Button color="primary" outline onClick={() => this.toggleDeleteModal(0)}>
                                                     <IntlMessages id="todo.cancel" />
                                                   </Button>
                                                 </ModalFooter>
@@ -731,13 +763,6 @@ class PatientsDetail extends Component {
                                         </Card>
                                       </div>     
                                   ))
-      }
-
-    let completeTaskList = [];
-      for (let i = 0; i < this.state.plannerItems.length; i++) {
-        if (this.state.plannerItems[i].complete === true) {
-          completeTaskList.push([this.state.plannerItems[i], i])
-        }
       }
 
     let completePlannerItemList;
@@ -793,22 +818,22 @@ class PatientsDetail extends Component {
                                                   size="sm"
                                                   className="mt-2 mr-2"
                                                   //onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1])}
-                                                  onClick={this.toggleInCompleteModal}
+                                                  onClick={() => this.toggleInCompleteModal(plannerItem[1])}
                                                 >
                                                   <IntlMessages id="todo.incomplete" />
                                                 </Button>
                                                 <Modal isOpen={this.state.inCompleteModalOpen} toggle={this.toggleInCompleteModal} wrapClassName="modal-middle" backdrop="static">
-                                                  <ModalHeader toggle={this.toggleInCompleteModal}>
+                                                  <ModalHeader>
                                                     Are you sure?
                                                   </ModalHeader>
                                                   <ModalBody>
                                                     <p>Do you really want to mark this task as incomplete?</p>
                                                   </ModalBody>
                                                   <ModalFooter>
-                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, plannerItem[1], 'incomplete')}>
+                                                    <Button color="primary" onClick={this.handlePlannerItemComplete.bind(this, this.state.modalIndex, 'incomplete')}>
                                                       <IntlMessages id="todo.confirm" />
                                                     </Button>
-                                                    <Button color="primary" outline onClick={this.toggleInCompleteModal}>
+                                                    <Button color="primary" outline onClick={() => this.toggleInCompleteModal(0)}>
                                                       <IntlMessages id="todo.cancel" />
                                                     </Button>
                                                   </ModalFooter>
