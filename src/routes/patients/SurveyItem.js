@@ -170,18 +170,19 @@ export default class SurveyItem extends React.Component {
     }
 
     let listItem;
+    // if the item is not the overall score
     if (this.props.order !== "S") {
       listItem = 
         <div className="d-flex flex-grow-1 min-width-zero">
           <div 
-            className="card-body card-assessment align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
-            <div className="list-item-heading mb-0 truncate w-50 mb-1 mt-1">
+            className="card-body card-assessment align-self-center d-flex flex-column justify-content-between min-width-zero ">
+            <div className="list-item-heading truncate mb-2 mt-1">
               <span className="heading-number d-inline-block">
                 {this.props.order}
               </span>
               {this.state.title}
             </div>
-            <div className="list-item-heading align-self-center d-flex justify-content-between align-items-md-center">
+            <div className="list-item-heading align-self-center d-flex justify-content-between align-items-sm-center">
               <a href="#" onClick={onClick}>
                 <span className={naClass} style={naStyle} data-id={id}>N/A</span>
               </a>
@@ -217,6 +218,7 @@ export default class SurveyItem extends React.Component {
           </div>
         </div>
     } else {
+      // if the item is the overall score
       listItem = 
         <div className={listItemCardOverallClass}>
           <div className="card-body card-assessment align-self-center flex-column justify-content-between min-width-zero align-items-md-center">
