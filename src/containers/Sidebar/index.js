@@ -244,7 +244,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "patients"})}}
                     style = {hightlightedMenuText}
                   >
-                    <i className="iconsmind-Digital-Drawing" />{" "}
+                    <i className="iconsmind-MaleFemale" />{" "}
                     <div style={menuStyle}>Patient<br />assessment</div>
                   </NavLink>
                 </NavItem>
@@ -257,7 +257,7 @@ class Sidebar extends Component {
                     to="/app/ward"
                     onClick={e => {this.setState({selectedMenu: "ward"})}}
                   >
-                    <i className="iconsmind-Air-Balloon" />{" "}
+                    <i className="iconsmind-Hospital" />{" "}
                     <div style={menuStyle}>Caseload</div>
                   </NavLink>
                 </NavItem>
@@ -270,7 +270,7 @@ class Sidebar extends Component {
                     to="/app/factors"
                     onClick={e => {this.setState({selectedMenu: "factors"})}}
                   >
-                    <i className="iconsmind-Shop-4" />{" "}
+                    <i className="iconsmind-Digital-Drawing" />{" "}
                     <div style={menuStyle}>TRACT factors</div>
                   </NavLink>
                 </NavItem>
