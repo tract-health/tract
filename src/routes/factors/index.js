@@ -29,6 +29,8 @@ import moment from 'moment';
 import * as htmlToImage from 'html-to-image';
 import { saveAs } from 'file-saver';
 
+import { ThemeColors } from "Util/ThemeColors";
+
 class Factors extends Component {
   constructor(props) {
     super(props);
@@ -144,6 +146,45 @@ class Factors extends Component {
       }
     }
 
+    let naClass = "mr-2 badge badge-pill na";
+    let naStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().naColor,
+      color: "#fff"
+    }
+    let verylowClass = "mr-2 badge badge-pill verylow";
+    let verylowStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().verylowColor,
+      color: "#fff"
+    }
+    let lowClass = "mr-2 badge badge-pill low";
+    let lowStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().lowColor,
+      color: "#fff"
+    }
+    let mediumClass = "mr-2 badge badge-pill medium";
+    let mediumStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().mediumColor,
+      color: "#fff"
+    }
+
+    let highClass = "mr-2 badge badge-pill high";
+    let highStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().highColor,
+      color: "#fff"
+    }
+
+    let veryhighClass = "badge badge-pill veryhigh";
+    let veryhighStyle = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().veryhighColor,
+      color: "#fff"
+    }
+
     let title = <IntlMessages id="menu.factors" />
 
     return (
@@ -165,12 +206,12 @@ class Factors extends Component {
               <div className="mb-4 mr-5 float-sm-right">
                 <Row>
                   <div className="ml-3 mr-2">Heatmap:</div>
-                  <div className="mr-2"><Badge color="na" pill>N/A</Badge></div>
-                  <div className="mr-2"><Badge color="verylow" pill>VERY LOW</Badge></div>
-                  <div className="mr-2"><Badge color="low" pill>LOW</Badge></div>
-                  <div className="mr-2"><Badge color="medium" pill>MEDIUM</Badge></div>
-                  <div className="mr-2"><Badge color="high" pill>HIGH</Badge></div>
-                  <div><Badge color="veryhigh" pill>VERY HIGH</Badge></div>
+                  <div className={naClass} style={naStyle}>N/A</div>
+                  <div className={verylowClass} style={verylowStyle}>VERY LOW</div>
+                  <div className={lowClass} style={lowStyle}>LOW</div>
+                  <div className={mediumClass} style={mediumStyle}>MEDIUM</div>
+                  <div className={highClass} style={highStyle}>HIGH</div>
+                  <div className={veryhighClass} style={veryhighStyle}>VERY HIGH</div>
                 </Row>
               </div>
               <div className="mb-2">
