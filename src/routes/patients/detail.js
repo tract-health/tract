@@ -190,33 +190,34 @@ class PatientsDetail extends Component {
     // update planner
     const patientPlanner = this.getPlanner();
     if (!this.patientPlannerUpdated) {
-      // // sort plannerItems by updatedDate 
-      // let plannerItems;
-      // if (patientPlanner) {
-      //   plannerItems = patientPlanner.data;
-      //   plannerItems = plannerItems.sort(this.GetSortOrder('updatedDate'))
-      // } else {
-      //   plannerItems = this.state.defaultPlannerItems
-      // }
-
-      // if active patient then get a default planner item
-      if (this.status === 'Active') {
-        this.setState({
-          warningMessage: "",
-          embeddedDate: moment(this.date, "YYYY-MM-DD"),
-          plannerItems: patientPlanner ? patientPlanner.data : this.state.defaultPlannerItems,
-          displayPlannerItems: patientPlanner ? patientPlanner.data : this.state.defaultPlannerItems
-        });
+      // sort plannerItems by updatedDate 
+      let plannerItems;
+      let displayPlannerItems;
+      if (patientPlanner) {
+        // if there is planner data in the database
+        plannerItems = patientPlanner.data;
+        displayPlannerItems = patientPlanner.data;
+        plannerItems = plannerItems.sort(this.GetSortOrder('updatedDate'))
+        displayPlannerItems = displayPlannerItems.sort(this.GetSortOrder('updatedDate'))
+      } else if (this.status !== 'Active') {
+        // if the patient is not active and no planner data in the database
+        plannerItems = null;
+        displayPlannerItems = null;
       } else {
-        // if discharged patient then no need to add a default planner item, it will just be empty
-        this.setState({
-          warningMessage: "",
-          embeddedDate: moment(this.date, "YYYY-MM-DD"),
-          plannerItems: patientPlanner ? patientPlanner.data : null,
-          displayPlannerItems: patientPlanner ? patientPlanner.data : null
-        });
+        // if no data in the database but not inactive patient
+        plannerItems = this.state.defaultPlannerItems;
+        displayPlannerItems = this.state.defaultPlannerItems;
       }
 
+      // set the displayed and true planner items
+      this.setState({
+        warningMessage: "",
+        embeddedDate: moment(this.date, "YYYY-MM-DD"),
+        plannerItems: plannerItems,
+        displayPlannerItems: displayPlannerItems
+      });
+
+      // mark the update is done
       this.patientPlannerUpdated = true
     }
   }
@@ -428,6 +429,8 @@ class PatientsDetail extends Component {
           data: plannerItems
         }).then(response => {
           this.props.getPatientsList();
+          // update planner through boolean
+          //this.patientPlannerUpdated = false;
         }).catch(error => error);
       }
     }
@@ -469,12 +472,16 @@ class PatientsDetail extends Component {
       // adjust plannerItems accordingly
       let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
       plannerItems[i] = displayPlannerItems[i];
-      
+
       // update planners and then save the planner item by index
       this.setState({ 
         plannerItems,
         displayPlannerItems,
-      }, () => this.handleSavePlannerItem(i)); 
+      }, () => {
+        this.handleSavePlannerItem(i);
+        // update planner through boolean
+        //this.patientPlannerUpdated = false;
+      }); 
     }
     // close correct modal depending on completing or uncompleting task
     if (type === 'complete') {
