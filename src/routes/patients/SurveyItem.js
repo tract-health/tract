@@ -5,6 +5,8 @@ import {
   Collapse,
 } from "reactstrap";
 
+import { ThemeColors } from "Util/ThemeColors";
+
 export default class SurveyItem extends React.Component {
   constructor(...params) {
     super(...params);
@@ -113,46 +115,100 @@ export default class SurveyItem extends React.Component {
   render() {
     const {definition, questions, surveyItem, onClick, id} = this.props;
 
-    let naClass = "mb-1 badge badge-outline-na badge-pill na";
-    let naStyle = null;
+    let naClass = "mb-1 badge badge-pill na";
+    let naStyle = {
+      color: ThemeColors().naColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().naColor
+    };
     if (surveyItem === "na") {
-      naClass = "mb-1 badge badge-na badge-pill na";
-      naStyle = { border: "1px transparent solid" }
+      naClass = "mb-1 badge badge-pill na";
+      naStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().naColor,
+        color: "#fff"
+      }
     }
 
-    let verylowClass = "mb-1 badge badge-outline-verylow badge-pill verylow";
-    let verylowStyle = null;
+    let verylowClass = "mb-1 badge badge-pill verylow";
+    let verylowStyle = {
+      color: ThemeColors().verylowColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().verylowColor
+    };
     if (surveyItem === "verylow") {
-      verylowClass = "mb-1 badge badge-verylow badge-pill verylow";
-      verylowStyle = { border: "1px transparent solid" }
+      verylowClass = "mb-1 badge badge-pill verylow";
+      verylowStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().verylowColor,
+        color: "#fff"
+      }
     }
 
-    let lowClass = "mb-1 badge badge-outline-low badge-pill low";
-    let lowStyle = null;
+    let lowClass = "mb-1 badge badge-pill low";
+    let lowStyle = {
+      color: ThemeColors().lowColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().lowColor
+    };
     if (surveyItem === "low") {
-      lowClass = "mb-1 badge badge-low badge-pill low";
-      lowStyle = { border: "1px transparent solid" }
+      lowClass = "mb-1 badge badge-pill low";
+      lowStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().lowColor,
+        color: "#fff"
+      }
     }
 
-    let mediumClass = "mb-1 badge badge-outline-medium badge-pill medium";
-    let mediumStyle = null;
+    let mediumClass = "mb-1 badge badge-pill medium";
+    let mediumStyle = {
+      color: ThemeColors().mediumColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().mediumColor
+    };
     if (surveyItem === "medium") {
-      mediumClass = "mb-1 badge badge-medium badge-pill medium";
-      mediumStyle = { border: "1px transparent solid" }
+      mediumClass = "mb-1 badge badge-pill medium";
+      mediumStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().mediumColor,
+        color: "#fff"
+      }
     }
 
-    let highClass = "mb-1 badge badge-outline-high badge-pill high";
-    let highStyle = null;
+    let highClass = "mb-1 badge badge-pill high";
+    let highStyle = {
+      color: ThemeColors().highColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().highColor
+    };
     if (surveyItem === "high") {
-      highClass = "mb-1 badge badge-high badge-pill high";
-      highStyle = { border: "1px transparent solid" }
+      highClass = "mb-1 badge badge-pill high";
+      highStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().highColor,
+        color: "#fff"
+      }
     }
 
-    let veryhighClass = "mb-1 badge badge-outline-veryhigh badge-pill veryhigh";
-    let veryhighStyle = null;
+    let veryhighClass = "mb-1 badge badge-pill veryhigh";
+    let veryhighStyle = {
+      color: ThemeColors().veryhighColor,
+      background: "unset",
+      border: "1px solid",
+      borderColor: ThemeColors().veryhighColor
+    };
     if (surveyItem === "veryhigh") {
-      veryhighClass = "mb-1 badge badge-veryhigh badge-pill veryhigh";
-      veryhighStyle = { border: "1px transparent solid" }
+      veryhighClass = "mb-1 badge badge-pill veryhigh";
+      veryhighStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors().veryhighColor,
+        color: "#fff"
+      }
     }
 
     let listItemCardClass

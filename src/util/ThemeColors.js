@@ -15,6 +15,20 @@
       themeColor6_10 : rootStyle.getPropertyValue("--theme-color-3-10").trim(),
       primaryColor: rootStyle.getPropertyValue("--primary-color").trim(),
       foregroundColor: rootStyle.getPropertyValue("--foreground-color").trim(),
-      separatorColor: rootStyle.getPropertyValue("--separator-color").trim()
+      separatorColor: rootStyle.getPropertyValue("--separator-color").trim(),
+      /* traffic light heatmap */
+      naColor: "#d3d3d3",
+      verylowColor: "#2dc937",
+      lowColor: "#99c140",
+      mediumColor: "#e7b416",
+      highColor: "#db7b2b",
+      veryhighColor: "#cc3232"
+      /* colourblind traffic light heatmap */
+      // naColor: "#d3d3d3",
+      // verylowColor: "#e5fe7b",
+      // lowColor: "#fee919",
+      // mediumColor: "#e7b416",
+      // highColor: "#db7b2b",
+      // veryhighColor: "#cc3232"
   }
 };
