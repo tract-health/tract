@@ -230,33 +230,38 @@ export default class SurveyItem extends React.Component {
     if (this.props.order !== "S") {
       listItem = 
         <div className="d-flex flex-grow-1 min-width-zero">
-          <div 
-            className="card-body card-assessment align-self-center d-flex flex-column justify-content-between min-width-zero ">
-            <div className="list-item-heading truncate mb-2 mt-1">
-              <span className="heading-number d-inline-block">
-                {this.props.order}
-              </span>
-              {this.state.title}
-            </div>
-            <div className="list-item-heading align-self-center d-flex justify-content-between align-items-sm-center">
-              <a href="#" onClick={onClick}>
-                <span className={naClass} style={naStyle} data-id={id}>N/A</span>
-              </a>
-              <a href="#" onClick={onClick} className="ml-2">
-                <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
-              </a>
-              <a href="#" onClick={onClick} className="ml-2">
-                <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
-              </a>
-              <a href="#" onClick={onClick} className="ml-2">
-                <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
-              </a>
-              <a href="#" onClick={onClick} className="ml-2 mr-2">
-                <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
-              </a>
-              <a href="#" onClick={onClick}>
-                <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
-              </a>
+          <div className="card-body card-assessment">
+            <div className="row align-items-center">
+              <div className="col text-nowrap">
+                <div className="list-item-heading mb-2 mt-1">
+                  <span className="heading-number d-inline-block">
+                    {this.props.order}
+                  </span>
+                  {this.state.title}
+                </div>
+              </div>
+              <div className="col justify-content-center d-flex">
+                <div className="list-item-heading d-flex">
+                  <a href="#" onClick={onClick}>
+                    <span className={naClass} style={naStyle} data-id={id}>N/A</span>
+                  </a>
+                  <a href="#" onClick={onClick} className="ml-2">
+                    <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+                  </a>
+                  <a href="#" onClick={onClick} className="ml-2">
+                    <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
+                  </a>
+                  <a href="#" onClick={onClick} className="ml-2">
+                    <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
+                  </a>
+                  <a href="#" onClick={onClick} className="ml-2 mr-2">
+                    <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+                  </a>
+                  <a href="#" onClick={onClick}>
+                    <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
@@ -270,55 +275,48 @@ export default class SurveyItem extends React.Component {
             >
               <i className="simple-icon-arrow-down" />
             </Button>
-
           </div>
         </div>
     } else {
       // if the item is the overall score
       listItem = 
         <div className={listItemCardOverallClass}>
-          <div className="card-body card-assessment align-self-center flex-column justify-content-between min-width-zero align-items-md-center">
-            <div className="d-flex flex-md-row">
-              <div className="list-item-heading mb-0 truncate w-50 mb-1 mt-1">
-                {this.state.title}
+          <div className="card-body card-assessment d-flex">
+            <div className="col">
+              <div className="row align-items-center">
+                <div className="col text-nowrap">
+                  <div className="list-item-heading mb-2 mt-1">
+                    {this.state.title}
+                  </div>
+                </div>
+                <div className="col justify-content-center d-flex">
+                  <div className="list-item-heading d-flex">
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2 mr-2">
+                      <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+                    </a>
+                    <a href="#" onClick={onClick}>
+                      <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
+                    </a>
+                  </div>
+                </div>
               </div>
-              <div className="list-item-heading align-self-center d-flex justify-content-between align-items-md-center mr-4">
-                <a href="#" onClick={onClick} className="ml-2">
-                  <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
-                </a>
-                <a href="#" onClick={onClick} className="ml-2">
-                  <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
-                </a>
-                <a href="#" onClick={onClick} className="ml-2">
-                  <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
-                </a>
-                <a href="#" onClick={onClick} className="ml-2 mr-2">
-                  <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
-                </a>
-                <a href="#" onClick={onClick}>
-                  <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
-                </a>
+              <div className="row ml-1 mt-3">
+                <div className="list-item" style={{ fontSize: "0.8rem", fontWeight: "normal" }}>
+                  {definition}
+                </div>
               </div>
             </div>
-            <div className="ml-2 mt-4 list-item align-self-center d-flex flex-md-row justify-content-between align-items-md-center"
-             style={{ fontSize: "0.8rem", fontWeight: "normal" }}>
-              {definition}
-            </div>
-          
+            
           </div>
-          {/* removed collapse button */}
-          {/* <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
-            <Button
-              outline
-              color={"theme-3"}
-              className={`icon-button ml-1 rotate-icon-click ${
-                this.state.collapse ? "rotate" : ""
-              }`}
-              onClick={this.toggleClick}
-            >
-              <i className="simple-icon-arrow-down" />
-            </Button>
-          </div> */}
         </div>
     }
 
