@@ -219,10 +219,11 @@ class Sidebar extends Component {
       "textAlign": "center"
     };
     let highlightedMenuItem = {
-      "backgroundColor": ThemeColors().themeColor5,
+      filter: "invert(0.10)"
+      //"backgroundColor": ThemeColors().themeColor5,
     };
     let hightlightedMenuText = {
-      "color": "#fff"
+      fontWeight: "bold"
     }
 
     return (
@@ -244,7 +245,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "patients"})}}
                     style = {hightlightedMenuText}
                   >
-                    <i className="iconsmind-MaleFemale" />{" "}
+                    <i className="iconsmind-MaleFemale" style={hightlightedMenuText}/>{" "}
                     <div style={menuStyle}>Patient<br />assessment</div>
                   </NavLink>
                 </NavItem>
