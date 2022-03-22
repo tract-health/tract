@@ -87,12 +87,20 @@ $warning-color: #b69329;
 $error-color: #c43d4b;
 
 /* traffic light heatmap */
+// $na-color: lightgrey;
+// $verylow-color:#2dc937;
+// $low-color: #99c140;
+// $medium-color: #e7b416;
+// $high-color: #db7b2b;
+// $veryhigh-color: #cc3232;
+
+// welsh levels of care heatmap
 $na-color: lightgrey;
-$verylow-color:#2dc937;
-$low-color: #99c140;
-$medium-color: #e7b416;
-$high-color: #db7b2b;
-$veryhigh-color: #cc3232;
+$verylow-color:#92cddc;
+$low-color: #92d050;
+$medium-color: #f0f003;
+$high-color: #ffc000;
+$veryhigh-color: #ff0000;
 
 /* colourblind traffic light heatmap */
 // $na-color: grey;
