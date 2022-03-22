@@ -44,18 +44,18 @@
         "definition": "Factors relating to an individual's psychological status that may impact on trajectory management",
         "questions": [
           "Is care trajectory management affected by the psychological impact of an illness or injury?",
-          "Is care trajectory management affected by the psychological impact of the illness orinjuryon the individual's family?",
+          "Is care trajectory management affected by the psychological impact of the illness or injury on the individual's family?",
           "Is the illness or injury life changing?"
         ]
       },
       {
         "id": 5,
         "factor": "Cognitive",
-        "definition": "Factors relating to an individual's cognitive status that ma impact on trajectory management",
+        "definition": "Factors relating to an individual's cognitive status that may impact on trajectory management",
         "questions": [
           "Does the individual have problems with memory that impact on care trajectory management?",
-          "Does the individual have problems with thinking skillsthat impact on care trajectory management?",
-          "Does the individual have a learning disabilitythat impact on care trajectory management?"
+          "Does the individual have problems with thinking skills that impact on care trajectory management?",
+          "Does the individual have a learning disability that impact on care trajectory management?"
         ]
       },
       {
@@ -72,7 +72,7 @@
         "factor": "Financial",
         "definition": "Factors relating to financial aspects of an individual's care that may impact on trajectory management",
         "questions": [
-          "Are there issues in relation to the funding of care arrangementsthat may impact on care trajectory management?"
+          "Are there issues in relation to the funding of care arrangements that may impact on care trajectory management?"
         ]
       },
       {
