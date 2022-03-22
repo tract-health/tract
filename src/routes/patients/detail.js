@@ -46,6 +46,8 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import { database } from '../../firebase'
 
+import { saveAs } from 'file-saver';
+
 const surveyData = [];
 
 
@@ -526,6 +528,28 @@ class PatientsDetail extends Component {
   handlePlannerSubmit(event) {
     alert('A planner was submitted: ' + this.state.plannerItems.join(', '));
     event.preventDefault();
+  }
+
+  exportPlanner() {
+    const patient = this.getPatient();
+    let data = [
+      ["Patient ID", patient.id],
+      ["Patient name", patient.name],
+      ["Patient admitted date", patient.createDate],
+      [''],
+      ["Planner item", "Created date", "Updated date", "Issue", "Action", "Notes", "Completion status"]
+    ]
+    for (let i = 0; i < this.state.plannerItems.length; i++) {
+      let item = this.state.plannerItems[i];
+      let createdDate = item.createdDate.substring(0, item.createdDate.indexOf(',')) + item.createdDate.substring(item.createdDate.indexOf(',') + 1, item.createdDate.length);
+      let updatedDate = item.updatedDate.substring(0, item.updatedDate.indexOf(',')) + item.updatedDate.substring(item.updatedDate.indexOf(',') + 1, item.updatedDate.length);
+      let complete = item.complete ? "Complete" : "Incomplete";
+      data.push([`Planner Item ${i}`, createdDate, updatedDate, item.issue, item.action, item.note, complete])
+    }
+ 
+    let csvContent = data.map(e => e.join(",")).join("\n");
+    let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, `Planner_${patient.id}.csv`)
   }
 
   // // old planner implementation
@@ -1238,7 +1262,7 @@ class PatientsDetail extends Component {
                         <p className="text-muted text-small mb-2">Name</p>
                         <p className="mb-3">{patient ? patient.name: null}</p>
 
-                        <p className="text-muted text-small mb-2">Created Date</p>
+                        <p className="text-muted text-small mb-2">Admitted Date</p>
                         <p className="mb-3">{patient ? patient.createDate: null}</p>
 
                       </CardBody>
@@ -1336,7 +1360,7 @@ class PatientsDetail extends Component {
                         <p className="text-muted text-small mb-2">Name</p>
                         <p className="mb-3">{patient ? patient.name: null}</p>
 
-                        <p className="text-muted text-small mb-2">Created Date</p>
+                        <p className="text-muted text-small mb-2">Admitted Date</p>
                         <p className="mb-3">{patient ? patient.createDate: null}</p>
 
                       </CardBody>
@@ -1363,6 +1387,16 @@ class PatientsDetail extends Component {
                         </Row>
                       </CardBody>
                     </Card>
+                    <div className="float-sm-right mt-3">
+                      <Button
+                        outline
+                        className="mb-4"
+                        color="primary"
+                        onClick={() => this.exportPlanner()}
+                        >
+                        <IntlMessages id="todo.exportplanner" />
+                      </Button>
+                    </div>
                   </Colxx>
 
                   <Colxx xxs="12" lg="8">
@@ -1391,7 +1425,7 @@ class PatientsDetail extends Component {
                 <li>
                   <NavLink to="#">
                     <i className="simple-icon-check" />
-                    Completed Surveys
+                    Completed assessments
                     <span className="float-right">{patient && patient.surveys ? Object.keys(patient.surveys).length : 0 }</span>{" "}
                   </NavLink>
                   {/* <NavLink to="#">
