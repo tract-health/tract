@@ -77,30 +77,30 @@ class PatientsDetail extends Component {
       surveyData: surveyData,
       embeddedDate: moment(this.date, "YYYY-MM-DD"),
       defaultSurvey: {
-        1: 'na',
-        2: 'na',
-        3: 'na',
-        4: 'na',
-        5: 'na',
-        6: 'na',
-        7: 'na',
-        8: 'na',
-        9: 'na',
-        10: 'na',
-        "S": 'na'
+        1: '',
+        2: '',
+        3: '',
+        4: '',
+        5: '',
+        6: '',
+        7: '',
+        8: '',
+        9: '',
+        10: '',
+        "S": ''
       },
       survey: {
-        1: 'na',
-        2: 'na',
-        3: 'na',
-        4: 'na',
-        5: 'na',
-        6: 'na',
-        7: 'na',
-        8: 'na',
-        9: 'na',
-        10: 'na',
-        "S": 'na'
+        1: '',
+        2: '',
+        3: '',
+        4: '',
+        5: '',
+        6: '',
+        7: '',
+        8: '',
+        9: '',
+        10: '',
+        "S": ''
       },
       warningMessage: '',
       deleteModalOpen: false,
@@ -286,7 +286,7 @@ class PatientsDetail extends Component {
       const surveyId = this.getDate();
       const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
 
-      if (this.state.survey.S === 'na') {
+      if (!this.state.survey.S) {
         this.setState({
           warningMessage: `Please decide for "Overall Tract Assessment"!`,
         });
@@ -331,34 +331,53 @@ class PatientsDetail extends Component {
     // if active patient, then allow changes
     if (this.status === 'Active') {
       const id = e.target.getAttribute('data-id');
-      let className = null;
-      if (e.target.classList.contains("na")) {
-        className = "na"
-      }
-      if (e.target.classList.contains("verylow")) {
-        className = "verylow"
-      }
-      if (e.target.classList.contains("low")) {
-        className = "low"
-      }
-      if (e.target.classList.contains("medium")) {
-        className = "medium"
-      }
-      if (e.target.classList.contains("high")) {
-        className = "high"
-      }
-      if (e.target.classList.contains("veryhigh")) {
-        className = "veryhigh"
-      }
-  
-      this.setState((prevState) => ({
-        ...prevState,
-        survey: {
-          ...prevState.survey,
-          [id]: prevState.survey[id] !== className ? className: null
-        },
-        warningMessage: `You have unsaved changes!`
-      }))
+      console.log(id);
+      // if click on overall assessment but other factors have not been selected first
+      if ((id === 'S') && 
+          (!this.state.survey['1'] ||
+          !this.state.survey['2'] ||
+          !this.state.survey['3'] ||
+          !this.state.survey['4'] ||
+          !this.state.survey['5'] ||
+          !this.state.survey['6'] ||
+          !this.state.survey['7'] ||
+          !this.state.survey['8'] ||
+          !this.state.survey['9'] ||
+          !this.state.survey['10'])) 
+        {
+          this.setState({
+            warningMessage: 'Please score all TRACT factors first before deciding for overall assessment!'
+          })
+      } else {
+        let className = null;
+        if (e.target.classList.contains("na")) {
+          className = "na"
+        }
+        if (e.target.classList.contains("verylow")) {
+          className = "verylow"
+        }
+        if (e.target.classList.contains("low")) {
+          className = "low"
+        }
+        if (e.target.classList.contains("medium")) {
+          className = "medium"
+        }
+        if (e.target.classList.contains("high")) {
+          className = "high"
+        }
+        if (e.target.classList.contains("veryhigh")) {
+          className = "veryhigh"
+        }
+    
+        this.setState((prevState) => ({
+          ...prevState,
+          survey: {
+            ...prevState.survey,
+            [id]: prevState.survey[id] !== className ? className: null
+          },
+          warningMessage: `You have unsaved changes!`
+        }))
+      }      
     } else {
       // do nothing because discharged patient
     }
