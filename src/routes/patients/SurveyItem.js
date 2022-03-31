@@ -114,73 +114,42 @@ export default class SurveyItem extends React.Component {
 
   render() {
     const {definition, questions, surveyItem, onClick, id} = this.props;
-
-    const generalClass = "mb-1 badge badge-pill";
-    const generalStyle = {
-      color: ThemeColors().themeColor1,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().themeColor1
+    
+    // set up badge colours
+    function setupColor(id) {
+      let resultClass = "mb-1 badge badge-pill " + id;
+      let resultStyle = {
+        color: ThemeColors()[id + 'Color'],
+        background: "unset",
+        //color: ThemeColors().primaryColor,
+        //backgroundColor: ThemeColors()[id + 'Color'] + '15',
+        border: "1px solid",
+        borderColor: ThemeColors()[id + 'Color']
+      };
+      if (surveyItem === id) {
+        resultStyle = {
+          border: "1px transparent solid",
+          backgroundColor: ThemeColors()[id + 'Color'],
+          color: ThemeColors().primaryColor
+        };
+      }
+      return {
+        "class": resultClass,
+        "style": resultStyle
+      }
     }
-    const generalStylePressed = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().themeColor1,
-      color: ThemeColors().primaryColor
-    }
-
-    let naClass = JSON.parse(JSON.stringify(generalClass)) + " na";
-    let naStyle = JSON.parse(JSON.stringify(generalStyle));
-    naStyle.color = ThemeColors().naColor;
-    naStyle.borderColor = ThemeColors().naColor
-    if (surveyItem === "na") {
-      naStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      naStyle.backgroundColor = ThemeColors().naColor;
-    }
-
-    let verylowClass = JSON.parse(JSON.stringify(generalClass)) + " verylow";
-    let verylowStyle = JSON.parse(JSON.stringify(generalStyle));
-    verylowStyle.color = ThemeColors().verylowColor;
-    verylowStyle.borderColor = ThemeColors().verylowColor
-    if (surveyItem === "verylow") {
-      verylowStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      verylowStyle.backgroundColor = ThemeColors().verylowColor;
-    }
-
-    let lowClass = JSON.parse(JSON.stringify(generalClass)) + " low";
-    let lowStyle = JSON.parse(JSON.stringify(generalStyle));
-    lowStyle.color = ThemeColors().lowColor;
-    lowStyle.borderColor = ThemeColors().lowColor
-    if (surveyItem === "low") {
-      lowStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      lowStyle.backgroundColor = ThemeColors().lowColor;
-    }
-
-    let mediumClass = JSON.parse(JSON.stringify(generalClass)) + " medium";
-    let mediumStyle = JSON.parse(JSON.stringify(generalStyle));
-    mediumStyle.color = ThemeColors().mediumColor;
-    mediumStyle.borderColor = ThemeColors().mediumColor
-    if (surveyItem === "medium") {
-      mediumStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      mediumStyle.backgroundColor = ThemeColors().mediumColor;
-    }
-
-    let highClass = JSON.parse(JSON.stringify(generalClass)) + " high";
-    let highStyle = JSON.parse(JSON.stringify(generalStyle));
-    highStyle.color = ThemeColors().highColor;
-    highStyle.borderColor = ThemeColors().highColor
-    if (surveyItem === "high") {
-      highStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      highStyle.backgroundColor = ThemeColors().highColor;
-    }
-
-    let veryhighClass = JSON.parse(JSON.stringify(generalClass)) + " veryhigh";
-    let veryhighStyle = JSON.parse(JSON.stringify(generalStyle));
-    veryhighStyle.color = ThemeColors().veryhighColor;
-    veryhighStyle.borderColor = ThemeColors().veryhighColor
-    if (surveyItem === "veryhigh") {
-      veryhighStyle = JSON.parse(JSON.stringify(generalStylePressed));
-      veryhighStyle.backgroundColor = ThemeColors().veryhighColor;
-    }
+    let naClass = setupColor('na').class;
+    let naStyle = setupColor('na').style;
+    let verylowClass = setupColor('verylow').class;
+    let verylowStyle = setupColor('verylow').style;
+    let lowClass = setupColor('low').class;
+    let lowStyle = setupColor('low').style;
+    let mediumClass = setupColor('medium').class;
+    let mediumStyle = setupColor('medium').style;
+    let highClass = setupColor('high').class;
+    let highStyle = setupColor('high').style;
+    let veryhighStyle = setupColor('veryhigh').style;
+    let veryhighClass = setupColor('veryhigh').class;
 
     let listItemCardClass
     if (this.props.order !== "S") {
