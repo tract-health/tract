@@ -115,100 +115,71 @@ export default class SurveyItem extends React.Component {
   render() {
     const {definition, questions, surveyItem, onClick, id} = this.props;
 
-    let naClass = "mb-1 badge badge-pill na";
-    let naStyle = {
-      color: ThemeColors().naColor,
+    const generalClass = "mb-1 badge badge-pill";
+    const generalStyle = {
+      color: ThemeColors().themeColor1,
       background: "unset",
       border: "1px solid",
-      borderColor: ThemeColors().naColor
-    };
+      borderColor: ThemeColors().themeColor1
+    }
+    const generalStylePressed = {
+      border: "1px transparent solid",
+      backgroundColor: ThemeColors().themeColor1,
+      color: ThemeColors().primaryColor
+    }
+
+    let naClass = JSON.parse(JSON.stringify(generalClass)) + " na";
+    let naStyle = JSON.parse(JSON.stringify(generalStyle));
+    naStyle.color = ThemeColors().naColor;
+    naStyle.borderColor = ThemeColors().naColor
     if (surveyItem === "na") {
-      naClass = "mb-1 badge badge-pill na";
-      naStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().naColor,
-        color: "#fff"
-      }
+      naStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      naStyle.backgroundColor = ThemeColors().naColor;
     }
 
-    let verylowClass = "mb-1 badge badge-pill verylow";
-    let verylowStyle = {
-      color: ThemeColors().verylowColor,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().verylowColor
-    };
+    let verylowClass = JSON.parse(JSON.stringify(generalClass)) + " verylow";
+    let verylowStyle = JSON.parse(JSON.stringify(generalStyle));
+    verylowStyle.color = ThemeColors().verylowColor;
+    verylowStyle.borderColor = ThemeColors().verylowColor
     if (surveyItem === "verylow") {
-      verylowClass = "mb-1 badge badge-pill verylow";
-      verylowStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().verylowColor,
-        color: "#fff"
-      }
+      verylowStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      verylowStyle.backgroundColor = ThemeColors().verylowColor;
     }
 
-    let lowClass = "mb-1 badge badge-pill low";
-    let lowStyle = {
-      color: ThemeColors().lowColor,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().lowColor
-    };
+    let lowClass = JSON.parse(JSON.stringify(generalClass)) + " low";
+    let lowStyle = JSON.parse(JSON.stringify(generalStyle));
+    lowStyle.color = ThemeColors().lowColor;
+    lowStyle.borderColor = ThemeColors().lowColor
     if (surveyItem === "low") {
-      lowClass = "mb-1 badge badge-pill low";
-      lowStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().lowColor,
-        color: "#fff"
-      }
+      lowStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      lowStyle.backgroundColor = ThemeColors().lowColor;
     }
 
-    let mediumClass = "mb-1 badge badge-pill medium";
-    let mediumStyle = {
-      color: ThemeColors().mediumColor,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().mediumColor
-    };
+    let mediumClass = JSON.parse(JSON.stringify(generalClass)) + " medium";
+    let mediumStyle = JSON.parse(JSON.stringify(generalStyle));
+    mediumStyle.color = ThemeColors().mediumColor;
+    mediumStyle.borderColor = ThemeColors().mediumColor
     if (surveyItem === "medium") {
-      mediumClass = "mb-1 badge badge-pill medium";
-      mediumStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().mediumColor,
-        color: "#fff"
-      }
+      mediumStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      mediumStyle.backgroundColor = ThemeColors().mediumColor;
     }
 
-    let highClass = "mb-1 badge badge-pill high";
-    let highStyle = {
-      color: ThemeColors().highColor,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().highColor
-    };
+    let highClass = JSON.parse(JSON.stringify(generalClass)) + " high";
+    let highStyle = JSON.parse(JSON.stringify(generalStyle));
+    highStyle.color = ThemeColors().highColor;
+    highStyle.borderColor = ThemeColors().highColor
     if (surveyItem === "high") {
-      highClass = "mb-1 badge badge-pill high";
-      highStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().highColor,
-        color: "#fff"
-      }
+      highStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      highStyle.backgroundColor = ThemeColors().highColor;
     }
 
-    let veryhighClass = "mb-1 badge badge-pill veryhigh";
-    let veryhighStyle = {
-      color: ThemeColors().veryhighColor,
-      background: "unset",
-      border: "1px solid",
-      borderColor: ThemeColors().veryhighColor
-    };
+    let veryhighClass = JSON.parse(JSON.stringify(generalClass)) + " veryhigh";
+    let veryhighStyle = JSON.parse(JSON.stringify(generalStyle));
+    veryhighStyle.color = ThemeColors().veryhighColor;
+    veryhighStyle.borderColor = ThemeColors().veryhighColor
     if (surveyItem === "veryhigh") {
-      veryhighClass = "mb-1 badge badge-pill veryhigh";
-      veryhighStyle = {
-        border: "1px transparent solid",
-        backgroundColor: ThemeColors().veryhighColor,
-        color: "#fff"
-      }
+      veryhighStyle = JSON.parse(JSON.stringify(generalStylePressed));
+      veryhighStyle.backgroundColor = ThemeColors().veryhighColor;
     }
 
     let listItemCardClass
