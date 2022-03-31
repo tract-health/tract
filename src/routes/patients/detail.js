@@ -1341,7 +1341,7 @@ class PatientsDetail extends Component {
                   </Colxx>
                   
                   <Colxx xxs="12" lg="8">
-                    <div className="list-item-heading mb-3">Score each of the ten TRACT factors and make an overall assessment according to the value and complexity of care trajectory management work associated with patient care.</div>
+                    <div className="list-item-heading mb-3">Score each TRACT factor and make an overall assessment of trajectory complexity.</div>
                     <ul className="list-unstyled mb-4">
                         {survey && survey.survey ? survey.survey.map((item, index) => {
                           //console.log(this.state.survey)
@@ -1420,7 +1420,7 @@ class PatientsDetail extends Component {
                   </Colxx>
 
                   <Colxx xxs="12" lg="8">
-                  <div className="list-item-heading mb-3">This supplementary tool is designed to support care planning and the organisation of care trajectory management work. You can use it to record care trajectory management issues and identify appropriate actions to take.</div>
+                  <div className="list-item-heading mb-3">This supplementary tool can be used to support care planning; its use is optional.</div>
                     <form className="mb-4" onSubmit={this.handlePlannerSubmit}>
                       <div className="mb-2">
                         {this.createPlannerUI()}     
