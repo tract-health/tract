@@ -27,7 +27,7 @@
       naColor: "#d3d3d3",
       verylowColor:"#92cddc",
       lowColor: "#92d050",
-      mediumColor: "#f5f504",
+      mediumColor: "#ffff00",
       highColor: "#ffc000",
       veryhighColor: "#ff0000"
       /* colourblind traffic light heatmap */

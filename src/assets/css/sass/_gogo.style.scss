@@ -98,7 +98,7 @@ $error-color: #c43d4b;
 $na-color: lightgrey;
 $verylow-color:#92cddc;
 $low-color: #92d050;
-$medium-color: #f5f504;
+$medium-color: #ffff00;
 $high-color: #ffc000;
 $veryhigh-color: #ff0000;
 
@@ -4909,7 +4909,10 @@ input:-webkit-autofill {
     width: 40%;
     //background: url("/assets/img/login-balloon.jpg") no-repeat center top;
     //background: url($publicPath + "/assets/img/login-balloon.jpg") no-repeat center top;
-    background: url($publicPath + "/assets/img/Background_bw.png") no-repeat center top;
+    //background: url($publicPath + "/assets/img/Background_bw.png") no-repeat center top;
+    background: $theme-color-blue;
+    //background-color: #145388;
+    //background: transparent;
     background-size: cover;
     padding: 80px 40px;
     .h3 {
