@@ -89,36 +89,31 @@ class Ward extends Component {
       }
     }
 
-    const generalClass = "mr-2 badge badge-pill"
-    const generalStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().themeColor1,
-      color: ThemeColors().primaryColor
+    // set up badge colours
+    function setupColor(id) {
+      let resultClass = "mr-2 badge badge-pill " + id;
+      let resultStyle = {
+        border: "1px transparent solid",
+        backgroundColor: ThemeColors()[id + 'Color'],
+        color: ThemeColors().primaryColor
+      };
+      return {
+        "class": resultClass,
+        "style": resultStyle
+      }
     }
-
-    let naClass = JSON.parse(JSON.stringify(generalClass)) + " na";
-    let naStyle = JSON.parse(JSON.stringify(generalStyle));
-    naStyle.backgroundColor = ThemeColors().naColor;
-
-    let verylowClass = JSON.parse(JSON.stringify(generalClass)) + " verylow";
-    let verylowStyle = JSON.parse(JSON.stringify(generalStyle));
-    verylowStyle.backgroundColor = ThemeColors().verylowColor;
-
-    let lowClass = JSON.parse(JSON.stringify(generalClass)) + " low";
-    let lowStyle = JSON.parse(JSON.stringify(generalStyle));
-    lowStyle.backgroundColor = ThemeColors().lowColor;
-
-    let mediumClass = JSON.parse(JSON.stringify(generalClass)) + " medium";
-    let mediumStyle = JSON.parse(JSON.stringify(generalStyle));
-    mediumStyle.backgroundColor = ThemeColors().mediumColor;
-
-    let highClass = JSON.parse(JSON.stringify(generalClass)) + " high";
-    let highStyle = JSON.parse(JSON.stringify(generalStyle));
-    highStyle.backgroundColor = ThemeColors().highColor;
-
-    let veryhighClass = JSON.parse(JSON.stringify(generalClass)) + " veryhigh";
-    let veryhighStyle = JSON.parse(JSON.stringify(generalStyle));
-    veryhighStyle.backgroundColor = ThemeColors().veryhighColor;
+    let naClass = setupColor('na').class;
+    let naStyle = setupColor('na').style;
+    let verylowClass = setupColor('verylow').class;
+    let verylowStyle = setupColor('verylow').style;
+    let lowClass = setupColor('low').class;
+    let lowStyle = setupColor('low').style;
+    let mediumClass = setupColor('medium').class;
+    let mediumStyle = setupColor('medium').style;
+    let highClass = setupColor('high').class;
+    let highStyle = setupColor('high').style;
+    let veryhighStyle = setupColor('veryhigh').style;
+    let veryhighClass = setupColor('veryhigh').class;
 
     let title = <IntlMessages id="menu.ward" />
 
