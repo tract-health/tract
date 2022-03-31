@@ -16,19 +16,27 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 
+// environment variables for Firebase configuration
+const dotenv = require('dotenv');
+const webpack = require('webpack');
+// call dotenv and it will return an Object with a parsed key 
+const env = dotenv.config().parsed;
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 const pathsToClean = [
-  'dist',
-  'build'
+    'dist',
+    'build'
 ];
 
 const cleanOptions = {
-  root: __dirname,
-  verbose: false,
-  dry: false
+    root: __dirname,
+    verbose: false,
+    dry: false
 };
-
-
 
 module.exports = (env, argv) => ({
   entry: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
@@ -146,6 +154,7 @@ module.exports = (env, argv) => ({
     new MiniCssExtractPlugin({
         filename: "assets/css/[name].[hash:8].css"
     }),
-    new HtmlWebpackTagsPlugin({ tags: ["assets/fonts/simple-line-icons/css/simple-line-icons.css", "assets/fonts/iconsmind/style.css"], append: true })
+    new HtmlWebpackTagsPlugin({ tags: ["assets/fonts/simple-line-icons/css/simple-line-icons.css", "assets/fonts/iconsmind/style.css"], append: true }),
+    new webpack.DefinePlugin(envKeys)
   ]
 });

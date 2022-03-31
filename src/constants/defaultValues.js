@@ -7,24 +7,15 @@ export const localeOptions=[
     {id:'en',name:'English'}
 ];
 
-// export const firebaseConfig = {
-//   apiKey: "AIzaSyB92u2z3jFrUZMA-aWLRE5oQ6mY3MBkGNU",
-//   authDomain: "tract-53f6d.firebaseapp.com",
-//   databaseURL: "https://tract-53f6d.firebaseio.com",
-//   projectId: "tract-53f6d",
-//   storageBucket: "tract-53f6d.appspot.com",
-//   messagingSenderId: "204548408896"
-// };
-
 export const firebaseConfig = {
-  apiKey: "AIzaSyDShgA4kYe1Rrrc8x0F7Iv8IFylWb3nl54",
-  authDomain: "tract-cu.firebaseapp.com",
-  databaseURL: "https://tract-cu-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "tract-cu",
-  storageBucket: "tract-cu.appspot.com",
-  messagingSenderId: "967370072560",
-  appId: "1:967370072560:web:9eefe4c9be87708203bd35",
-  measurementId: "G-C85MYW34CW"
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
 };
 
 export const assessmentLevelToColor = (assessmentLevel) => {
