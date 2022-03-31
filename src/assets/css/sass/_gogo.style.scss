@@ -163,7 +163,7 @@ body {
 .fixed-background {
   //background: url("/assets/img/balloon.jpg") no-repeat center center fixed;
   //background: url($publicPath + "/assets/img/balloon.jpg") no-repeat center center fixed;
-  background: url($publicPath + "/assets/img/Background_bw.png") no-repeat center center fixed;
+  background: url($publicPath + "/assets/img/Background.png") no-repeat center center fixed;
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -4909,7 +4909,7 @@ input:-webkit-autofill {
     width: 40%;
     //background: url("/assets/img/login-balloon.jpg") no-repeat center top;
     //background: url($publicPath + "/assets/img/login-balloon.jpg") no-repeat center top;
-    background: url($publicPath + "/assets/img/Background.png") no-repeat center top;
+    background: url($publicPath + "/assets/img/Background_bw.png") no-repeat center top;
     background-size: cover;
     padding: 80px 40px;
     .h3 {
