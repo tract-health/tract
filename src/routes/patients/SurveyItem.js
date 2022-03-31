@@ -119,10 +119,10 @@ export default class SurveyItem extends React.Component {
     function setupColor(id) {
       let resultClass = "mb-1 badge badge-pill " + id;
       let resultStyle = {
-        color: ThemeColors()[id + 'Color'],
-        background: "unset",
-        //color: ThemeColors().primaryColor,
-        //backgroundColor: ThemeColors()[id + 'Color'] + '15',
+        //color: ThemeColors()[id + 'Color'],
+        //background: "unset",
+        color: ThemeColors().primaryColor,
+        backgroundColor: ThemeColors()[id + 'Color'] + '25',
         border: "1px solid",
         borderColor: ThemeColors()[id + 'Color']
       };
