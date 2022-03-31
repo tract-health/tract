@@ -146,44 +146,36 @@ class Factors extends Component {
       }
     }
 
-    let naClass = "mr-2 badge badge-pill na";
-    let naStyle = {
+    const generalClass = "mr-2 badge badge-pill"
+    const generalStyle = {
       border: "1px transparent solid",
-      backgroundColor: ThemeColors().naColor,
-      color: "#fff"
-    }
-    let verylowClass = "mr-2 badge badge-pill verylow";
-    let verylowStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().verylowColor,
-      color: "#fff"
-    }
-    let lowClass = "mr-2 badge badge-pill low";
-    let lowStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().lowColor,
-      color: "#fff"
-    }
-    let mediumClass = "mr-2 badge badge-pill medium";
-    let mediumStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().mediumColor,
-      color: "#fff"
+      backgroundColor: ThemeColors().themeColor1,
+      color: ThemeColors().primaryColor
     }
 
-    let highClass = "mr-2 badge badge-pill high";
-    let highStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().highColor,
-      color: "#fff"
-    }
+    let naClass = JSON.parse(JSON.stringify(generalClass)) + " na";
+    let naStyle = JSON.parse(JSON.stringify(generalStyle));
+    naStyle.backgroundColor = ThemeColors().naColor;
 
-    let veryhighClass = "badge badge-pill veryhigh";
-    let veryhighStyle = {
-      border: "1px transparent solid",
-      backgroundColor: ThemeColors().veryhighColor,
-      color: "#fff"
-    }
+    let verylowClass = JSON.parse(JSON.stringify(generalClass)) + " verylow";
+    let verylowStyle = JSON.parse(JSON.stringify(generalStyle));
+    verylowStyle.backgroundColor = ThemeColors().verylowColor;
+
+    let lowClass = JSON.parse(JSON.stringify(generalClass)) + " low";
+    let lowStyle = JSON.parse(JSON.stringify(generalStyle));
+    lowStyle.backgroundColor = ThemeColors().lowColor;
+
+    let mediumClass = JSON.parse(JSON.stringify(generalClass)) + " medium";
+    let mediumStyle = JSON.parse(JSON.stringify(generalStyle));
+    mediumStyle.backgroundColor = ThemeColors().mediumColor;
+
+    let highClass = JSON.parse(JSON.stringify(generalClass)) + " high";
+    let highStyle = JSON.parse(JSON.stringify(generalStyle));
+    highStyle.backgroundColor = ThemeColors().highColor;
+
+    let veryhighClass = JSON.parse(JSON.stringify(generalClass)) + " veryhigh";
+    let veryhighStyle = JSON.parse(JSON.stringify(generalStyle));
+    veryhighStyle.backgroundColor = ThemeColors().veryhighColor;
 
     let title = <IntlMessages id="menu.factors" />
 
