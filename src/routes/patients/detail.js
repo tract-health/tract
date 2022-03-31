@@ -1230,7 +1230,7 @@ class PatientsDetail extends Component {
                   }}
                   to="#"
                 >
-                  ASSESSMENT
+                  ASSESSMENT TOOL
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -1244,7 +1244,7 @@ class PatientsDetail extends Component {
                   }}
                   to="#"
                 >
-                  PLANNER
+                  PLANNER TOOL
                 </NavLink>
               </NavItem>
             </Nav>
@@ -1322,6 +1322,7 @@ class PatientsDetail extends Component {
                   </Colxx>
                   
                   <Colxx xxs="12" lg="8">
+                    <div className="list-item-heading mb-3">Score each of the ten TRACT factors and make an overall assessment according to the value and complexity of care trajectory management work associated with patient care.</div>
                     <ul className="list-unstyled mb-4">
                         {survey && survey.survey ? survey.survey.map((item, index) => {
                           //console.log(this.state.survey)
@@ -1400,6 +1401,7 @@ class PatientsDetail extends Component {
                   </Colxx>
 
                   <Colxx xxs="12" lg="8">
+                  <div className="list-item-heading mb-3">This supplementary tool is designed to support care planning and the organisation of care trajectory management work. You can use it to record care trajectory management issues and identify appropriate actions to take.</div>
                     <form className="mb-4" onSubmit={this.handlePlannerSubmit}>
                       <div className="mb-2">
                         {this.createPlannerUI()}     
