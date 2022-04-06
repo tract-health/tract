@@ -1119,6 +1119,7 @@ class PatientsDetail extends Component {
           history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
         }}
         highlightDates={highlightAssessmentDates}
+        locale="en-GB"
       />
     ));
 
@@ -1140,6 +1141,7 @@ class PatientsDetail extends Component {
     //       history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
     //     }}
     //     highlightDates={highlightPlannerDates}
+    //     locale="en-GB"
     //   />
     // ));
 

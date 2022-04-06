@@ -158,6 +158,7 @@ class Ward extends Component {
                         endDate={this.state.endDateRange}
                         onChange={this.handleChangeStart}
                         placeholderText="From"
+                        locale="en-GB"
                       />
                     </div>
                   </div>
@@ -171,6 +172,7 @@ class Ward extends Component {
                         endDate={this.state.endDateRange}
                         onChange={this.handleChangeEnd}
                         placeholderText="To"
+                        locale="en-GB"
                       />
                     </div>
                   </div>
