@@ -164,6 +164,7 @@ class Ward extends Component {
                         onChange={this.handleChangeStart}
                         placeholderText="From"
                         locale="en-GB"
+                        popperPlacement="bottom-start"
                       />
                     </div>
                   </div>
@@ -178,6 +179,7 @@ class Ward extends Component {
                         onChange={this.handleChangeEnd}
                         placeholderText="To"
                         locale="en-GB"
+                        popperPlacement="bottom-start"
                       />
                     </div>
                   </div>
