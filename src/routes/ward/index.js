@@ -5,7 +5,8 @@ import {
   CardBody,
   Collapse,
   Badge,
-  Button
+  Button,
+  Col
 } from "reactstrap";
 import { Colxx, Separator } from "Components/CustomBootstrap";
 import BreadcrumbContainer from "Components/BreadcrumbContainer";
@@ -91,7 +92,7 @@ class Ward extends Component {
 
     // set up badge colours
     function setupColor(id) {
-      let resultClass = "mr-2 badge badge-pill " + id;
+      let resultClass = "mr-2 mb-1 badge badge-pill " + id;
       let resultStyle = {
         border: "1px transparent solid",
         backgroundColor: ThemeColors()[id + 'Color'],
@@ -133,14 +134,18 @@ class Ward extends Component {
                   match={this.props.match}
                 />
               </div> */}
-              <div className="mb-4 mr-5 float-sm-right">
+              <div className="mb-4 mr-2 float-sm-right">
                 <Row>
                   <div className="ml-3 mr-2">Heatmap:</div>
-                  <div className={verylowClass} style={verylowStyle}>VERY LOW</div>
-                  <div className={lowClass} style={lowStyle}>LOW</div>
-                  <div className={mediumClass} style={mediumStyle}>MEDIUM</div>
-                  <div className={highClass} style={highStyle}>HIGH</div>
-                  <div className={veryhighClass} style={veryhighStyle}>VERY HIGH</div>
+                  <Col>
+                    <Row>
+                      <div className={verylowClass} style={verylowStyle}>VERY LOW</div>
+                      <div className={lowClass} style={lowStyle}>LOW</div>
+                      <div className={mediumClass} style={mediumStyle}>MEDIUM</div>
+                      <div className={highClass} style={highStyle}>HIGH</div>
+                      <div className={veryhighClass} style={veryhighStyle}>VERY HIGH</div>
+                    </Row>
+                  </Col>
                 </Row>
               </div>
               <div className="mb-2">
