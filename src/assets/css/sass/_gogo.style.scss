@@ -1636,12 +1636,18 @@ button {
       background-position: center center;
     }
 
+    @include respond-below(md) {
+      width: 450px;
+    }
+
     @include respond-below(sm) {
-      width: 300px;
+      width: 275px;
     }
 
     @include respond-below(xxs) {
-      width: 300px;
+      width: 200px;
+      height: 50px;
+      right: 100px;
     }
   }
 
@@ -1805,11 +1811,11 @@ button {
       width: 40px;
     }
 
-    @include respond-below(md) {
-      .name {
-        display: none;
-      }
-    }
+    // @include respond-below(md) {
+    //   .name {
+    //     display: none;
+    //   }
+    // }
 
     @include respond-below(sm) {
       img {
