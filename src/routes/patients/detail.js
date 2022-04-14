@@ -1109,19 +1109,33 @@ class PatientsDetail extends Component {
       }
     }
 
-    const AssessmentDatePicker = withRouter(({history}) => (
-      <DatePicker
-        calendarClassName="embedded"
-        inline
-        selected={this.state.embeddedDate}
-        onChange={(date) => {
-          this.patientSurveyUpdated = false
-          history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
-        }}
-        highlightDates={highlightAssessmentDates}
-        locale="en-GB"
-      />
-    ));
+    const AssessmentDatePicker = <DatePicker
+                              calendarClassName="embedded"
+                              inline
+                              selected={this.state.embeddedDate}
+                              onChange={(date) => {
+                                this.patientSurveyUpdated = false
+                                this.props.history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
+                              }}
+                              highlightDates={highlightAssessmentDates}
+                              locale="en-GB"
+                            >
+                          </DatePicker>
+
+
+    // const AssessmentDatePicker = withRouter(({history}) => (
+    //   <DatePicker
+    //     calendarClassName="embedded"
+    //     inline
+    //     selected={this.state.embeddedDate}
+    //     onChange={(date) => {
+    //       this.patientSurveyUpdated = false
+    //       history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
+    //     }}
+    //     highlightDates={highlightAssessmentDates}
+    //     locale="en-GB"
+    //   />
+    // ));
 
     // datepicker for planner (deprecated)
     // let highlightPlannerDates = [];
@@ -1292,7 +1306,8 @@ class PatientsDetail extends Component {
                     {/* Datepicker for assessment */}
                     <Card>
                       <CardBody>
-                        <AssessmentDatePicker/>
+                        {AssessmentDatePicker}
+                        {/* <AssessmentDatePicker/> */}
                       </CardBody>
                     </Card>
                     
@@ -1473,6 +1488,7 @@ const mapStateToProps = ({ patientsApp, surveyDetailApp }) => {
       surveyDetailApp
   };
 };
+
 export default connect(
   mapStateToProps,
   {
