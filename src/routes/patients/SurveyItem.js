@@ -7,6 +7,8 @@ import {
 
 import { ThemeColors } from "Util/ThemeColors";
 
+import { Col, Row } from 'reactstrap';
+
 export default class SurveyItem extends React.Component {
   constructor(...params) {
     super(...params);
@@ -172,7 +174,7 @@ export default class SurveyItem extends React.Component {
         <div className="d-flex flex-grow-1 min-width-zero">
           <div className="card-body card-assessment">
             <div className="row align-items-center">
-              <div className="col text-nowrap">
+              <div className="col">
                 <div className="list-item-heading mb-2 mt-1">
                   <span className="heading-number d-inline-block">
                     {this.props.order}
@@ -180,26 +182,28 @@ export default class SurveyItem extends React.Component {
                   {this.state.title}
                 </div>
               </div>
-              <div className="col justify-content-center d-flex">
-                <div className="list-item-heading d-flex">
-                  <a href="#" onClick={onClick}>
-                    <span className={naClass} style={naStyle} data-id={id}>N/A</span>
-                  </a>
-                  <a href="#" onClick={onClick} className="ml-2">
-                    <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
-                  </a>
-                  <a href="#" onClick={onClick} className="ml-2">
-                    <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
-                  </a>
-                  <a href="#" onClick={onClick} className="ml-2">
-                    <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
-                  </a>
-                  <a href="#" onClick={onClick} className="ml-2 mr-2">
-                    <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
-                  </a>
-                  <a href="#" onClick={onClick}>
-                    <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
-                  </a>
+              <div className="col-xxl-8 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xxs-12 justify-content-center d-flex">
+                <div className="list-item-heading">
+                  <div className="row align-items-center justify-content-center d-flex">
+                    <a href="#" onClick={onClick}>
+                      <span className={naClass} style={naStyle} data-id={id}>N/A</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2">
+                      <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
+                    </a>
+                    <a href="#" onClick={onClick} className="ml-2 mr-2">
+                      <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+                    </a>
+                    <a href="#" onClick={onClick}>
+                      <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -229,23 +233,25 @@ export default class SurveyItem extends React.Component {
                     {this.state.title}
                   </div>
                 </div>
-                <div className="col justify-content-center d-flex">
-                  <div className="list-item-heading d-flex">
-                    <a href="#" onClick={onClick} className="ml-2">
-                      <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
-                    </a>
-                    <a href="#" onClick={onClick} className="ml-2">
-                      <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
-                    </a>
-                    <a href="#" onClick={onClick} className="ml-2">
-                      <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
-                    </a>
-                    <a href="#" onClick={onClick} className="ml-2 mr-2">
-                      <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
-                    </a>
-                    <a href="#" onClick={onClick}>
-                      <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
-                    </a>
+                <div className="col-12 justify-content-center d-flex">
+                  <div className="list-item-heading">
+                    <div className="row align-items-center justify-content-center d-flex">
+                      <a href="#" onClick={onClick} className="ml-2">
+                        <span className={verylowClass} style={verylowStyle} data-id={id}>VERY LOW</span>
+                      </a>
+                      <a href="#" onClick={onClick} className="ml-2">
+                        <span className={lowClass} style={lowStyle} data-id={id}>LOW</span>
+                      </a>
+                      <a href="#" onClick={onClick} className="ml-2">
+                        <span className={mediumClass} style={mediumStyle} data-id={id}>MEDIUM</span>
+                      </a>
+                      <a href="#" onClick={onClick} className="ml-2 mr-2">
+                        <span className={highClass} style={highStyle} data-id={id}>HIGH</span>
+                      </a>
+                      <a href="#" onClick={onClick}>
+                        <span className={veryhighClass} style={veryhighStyle} data-id={id}>VERY HIGH</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
