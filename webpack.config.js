@@ -55,7 +55,9 @@ module.exports = (env, argv) => ({
       compress: true,
       port: 3005, // port number
       historyApiFallback: true,
-      quiet: true
+      quiet: true,
+    //   host: '0.0.0.0',
+    //   disableHostCheck: true
   },
   resolve: {
       alias: {
