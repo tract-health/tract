@@ -47,12 +47,18 @@ class Factors extends Component {
     this.state = {
       startDateRange: moment(startDate),
       endDateRange: moment(endDate),
-      selectedPatient: defaultPatient
+      selectedPatient: defaultPatient,
+      displayOptionsIsOpen: false
     };
 
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
     this.selectPatient = this.selectPatient.bind(this);
+    this.toggleDisplayOptions = this.toggleDisplayOptions.bind(this);
+  }
+
+  toggleDisplayOptions() {
+    this.setState({ displayOptionsIsOpen: !this.state.displayOptionsIsOpen });
   }
 
   handleChangeStart(date) {
@@ -218,7 +224,7 @@ class Factors extends Component {
                 </Button>
                 <Collapse
                   className="d-md-block"
-                  isOpen={true}
+                  isOpen={this.state.displayOptionsIsOpen}
                 >
                   <div className="mb-2">
                     <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
