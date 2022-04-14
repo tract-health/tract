@@ -198,14 +198,14 @@ class Sidebar extends Component {
       this.toggle();
       window.scrollTo(0, 0);
     }
-    this.handleProps();
+    //this.handleProps();
   }
 
   componentDidMount() {
 
     window.addEventListener("resize", this.handleWindowResize);
     this.handleWindowResize();
-    this.handleProps();
+    //this.handleProps();
     this.setSelectedLiActive();
   }
 
