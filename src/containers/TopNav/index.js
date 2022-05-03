@@ -146,7 +146,7 @@ class TopNav extends Component {
         </NavLink>
 
         <a className="navbar-logo" href="/">
-          <h3>TRACT</h3>
+          <h3>TRACT - TRAJECTORY COMPLEXITY ASSESSMENT TOOL</h3>
         </a>
 
         <div className="ml-auto">

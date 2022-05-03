@@ -38,7 +38,12 @@ import {
   getPatientsListSearch,
   addPatientsItem,
   removePatientsItem,
-  selectedPatientsItemsChange
+  selectedPatientsItemsChange,
+  dischargePatientsItem,
+  getDischargedPatientsList,
+  selectedDischargedPatientsItemsChange,
+  admitPatientsItem,
+  removeDischargedPatientsItem
 } from "Redux/actions";
 
 import { assessmentLevelToColor } from "../../constants/defaultValues"
@@ -61,11 +66,16 @@ class Patients extends Component {
       category: {},
       status: "PENDING",
       displayOptionsIsOpen:false,
-      selectedItems: []
+      selectedItems: [],
+      showOptions: ['Active', 'Discharged'],
+      showOptionCurrent: "Active"
     };
   }
 
   componentDidMount() {
+    this.setState({
+      showOptionCurrent: "Active"
+    });
     this.props.getPatientsList();
   }
 
@@ -89,11 +99,25 @@ class Patients extends Component {
     this.props.getPatientsListWithFilter(column, value);
   }
 
+  changeShow(value) {
+    this.setState({
+      showOptionCurrent: value
+    });
+    if (value === 'Active') {
+      this.props.getPatientsList();
+    } else if (value === "Discharged") {
+      this.props.getDischargedPatientsList();
+    }
+  }
+
   changeOrderBy(column) {
     this.props.getPatientsListWithOrder(column);
   }
 
   addNetItem() {
+    if ((this.state.id.length === 0) || (this.state.name.length === 0)) {
+      return;
+    }
     const newItem = {
       id: this.state.id,
       name: this.state.name,
@@ -102,7 +126,8 @@ class Patients extends Component {
     this.toggleModal();
     this.setState({
       id: "",
-      name: ""
+      name: "",
+      showOptionCurrent: 'Active'
     });
   }
 
@@ -162,6 +187,7 @@ class Patients extends Component {
       ) {
         this.props.selectedPatientsItemsChange([]);
         this.setState({
+          //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
           selectedItems: []
         });
       } else {
@@ -173,12 +199,69 @@ class Patients extends Component {
         });
       }
     }
+    
   }
 
   handleDeleteAll() {
     for (let item of this.state.selectedItems) {
       this.props.removePatientsItem(item);
     }
+    // null selected items list
+    this.props.selectedPatientsItemsChange([]);
+    this.setState({
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
+    });
+  }
+
+  // function to discharge all selected patients
+  handleDischargeAll() {
+    // check if anything selected
+    if (this.state.selectedItems.length === 0) {
+      return;
+    }
+    // discharge one by one
+    for (let item of this.state.selectedItems) {
+      this.props.dischargePatientsItem(item);
+    }
+    // null selected items list
+    this.props.selectedPatientsItemsChange([]);
+    this.setState({
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
+    });
+  }
+
+  // function to admit all selected discharged patients
+  handleAdmitAll() {
+    // check if anything selected
+    if (this.state.selectedItems.length === 0) {
+      return;
+    }
+    // discharge one by one
+    for (let item of this.state.selectedItems) {
+      this.props.admitPatientsItem(item);
+    }
+    // null selected items list and move to active list
+    this.props.selectedPatientsItemsChange([]);
+    this.setState({
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length),
+      selectedItems: [],
+      showOptionCurrent: 'Active'
+    });
+  }
+
+  handleDeleteDischargedAll() {
+    for (let item of this.state.selectedItems) {
+      this.props.removeDischargedPatientsItem(item);
+    }
+    // null selected items list
+    this.props.selectedPatientsItemsChange([]);
+    this.setState({
+      //selectedItems: this.state.selectedItems.splice(0, this.state.selectedItems.length)
+      selectedItems: []
+    });
+    this.props.getDischargedPatientsList();
   }
 
   getIndex(value, arr, prop) {
@@ -195,12 +278,172 @@ class Patients extends Component {
       allPatientsItems,
       patientsItems,
       filter,
-      searchKeyword,
       loading,
       orderColumn,
       orderColumns,
-      selectedItems
+      selectedItems,
     } = this.props.patientsApp;
+
+    let dropdownMenu;
+    let patientListButtons;
+    if (this.state.showOptionCurrent === 'Active') {
+      dropdownMenu = <DropdownMenu right>
+                      <DropdownItem onClick={() => this.handleDeleteAll()}>
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+      patientListButtons = <div className="float-sm-right mb-2">
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className="mr-2"
+                              onClick={this.toggleModal}
+                            >
+                              <IntlMessages id="todo.admit" />
+                            </Button>
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className="mr-2"
+                              onClick={() => this.handleDischargeAll()}
+                            >
+                              <IntlMessages id="todo.discharge" />
+                            </Button>
+                            <Modal
+                              isOpen={this.state.modalOpen}
+                              toggle={this.toggleModal}
+                              wrapClassName="modal-right"
+                              backdrop="static"
+                            >
+                              <ModalHeader toggle={this.toggleModal}>
+                                Admit new patient
+                              </ModalHeader>
+                              <ModalBody>
+
+                                <Label className="mt-4">
+                                  ID
+                                </Label>
+                                <Input
+                                  type="text"
+                                  defaultValue={this.state.id}
+                                  onChange={event => {
+                                    this.setState({ id: event.target.value });
+                                  }}
+                                  onKeyPress={e => this.handleModalKeyPress(e)}
+                                />
+
+                                <Label className="mt-4">
+                                  Full Name
+                                </Label>
+                                <Input
+                                  type="text"
+                                  defaultValue={this.state.name}
+                                  onChange={event => {
+                                    this.setState({ name: event.target.value });
+                                  }}
+                                  onKeyPress={e => this.handleModalKeyPress(e)}
+                                />
+
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button
+                                  color="secondary"
+                                  outline
+                                  onClick={this.toggleModal}
+                                >
+                                  <IntlMessages id="todo.cancel" />
+                                </Button>
+                                <Button color="primary" onClick={() => this.addNetItem()}>
+                                  <IntlMessages id="todo.submit" />
+                                </Button>
+                              </ModalFooter>
+                            </Modal>
+                            <ButtonDropdown
+                              size="sm"
+                              isOpen={this.state.dropdownSplitOpen}
+                              toggle={this.toggleSplit}
+                            >
+                              <div className="btn btn-primary pl-4 pr-0 check-button">
+                                <Label
+                                  for="checkAll"
+                                  className="custom-control custom-checkbox mb-0 d-inline-block"
+                                >
+                                  <Input
+                                    className="custom-control-input"
+                                    type="checkbox"
+                                    id="checkAll"
+                                    checked={
+                                      loading
+                                        ? selectedItems.length >= patientsItems.length
+                                        : false
+                                    }
+                                    onChange={() => this.handleChangeSelectAll()}
+                                  />
+                                  <span
+                                    className={`custom-control-label ${
+                                      loading &&
+                                      selectedItems.length > 0 &&
+                                      selectedItems.length < patientsItems.length
+                                        ? "indeterminate"
+                                        : ""
+                                      }`}
+                                  />
+                                </Label>
+                              </div>
+                              <DropdownToggle
+                                caret
+                                color="primary"
+                                className="dropdown-toggle-split pl-2 pr-2"
+                              />
+                              {dropdownMenu}
+                            </ButtonDropdown>
+                          </div>
+    } else if (this.state.showOptionCurrent === 'Discharged') {
+      dropdownMenu = <DropdownMenu right>
+                      <DropdownItem onClick={() => this.handleDeleteDischargedAll()}>
+                        Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+      patientListButtons = <div className="float-sm-right mb-2">
+                              <Button
+                                color="primary"
+                                size="sm"
+                                className="mr-2"
+                                onClick={() => this.handleAdmitAll()}
+                              >
+                                <IntlMessages id="todo.admit" />
+                              </Button>
+                              <div className="btn btn-primary btn-sm pl-3 pr-2 mr-2 check-button">
+                                <Label
+                                  for="checkAll"
+                                  className="custom-control custom-checkbox mb-0 d-inline-block"
+                                >
+                                  <Input
+                                    className="custom-control-input"
+                                    type="checkbox"
+                                    id="checkAll"
+                                    checked={
+                                      loading
+                                        ? selectedItems.length >= patientsItems.length
+                                        : false
+                                    }
+                                    onChange={() => this.handleChangeSelectAll()}
+                                  />
+                                  <span
+                                    className={`custom-control-label ${
+                                      loading &&
+                                      selectedItems.length > 0 &&
+                                      selectedItems.length < patientsItems.length
+                                        ? "indeterminate"
+                                        : ""
+                                      }`}
+                                  />
+                                </Label>
+                              </div>
+                            </div>
+    }
+
+
 
     return (
       <Fragment>
@@ -211,108 +454,9 @@ class Patients extends Component {
                 <IntlMessages id="menu.patients" />
               </h1>
 
-              <div className="float-sm-right">
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="top-right-button"
-                  onClick={this.toggleModal}
-                >
-                  <IntlMessages id="todo.add-new" />
-                </Button>
-                <Modal
-                  isOpen={this.state.modalOpen}
-                  toggle={this.toggleModal}
-                  wrapClassName="modal-right"
-                  backdrop="static"
-                >
-                  <ModalHeader toggle={this.toggleModal}>
-                    Add new Patient
-                  </ModalHeader>
-                  <ModalBody>
-
-                    <Label className="mt-4">
-                      ID
-                    </Label>
-                    <Input
-                      type="text"
-                      defaultValue={this.state.id}
-                      onChange={event => {
-                        this.setState({ id: event.target.value });
-                      }}
-                      onKeyPress={e => this.handleModalKeyPress(e)}
-                    />
-
-                    <Label className="mt-4">
-                      Full Name
-                    </Label>
-                    <Input
-                      type="text"
-                      defaultValue={this.state.name}
-                      onChange={event => {
-                        this.setState({ name: event.target.value });
-                      }}
-                      onKeyPress={e => this.handleModalKeyPress(e)}
-                    />
-
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="secondary"
-                      outline
-                      onClick={this.toggleModal}
-                    >
-                      <IntlMessages id="todo.cancel" />
-                    </Button>
-                    <Button color="primary" onClick={() => this.addNetItem()}>
-                      <IntlMessages id="todo.submit" />
-                    </Button>{" "}
-                  </ModalFooter>
-                </Modal>{" "}
-                <ButtonDropdown
-                  isOpen={this.state.dropdownSplitOpen}
-                  toggle={this.toggleSplit}
-                >
-                  <div className="btn btn-primary pl-4 pr-0 check-button">
-                    <Label
-                      for="checkAll"
-                      className="custom-control custom-checkbox mb-0 d-inline-block"
-                    >
-                      <Input
-                        className="custom-control-input"
-                        type="checkbox"
-                        id="checkAll"
-                        checked={
-                          loading
-                            ? selectedItems.length >= patientsItems.length
-                            : false
-                        }
-                        onChange={() => this.handleChangeSelectAll()}
-                      />
-                      <span
-                        className={`custom-control-label ${
-                          loading &&
-                          selectedItems.length > 0 &&
-                          selectedItems.length < patientsItems.length
-                            ? "indeterminate"
-                            : ""
-                          }`}
-                      />
-                    </Label>
-                  </div>
-                  <DropdownToggle
-                    caret
-                    color="primary"
-                    className="dropdown-toggle-split pl-2 pr-2"
-                  />
-                  <DropdownMenu right>
-                    <DropdownItem onClick={() => this.handleDeleteAll()}>
-                      Delete
-                    </DropdownItem>
-                  </DropdownMenu>
-                </ButtonDropdown>
-              </div>
-              <BreadcrumbItems match={this.props.match} />
+              {patientListButtons}
+              
+              {/* <BreadcrumbItems match={this.props.match} /> */}
             </div>
 
             <div className="mb-2">
@@ -332,6 +476,24 @@ class Patients extends Component {
                 <div className="d-block mb-2 d-md-inline-block">
                   <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                     <DropdownToggle caret color="outline-dark" size="xs">
+                      <IntlMessages id="todo.show" />
+                      {this.state.showOptionCurrent}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {this.state.showOptions.map((val, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => this.changeShow(val)}
+                          >
+                            {val}
+                          </DropdownItem>
+                        );
+                      })}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                    <DropdownToggle caret color="outline-dark" size="xs">
                       <IntlMessages id="todo.orderby" />
                       {orderColumn ? orderColumn.label : ""}
                     </DropdownToggle>
@@ -348,13 +510,13 @@ class Patients extends Component {
                       })}
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                  <div className="search-sm d-inline-block mr-1 mb-1 align-top">
                     <input
                       type="text"
                       name="keyword"
                       id="search"
                       placeholder="Search"
-                      defaultValue={searchKeyword}
+                      defaultValue=''
                       onKeyPress={e => this.handleKeyPress(e)}
                     />
                   </div>
@@ -371,7 +533,7 @@ class Patients extends Component {
                         <div className="d-flex flex-grow-1 min-width-zero">
                           <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                             <NavLink
-                              to={`/app/patients/detail/${item.id}/${moment().format("YYYY-MM-DD")}`}
+                              to={`/app/patients/detail/${item.id}/${moment().format("YYYY-MM-DD")}/${this.state.showOptionCurrent}`}
                               id={`toggler${item.id}`}
                               className="list-item-heading mb-0 truncate w-40 w-xs-100  mb-1 mt-1"
                             >
@@ -434,7 +596,7 @@ class Patients extends Component {
                 <NavItem className={classnames({ active: !filter })}>
                   <NavLink to="#" onClick={e => this.addFilter("", "")}>
                     <i className="simple-icon-people" />
-                    All Patients
+                    All {this.state.showOptionCurrent} Patients
                     <span className="float-right">
                       {loading && allPatientsItems.length}
                     </span>
@@ -464,6 +626,11 @@ export default injectIntl(connect(
     getPatientsListSearch,
     addPatientsItem,
     removePatientsItem,
-    selectedPatientsItemsChange
+    selectedPatientsItemsChange,
+    dischargePatientsItem,
+    getDischargedPatientsList,
+    admitPatientsItem,
+    removeDischargedPatientsItem,
+    selectedDischargedPatientsItemsChange
   }
 )(Patients));

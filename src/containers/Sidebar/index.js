@@ -13,6 +13,8 @@ import {
   changeDefaultClassnames
 } from "Redux/actions";
 
+import { ThemeColors } from "Util/ThemeColors";
+
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -196,13 +198,14 @@ class Sidebar extends Component {
       this.toggle();
       window.scrollTo(0, 0);
     }
-    this.handleProps();
+    //this.handleProps();
   }
 
   componentDidMount() {
+
     window.addEventListener("resize", this.handleWindowResize);
     this.handleWindowResize();
-    this.handleProps();
+    //this.handleProps();
     this.setSelectedLiActive();
   }
 
@@ -212,6 +215,17 @@ class Sidebar extends Component {
   }
 
   render() {
+    let menuStyle = {
+      "textAlign": "center"
+    };
+    let highlightedMenuItem = {
+      filter: "invert(0.10)"
+      //"backgroundColor": ThemeColors().themeColor5,
+    };
+    let hightlightedMenuText = {
+      fontWeight: "bold"
+    }
+
     return (
       <div className="sidebar">
         <div className="main-menu">
@@ -222,6 +236,21 @@ class Sidebar extends Component {
               <Nav vertical className="list-unstyled">
                 <NavItem
                   className={classnames({
+                    active: this.state.selectedMenu.toString() === "patients"
+                  })}
+                  style={highlightedMenuItem}
+                >
+                  <NavLink
+                    to="/app/patients"
+                    onClick={e => {this.setState({selectedMenu: "patients"})}}
+                    style = {hightlightedMenuText}
+                  >
+                    <i className="iconsmind-MaleFemale" style={hightlightedMenuText}/>{" "}
+                    <div style={menuStyle}>Patient<br />assessment</div>
+                  </NavLink>
+                </NavItem>
+                <NavItem
+                  className={classnames({
                     active: this.state.selectedMenu.toString() === "ward"
                   })}
                 >
@@ -229,8 +258,8 @@ class Sidebar extends Component {
                     to="/app/ward"
                     onClick={e => {this.setState({selectedMenu: "ward"})}}
                   >
-                    <i className="iconsmind-Air-Balloon" />{" "}
-                    Ward
+                    <i className="iconsmind-Hospital" />{" "}
+                    <div style={menuStyle}>Caseload</div>
                   </NavLink>
                 </NavItem>
                 <NavItem
@@ -242,21 +271,8 @@ class Sidebar extends Component {
                     to="/app/factors"
                     onClick={e => {this.setState({selectedMenu: "factors"})}}
                   >
-                    <i className="iconsmind-Shop-4" />{" "}
-                    Factors
-                  </NavLink>
-                </NavItem>
-                <NavItem
-                  className={classnames({
-                    active: this.state.selectedMenu.toString() === "patients"
-                  })}
-                >
-                  <NavLink
-                    to="/app/patients"
-                    onClick={e => {this.setState({selectedMenu: "patients"})}}
-                  >
                     <i className="iconsmind-Digital-Drawing" />{" "}
-                    Patients
+                    <div style={menuStyle}>TRACT factors</div>
                   </NavLink>
                 </NavItem>
               </Nav>

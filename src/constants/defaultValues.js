@@ -1,5 +1,5 @@
 export const defaultMenuType = 'menu-default'; // 'menu-default', 'menu-sub-hidden', 'menu-hidden';
-export const defaultStartPath = '/app/ward';
+export const defaultStartPath = '/app/patients';
 export const subHiddenBreakpoint=1440;
 export const menuHiddenBreakpoint = 768;
 export const defaultLocale='en';
@@ -8,22 +8,32 @@ export const localeOptions=[
 ];
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyB92u2z3jFrUZMA-aWLRE5oQ6mY3MBkGNU",
-  authDomain: "tract-53f6d.firebaseapp.com",
-  databaseURL: "https://tract-53f6d.firebaseio.com",
-  projectId: "tract-53f6d",
-  storageBucket: "tract-53f6d.appspot.com",
-  messagingSenderId: "204548408896"
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
 };
 
 export const assessmentLevelToColor = (assessmentLevel) => {
   switch (assessmentLevel.toLowerCase()) {
+    case 'na':
+      return 'na';
+    case 'verylow':
+      return 'verylow';
     case 'low':
-      return 'primary';
+      return 'low';
     case 'medium':
-      return 'secondary';
+      return 'medium';
     case 'high':
-      return 'info'
+      return 'high';
+    case 'veryhigh':
+      return 'veryhigh';
+    default:
+      return 'na';
   }
 };
 

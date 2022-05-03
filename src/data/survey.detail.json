@@ -9,23 +9,12 @@
           "How certain is the individual's diagnosis?",
           "Does the individual have more than one health condition?",
           "If the individual has more than one health condition, do they affect each other?",
-          "How stable is the individual's condition?",
+          "How stable and predictable is the individual's condition?",
           "How familiar is the nursing staff with the individual's health needs?"
         ]
       },
       {
         "id": 2,
-        "factor": "Care needs",
-        "definition": "Factors relating to an individual's care needs that may impact on trajectory management",
-        "questions": [
-          "What is the extend of the individual's care needs?",
-          "What is the complexity of the individual's care needs?",
-          "How stable and predictable are the individual's care needs?",
-          "How familiar is the nursing staff in meeting the individual's care needs?"
-        ]
-      },
-      {
-        "id": 3,
         "factor": "Care Team",
         "definition": "Factors relating to the health and social care team that may impact on trajectory management",
         "questions": [
@@ -38,36 +27,39 @@
         ]
       },
       {
-        "id": 4,
+        "id": 3,
         "factor": "Social",
         "definition": "Factors relating to an individual's social circumstances that may impact on trajectory management",
         "questions": [
-          "Does the individual have the support of a family/social network?",
+          "Does the individual's family/social network have implications for their care trajectory management?",
+          "Does the individual have family/social obligations and responsibilities that impact on their care trajectory management?",
           "Do the individual and family agree on their health and social care arrangements?",
-          "Does the individual's family/social network have implications for their health and social care arrangements?"
+          "Are there cultural considerations that impact on individual's health and social care arrangements?",
+          "Are their considerations related to the individual's occupation or work that impact on care trajectory management?"
+        ]
+      },
+      {
+        "id": 4,
+        "factor": "Psychological",
+        "definition": "Factors relating to an individual's psychological status that may impact on trajectory management",
+        "questions": [
+          "Is care trajectory management affected by the psychological impact of an illness or injury?",
+          "Is care trajectory management affected by the psychological impact of the illness or injury on the individual's family?",
+          "Is the illness or injury life changing?"
         ]
       },
       {
         "id": 5,
-        "factor": "Psychological",
-        "definition": "Factors relating to an individual's psychological status that may impact on trajectory management",
+        "factor": "Cognitive",
+        "definition": "Factors relating to an individual's cognitive status that may impact on trajectory management",
         "questions": [
-          "Is the individual affected by the psychological impact of an illness or injury",
-          "Is the family affected by the psychological impact of the individual's illness or injury"
+          "Does the individual have problems with memory that impact on care trajectory management?",
+          "Does the individual have problems with thinking skills that impact on care trajectory management?",
+          "Does the individual have a learning disability that impact on care trajectory management?"
         ]
       },
       {
         "id": 6,
-        "factor": "Cognitive",
-        "definition": "Factors relating to an individual's cognitive status that ma impact on trajectory management",
-        "questions": [
-          "Does the individual have problems with memory?",
-          "Does the individual have problems with thinking skills?",
-          "Does the individual have a learning disability?"
-        ]
-      },
-      {
-        "id": 7,
         "factor": "Legal",
         "definition": "Factors relating to the legal aspects of individual's care that may impact on trajectory management",
         "questions": [
@@ -76,49 +68,51 @@
         ]
       },
       {
-        "id": 8,
+        "id": 7,
         "factor": "Financial",
         "definition": "Factors relating to financial aspects of an individual's care that may impact on trajectory management",
         "questions": [
-          "Are there issues in relation to the funding of care arrangements"
+          "Are there issues in relation to the funding of care arrangements that may impact on care trajectory management?"
         ]
       },
       {
-        "id": 9,
+        "id": 8,
         "factor": "Resources",
         "definition": "Factors relating to the organisation and maintenance of an individual's material resources (equipment and/or physical aides) that may impact on trajectory management",
         "questions": [
           "Does the individual require equipment and/or physical aides to support their health and social care needs?",
-          "Does the ward/unit have in place the equipment and aides requires",
-          "Are adaptations and/or modifications to the individual's home required",
-          "Are special arrangements required to support medications management",
+          "Does the ward/unit have in place the equipment and aides required?",
+          "Are adaptations and/or modifications to the individual's home required?",
+          "Are special arrangements required to support medications management?",
           "Is there a requirement for education and knowledge sharing with non-specialists care providers?",
-          "Is there a need for education and knowledge sharing with individuals and/or family"
+          "Is there a need for education and knowledge sharing with individuals and/or family?"
         ]
       },
       {
-        "id": 10,
+        "id": 9,
         "factor": "Interventions and Procedures",
         "definition": "Factors relating to an individual's care and procedures/treatment interventions that impact on care trajectory management",
         "questions": [
           "Is the individual scheduled to undergo any procedures: surgery, diagnostic tests, interventions?",
+          "Is the procedure routine for the ward or is it necessary to make specialist arrangements?",
           "How familiar is the nursing staff with the requirements for these procedures?"
         ]
       },
       {
-        "id": 11,
+        "id": 10,
         "factor": "Transfers of care",
         "definition": "Factors relating to the information requirements of admission, discharge and transfers of care which may have an impact on trajectory management",
         "questions": [
           "Has the individual been transferred from another department/ward/hospital?",
           "Does the plan of care involve transfers of care?",
-          "Are the arrangements for discharge complex?"
+          "Are the arrangements for discharge complex?",
+          "How familiar is the unit with the organisations involved in transfers of care?"
         ]
       },
       {
         "id": "S",
         "factor": "Overall Tract Assessment",
-        "definition": "Decide for overall Tract Assessment for each patient",
+        "definition": "Consider individual TRACT Factor scores to reach an overall TRACT assessment",
         "questions": [
           "Have you checked summary after you saved Assessment?"
         ]

@@ -5,7 +5,7 @@
 const path = require('path');
 const fs = require('fs');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const publicPath = '/';
+// const publicPath = "/";
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const HtmlWebPackPlugin = require("html-webpack-plugin");
@@ -14,26 +14,39 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 
+// environment variables for Firebase configuration
+const dotenv = require('dotenv');
+const webpack = require('webpack');
+// call dotenv and it will return an Object with a parsed key 
+const env = dotenv.config().parsed;
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 const pathsToClean = [
-  'dist',
-  'build'
+    'dist',
+    'build'
 ];
 
 const cleanOptions = {
-  root: __dirname,
-  verbose: false,
-  dry: false
+    root: __dirname,
+    verbose: false,
+    dry: false
 };
 
-module.exports = {
+module.exports = (env, argv) => ({
   entry: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
   output: {
       path: resolveApp('dist'),
       filename: 'assets/js/[name].[hash:8].js',
       chunkFilename: 'assets/js/[name].[hash:8].chunk.js',
-      publicPath: publicPath,
+      publicPath: argv.mode === 'production'
+           ? '/tract/'
+           : '/',
       hotUpdateChunkFilename: 'hot/hot-update.js',
       hotUpdateMainFilename: 'hot/hot-update.json'
   },
@@ -42,7 +55,9 @@ module.exports = {
       compress: true,
       port: 3005, // port number
       historyApiFallback: true,
-      quiet: true
+      quiet: true,
+    //   host: '0.0.0.0',
+    //   disableHostCheck: true
   },
   resolve: {
       alias: {
@@ -78,15 +93,35 @@ module.exports = {
               test: /\.css$/,
               use: [MiniCssExtractPlugin.loader, "css-loader"]
           },
-          // Scss compiler
           {
               test: /\.scss$/,
               use: [
-                  MiniCssExtractPlugin.loader,
-                  "css-loader",
-                  "sass-loader"
+                  {
+                    loader: MiniCssExtractPlugin.loader
+                  },
+                  {
+                    loader: "css-loader",
+                    options: {
+                        url: false
+                    }
+                  },
+                  {
+                    loader: "sass-loader",
+                    options: {
+                        data: `$publicPath: ' ';`
+                        //data: `$publicPath : ${argv.mode === 'production' ? '/tract' : ' '};`,
+                    }
+                  }
               ]
-          }
+          },
+          {
+            test: /\.(png|jpe?g|gif)$/i,
+            use: [
+              {
+                loader: 'file-loader',
+              },
+            ],
+          },
       ]
   },
   optimization: {
@@ -108,18 +143,20 @@ module.exports = {
       hints: process.env.NODE_ENV === 'production' ? "warning" : false
   },
   plugins: [
-      new CopyWebpackPlugin([
-          {from:'src/assets/img',to:'assets/img'},{from:'src/assets/fonts',to:'assets/fonts'}
-      ]),
-      new FriendlyErrorsWebpackPlugin(),
-      new CleanWebpackPlugin(pathsToClean, cleanOptions),
-      new HtmlWebPackPlugin({
-          template: "./public/index.html",
-          filename: "./index.html",
-          favicon: './public/favicon.ico'
-      }),
-      new MiniCssExtractPlugin({
-          filename: "assets/css/[name].[hash:8].css"
-      })
+    new CopyWebpackPlugin([
+        {from:'src/assets/img',to:'assets/img'},{from:'src/assets/fonts',to:'assets/fonts'}
+    ]),
+    new FriendlyErrorsWebpackPlugin(),
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new HtmlWebPackPlugin({
+        template: "./public/index.html",
+        filename: "./index.html",
+        favicon: './public/favicon.ico'
+    }),
+    new MiniCssExtractPlugin({
+        filename: "assets/css/[name].[hash:8].css"
+    }),
+    new HtmlWebpackTagsPlugin({ tags: ["assets/fonts/simple-line-icons/css/simple-line-icons.css", "assets/fonts/iconsmind/style.css"], append: true }),
+    new webpack.DefinePlugin(envKeys)
   ]
-};
+});

@@ -11,7 +11,19 @@ import {
   PATIENTS_REMOVE_ITEM,
   PATIENTS_REMOVE_ITEM_SUCCESS,
   PATIENTS_REMOVE_ITEM_ERROR,
-  PATIENTS_SELECTED_ITEMS_CHANGE
+  PATIENTS_SELECTED_ITEMS_CHANGE,
+  PATIENTS_DISCHARGE_ITEM,
+  PATIENTS_DISCHARGE_ITEM_SUCCESS,
+  PATIENTS_DISCHARGE_ITEM_ERROR,
+  PATIENTS_DISCHARGED_REMOVE_ITEM,
+  PATIENTS_DISCHARGED_REMOVE_ITEM_SUCCESS,
+  PATIENTS_DISCHARGED_REMOVE_ITEM_ERROR,
+  PATIENTS_GET_LIST_DISCHARGED,
+  PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
+  PATIENTS_GET_LIST_DISCHARGED_ERROR,
+  PATIENTS_ADMIT_ITEM,
+  PATIENTS_ADMIT_ITEM_SUCCESS,
+  PATIENTS_ADMIT_ITEM_ERROR
 } from 'Constants/actionTypes'
 
 const INIT_STATE = {
@@ -23,16 +35,19 @@ const INIT_STATE = {
 	orderColumn: null,
 	loading: false,
 	labels: [
-		{ label: "LOW", color: "primary" },
-		{ label: "MEDIUM", color: "secondary" },
-		{ label: "HIGH", color: "info" }
+		{ label: "NA", color: "na" },
+		{ label: "VERY LOW", color: "verylow" },
+		{ label: "LOW", color: "low" },
+		{ label: "MEDIUM", color: "medium" },
+		{ label: "HIGH", color: "high" },
+		{ label: "VERY HIGH", color: "veryhigh" }
 	],
 	orderColumns: [
-    { column: "id", label: "ID" },
-    { column: "name", label: "Full Name" },
-    { column: "createDate", label: "Created Date" },
+		{ column: "id", label: "ID" },
+		{ column: "name", label: "Full Name" },
+		{ column: "createDate", label: "Created Date" },
 	],
-  categories: ["Flexbox", "Sass", "React"],
+  	categories: ["Flexbox", "Sass", "React"],
 	selectedItems: []
 };
 
@@ -104,17 +119,53 @@ export default (state = INIT_STATE, action) => {
 		case PATIENTS_ADD_ITEM_ERROR:
 			return { ...state, loading: true, error: action.payload };
 
-    case PATIENTS_REMOVE_ITEM:
-      return { ...state, loading: false };
+		case PATIENTS_REMOVE_ITEM:
+		return { ...state, loading: false };
 
-    case PATIENTS_REMOVE_ITEM_SUCCESS:
-      return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+		case PATIENTS_REMOVE_ITEM_SUCCESS:
+		return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
 
-    case PATIENTS_REMOVE_ITEM_ERROR:
-      return { ...state, loading: true, error: action.payload };
+		case PATIENTS_REMOVE_ITEM_ERROR:
+		return { ...state, loading: true, error: action.payload };
 
 		case PATIENTS_SELECTED_ITEMS_CHANGE:
 			return { ...state, loading: true, selectedItems: action.payload};
+
+		case PATIENTS_DISCHARGE_ITEM:
+			return { ...state, loading: false };
+
+		case PATIENTS_DISCHARGE_ITEM_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+
+		case PATIENTS_DISCHARGE_ITEM_ERROR:
+			return { ...state, loading: true, error: action.payload };
+
+		case PATIENTS_DISCHARGED_REMOVE_ITEM:
+			return { ...state, loading: false };
+	
+		case PATIENTS_DISCHARGED_REMOVE_ITEM_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+	
+		case PATIENTS_DISCHARGED_REMOVE_ITEM_ERROR:
+			return { ...state, loading: true, error: action.payload };
+
+		case PATIENTS_GET_LIST_DISCHARGED:
+			return { ...state, loading: false };
+
+		case PATIENTS_GET_LIST_DISCHARGED_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+
+		case PATIENTS_GET_LIST_DISCHARGED_ERROR:
+			return { ...state, loading: true, error: action.payload };
+
+		case PATIENTS_ADMIT_ITEM:
+			return { ...state, loading: false };
+	
+		case PATIENTS_ADMIT_ITEM_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+
+		case PATIENTS_ADMIT_ITEM_ERROR:
+			return { ...state, loading: true, error: action.payload };
 
 		default: return { ...state };
 	}

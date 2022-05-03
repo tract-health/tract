@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const rootEl = document.getElementById("root");
 
-let color = 'light.purple';
+let color = 'light.blue';
 if (localStorage.getItem('themeColor')) {
   color = localStorage.getItem('themeColor');
 }

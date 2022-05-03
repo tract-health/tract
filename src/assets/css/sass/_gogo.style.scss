@@ -86,6 +86,30 @@ $success-color: #3e884f;
 $warning-color: #b69329;
 $error-color: #c43d4b;
 
+/* traffic light heatmap */
+// $na-color: lightgrey;
+// $verylow-color:#2dc937;
+// $low-color: #99c140;
+// $medium-color: #e7b416;
+// $high-color: #db7b2b;
+// $veryhigh-color: #cc3232;
+
+// welsh levels of care heatmap
+$na-color: lightgrey;
+$verylow-color:#92cddc;
+$low-color: #92d050;
+$medium-color: #ffff00;
+$high-color: #ffc000;
+$veryhigh-color: #ff0000;
+
+/* colourblind traffic light heatmap */
+// $na-color: grey;
+// $verylow-color:#e5fe7b;
+// $low-color: #fee919;
+// $medium-color: #e7b416;
+// $high-color: #db7b2b;
+// $veryhigh-color: #cc3232;
+
 /* 01.Base */
 html {
   width: 100%;
@@ -137,7 +161,9 @@ body {
 }
 
 .fixed-background {
-  background: url("/assets/img/balloon.jpg") no-repeat center center fixed;
+  //background: url("/assets/img/balloon.jpg") no-repeat center center fixed;
+  //background: url($publicPath + "/assets/img/balloon.jpg") no-repeat center center fixed;
+  background: url($publicPath + "/assets/img/Background.png") no-repeat center center fixed;
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -1587,12 +1613,14 @@ button {
   }
 
   .navbar-logo {
-    width: 110px;
+    width: 550px;
     height: 35px;
     position: absolute;
     left: 0;
     right: 0;
     margin: 0 auto;
+    line-break: pre;
+    text-align: center;
 
     .logo {
       width: 100%;
@@ -1608,12 +1636,18 @@ button {
       background-position: center center;
     }
 
+    @include respond-below(md) {
+      width: 450px;
+    }
+
     @include respond-below(sm) {
-      width: 80px;
+      width: 275px;
     }
 
     @include respond-below(xxs) {
-      width: 20px;
+      width: 200px;
+      height: 50px;
+      right: 100px;
     }
   }
 
@@ -1777,11 +1811,11 @@ button {
       width: 40px;
     }
 
-    @include respond-below(md) {
-      .name {
-        display: none;
-      }
-    }
+    // @include respond-below(md) {
+    //   .name {
+    //     display: none;
+    //   }
+    // }
 
     @include respond-below(sm) {
       img {
@@ -2566,6 +2600,43 @@ main {
     &.sm {
       padding: 1.25rem 1.75rem;
     }
+  }
+
+  .card-assessment {
+    padding: 1.0rem !important;
+  }
+
+  .card-overallassessment {
+    border: 1px solid $theme-color-1;
+    font-weight: bolder;
+    //border-radius: 00.25rem;
+  }
+
+  .card-overallassessmenttop {
+    border: 1px solid $theme-color-1;
+    border-bottom: none;
+    font-weight: bolder;
+    //border-radius: 00.25rem;
+  }
+
+  .card-overallassessmentbottom {
+    border: 1px solid $theme-color-1;
+    border-top: none;
+    //border-radius: 00.25rem;
+  }
+
+  .card-planner-complete {
+    border: 1px solid $success-color;
+    //border-radius: 00.25rem;
+  }
+
+  .card-planner-noncomplete {
+    border: 1px solid $error-color;
+    //border-radius: 00.25rem;
+  }
+
+  .card-planner {
+    padding: 1.0rem !important;
   }
 
   .card-title {
@@ -3549,6 +3620,9 @@ select.form-control:not([size]):not([multiple]) {
   border-radius: $border-radius;
   font-family: "Nunito", sans-serif;
 }
+.react-datepicker__day--highlighted {
+  background-color: lightgrey;
+}
 .react-datepicker__header {
   background-color: $input-background;
   border-bottom: initial;
@@ -3668,6 +3742,8 @@ select.form-control:not([size]):not([multiple]) {
   li.react-datepicker__time-list-item--selected {
   background: $theme-color-1;
 }
+
+
 .react-fine-uploader-gallery-dropzone,
 .react-fine-uploader-gallery-nodrop-container {
   min-height: 118px;
@@ -4837,7 +4913,12 @@ input:-webkit-autofill {
   @include depth(1);
   .image-side {
     width: 40%;
-    background: url("/assets/img/login-balloon.jpg") no-repeat center top;
+    //background: url("/assets/img/login-balloon.jpg") no-repeat center top;
+    //background: url($publicPath + "/assets/img/login-balloon.jpg") no-repeat center top;
+    //background: url($publicPath + "/assets/img/Background_bw.png") no-repeat center top;
+    background: $theme-color-blue;
+    //background-color: #145388;
+    //background: transparent;
     background-size: cover;
     padding: 80px 40px;
     .h3 {
@@ -4977,7 +5058,7 @@ input:-webkit-autofill {
   border-color: $separator-color;
 }
 .ck.ck-toolbar {
-  background: !important;
+  background: white !important;
 }
 .RichEditor-root {
   background: $foreground-color;
@@ -5476,15 +5557,27 @@ div.summary-table th {
   padding: 0.5em;
 }
 
+div.summary-table td.veryhigh {
+  background-color: $veryhigh-color !important;
+}
+
 div.summary-table td.high {
-  background-color: $info-color !important;
+  background-color: $high-color !important;
 }
 
 div.summary-table td.medium {
-  background-color: $theme-color-2 !important;
+  background-color: $medium-color !important;
 }
 
 div.summary-table td.low {
-  background-color: $theme-color-1 !important;
+  background-color: $low-color !important;
+}
+
+div.summary-table td.verylow {
+  background-color: $verylow-color !important;
+}
+
+div.summary-table td.na {
+  background-color: $na-color !important;
 }
 

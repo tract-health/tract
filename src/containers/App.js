@@ -24,6 +24,7 @@ const InitialPath = ({ component: Component, ...rest, authUser }) =>
 						state: { from: props.location }
 					}}
 				/>}
+		//render = {props => <Component {...props}/>}
 	/>;
 
 class App extends Component {

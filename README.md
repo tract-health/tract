@@ -11,6 +11,21 @@ These instructions will get you a copy of the project up and running on your loc
 - Authentication is provided with Firebase
 - Node.js for running locally
 
+### Environmental Variables
+
+This project requires Firebase authentication credentials provided in .env file. The variables needed are:
+
+```
+REACT_APP_FIREBASE_APIKEY
+REACT_APP_FIREBASE_AUTHDOMAIN
+REACT_APP_FIREBASE_DATABASEURL
+REACT_APP_FIREBASE_PROJECTID
+REACT_APP_FIREBASE_STORAGEBUCKET
+REACT_APP_FIREBASE_MESSAGINGSENDERID
+REACT_APP_FIREBASE_APPID
+REACT_APP_FIREBASE_MEASUREMENTID
+```
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
