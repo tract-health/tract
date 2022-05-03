@@ -571,131 +571,6 @@ class PatientsDetail extends Component {
     saveAs(blob, `Planner_${patient.id}.csv`)
   }
 
-  // // old planner implementation
-  // getPlanner1() {
-  //   const patient = this.getPatient();
-  //   if (patient) {
-  //     // if there is a datepicker for planners
-  //     const date = this.getDate();
-  //     if (date) {
-  //       return patient.planners && patient.planners[date] ? patient.planners[date] : null
-  //     }
-
-  //     // no datepicker for planner
-  //     return patient.planner ? patient.planner : null
-  //   }
-  //   return null
-  // }
-
-  // handleSavePlanner1() {
-  //   //console.log(this.patientId);
-  //   if (this.patientId) {
-  //     const plannerId = this.getDate();
-  //     const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
-
-  //     // check if planner is entirely empty
-  //     let isPlannerEmpty = true;
-  //     for (let i = 0; i < this.state.plannerItems.length; i++) {
-  //       let plannerItem = this.state.plannerItems[i];
-  //       if (plannerItem.issue || plannerItem.action) {
-  //         isPlannerEmpty = false;
-  //         break;
-  //       }
-  //     }
-  //     if (isPlannerEmpty) {
-  //       this.setState({
-  //         warningMessage: `Cannot save an empty planner!`,
-  //       });
-  //       return;
-  //     } else {
-  //       // cut empty entries
-  //       let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
-  //       for (let i = 0; i < plannerItems.length; i++) {
-  //         if (plannerItems[i].issue.length == 0 && plannerItems[i].action.length == 0) {
-  //           plannerItems.splice(i, 1);
-  //           i--;
-  //         }
-  //       }
-  //       // null warning message
-  //       this.setState({
-  //         plannerItems,
-  //         warningMessage: ``,
-  //       });
-  //       // save planner into database
-  //       return database.ref(plannerPath).set({
-  //         data: plannerItems
-  //       }).then(response => {
-  //         this.props.getPatientsList();
-  //       }).catch(error => error);
-  //     }
-  //   }
-  // }
-
-  // handleDeletePlanner1() {
-  //   if (this.patientId) {
-  //     const plannerId = this.getDate();
-  //     const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planners/${plannerId}`;
-
-  //     return database.ref(plannerPath).remove()
-  //       .then(response => {
-  //       this.props.getPatientsList();
-  //       this.patientPlannerUpdated = false;
-  //     }).catch(error => error);
-  //   }
-  // }
-  
-  // handlePlannerChange1(i, type, event) {
-  //   // if active patient then allow changes
-  //   if (this.status === 'Active') {
-  //     let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-  //     if (type === 'issue') {
-  //       plannerItems[i].issue = event.target.value;
-  //     } else if (type === 'action') {
-  //       plannerItems[i].action = event.target.value;
-  //     } else if (type === 'complete') {
-  //       plannerItems[i].complete = !plannerItems[i].complete;
-  //     }
-  //     this.setState({ 
-  //       plannerItems,
-  //       warningMessage: `You have unsaved changes!`
-  //     }); 
-  //   } else {
-  //     // if discharged patient then simply do nothing
-  //   }
-    
-  // }
-
-  // addPlannerItemClick1() {
-  //   // if active patient then allow changes
-  //   if (this.status === 'Active') {
-  //     this.setState(prevState => ({
-  //       plannerItems: [...prevState.plannerItems, this.state.defaultPlannerItem],
-  //       warningMessage: `You have unsaved changes!`
-  //     }))
-  //   } else {
-  //     // if discharged patient then simply do nothing
-  //   }
-  // }
-
-  // removePlannerItemClick1(i)  {
-  //   // if active patient then allow changes
-  //   if (this.status === 'Active') {
-  //     let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems))
-  //     plannerItems.splice(i, 1);
-  //     this.setState({ 
-  //       plannerItems,
-  //       warningMessage: `You have unsaved changes!`
-  //     }); 
-  //   } else {
-  //     // if discharged patient then simply do nothing¬
-  //   }
-  // }
-
-  // handlePlannerSubmit1(event) {
-  //   alert('A planner was submitted: ' + this.state.plannerItems.join(', '));
-  //   event.preventDefault();
-  // }
-
   createPlannerUI() {
 
     let warningBox;
@@ -971,80 +846,6 @@ class PatientsDetail extends Component {
             {completeTaskLabel}
             {completePlannerItemList}
           </div>
-
-    // old planner implementation
-    // return this.state.plannerItems.map((plannerItem, i) => (
-    //     <div key={i}>
-    //       <Card className="question d-flex mb-3">
-    //         <div className={plannerCardClass[i]}>
-    //           <div className="card-body card-planner align-self-center d-flex flex-column justify-content-between min-width-zero">
-    //             <div className="d-flex flex-row">
-    //                 <Label className="list-item-heading">
-    //                   Date raised:&nbsp;&nbsp;
-    //                 </Label>
-    //                 <Label className="list-item-heading">
-    //                   {plannerItem.createdDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    //                 </Label>
-    //                 <Label className="list-item-heading">
-    //                   Last updated:&nbsp;&nbsp;
-    //                 </Label>
-    //                 <Label className="list-item-heading">
-    //                   {plannerItem.updatedDate}
-    //                 </Label>
-    //             </div>
-
-    //             <Label className="list-item-heading">
-    //               Care trajectory managemenent issue:
-    //             </Label>
-    //             <Input
-    //               className="h-10"
-    //               type="text"
-    //               value={plannerItem.issue}
-    //               onChange={this.handlePlannerChange.bind(this, i, 'issue')}
-    //             />
-    //             <Label className="list-item-heading mt-2">
-    //                 Action:
-    //             </Label>
-    //             <Input
-    //               type="text"
-    //               value={plannerItem.action}
-    //               onChange={this.handlePlannerChange.bind(this, i, 'action')}
-    //             />
-    //             <Label className="list-item-heading mt-2">
-    //                 Notes:
-    //             </Label>
-    //             <Input
-    //               type="textarea"
-    //               value={plannerItem.note}
-    //               onChange={this.handlePlannerChange.bind(this, i, 'note')}
-    //             />
-    //             <div className="d-flex flex-grow-1 min-width-zero flex-row mt-2">
-    //               <Label className="list-item-heading mt-2">
-    //                   Action complete?
-    //               </Label>
-    //               <div className="custom-control custom-checkbox align-self-center justify-content-between">
-    //                 <CustomInput
-    //                   color="secondary"
-    //                   type="checkbox"
-    //                   id={`check_${i}`}
-    //                   checked={plannerItem.complete}
-    //                   onChange={this.handlePlannerChange.bind(this, i, 'complete')}
-    //                 />
-    //               </div>
-    //             </div>
-    //           </div>
-    //           <div className="card-top-buttons">
-    //             <Button 
-    //               close
-    //               onClick={this.removePlannerItemClick.bind(this, i)}
-    //               >
-    //               <span aria-hidden="true">&times;</span>
-    //             </Button>
-    //           </div>
-    //         </div>
-    //       </Card>
-    //     </div>     
-    // ))
  }       
 
   render() {
@@ -1109,6 +910,7 @@ class PatientsDetail extends Component {
       }
     }
 
+    // another assessment datepicker implementation
     // const AssessmentDatePicker = <DatePicker
     //                           calendarClassName="embedded"
     //                           inline
@@ -1136,28 +938,6 @@ class PatientsDetail extends Component {
         locale="en-GB"
       />
     ));
-
-    // datepicker for planner (deprecated)
-    // let highlightPlannerDates = [];
-    // if (patient && patient.planners) {
-    //   for (let k in patient.planners) {
-    //     highlightPlannerDates.push(moment(k, "YYYY-MM-DD"))
-    //   }
-    // }
-
-    // const PlannerDatePicker = withRouter(({history}) => (
-    //   <DatePicker
-    //     calendarClassName="embedded"
-    //     inline
-    //     selected={this.state.embeddedDate}
-    //     onChange={(date) => {
-    //       this.patientPlannerUpdated = false
-    //       history.push(`/app/patients/detail/${this.patientId}/${date.format("YYYY-MM-DD")}/${this.status}`)
-    //     }}
-    //     highlightDates={highlightPlannerDates}
-    //     locale="en-GB"
-    //   />
-    // ));
 
     let saveAssessmentButton;
     if (this.status === 'Active') {
@@ -1195,43 +975,6 @@ class PatientsDetail extends Component {
     } else {
       saveAssessmentButton = null;
     }
-
-    // let savePlannerButton;
-    // if (this.status === 'Active') {
-    //   savePlannerButton = <ButtonDropdown
-    //                   className="top-right-button top-right-button-single"
-    //                   isOpen={this.state.dropdownSplitOpen}
-    //                   toggle={this.toggleSplit}
-    //                 >
-    //                   <Button
-    //                     outline
-    //                     className="flex-grow-1"
-    //                     size="lg"
-    //                     color="primary"
-    //                     onClick={this.handleSavePlanner}
-    //                   >
-    //                     SAVE
-    //                   </Button>
-    //                   <DropdownToggle
-    //                     size="lg"
-    //                     className="pr-4 pl-4"
-    //                     caret
-    //                     outline
-    //                     color="primary"
-    //                   />
-    //                   <DropdownMenu persist>
-    //                     <DropdownItem
-    //                       onClick={() => { 
-    //                         this.handleDeletePlanner(); 
-    //                       }}
-    //                     >
-    //                       DELETE
-    //                     </DropdownItem>
-    //                   </DropdownMenu>
-    //                 </ButtonDropdown>
-    // } else {
-    //   savePlannerButton = null;
-    // }
 
     return (
       <Fragment>
@@ -1345,6 +1088,7 @@ class PatientsDetail extends Component {
                         </Row>
                       </CardBody>
                     </Card> */}
+
                     {/* Assessment overall score card */}
                     {/* 
                     <Card className="mt-4">
@@ -1355,6 +1099,7 @@ class PatientsDetail extends Component {
                         </Row>
                       </CardBody>
                     </Card> */}
+
                   </Colxx>
                   
                   <Colxx xxs="12" lg="8">
@@ -1466,11 +1211,6 @@ class PatientsDetail extends Component {
                     Completed assessments
                     <span className="float-right">{patient && patient.surveys ? Object.keys(patient.surveys).length : 0 }</span>{" "}
                   </NavLink>
-                  {/* <NavLink to="#">
-                    <i className="simple-icon-check" />
-                    Completed Planners
-                    <span className="float-right">{patient && patient.planners ? Object.keys(patient.planners).length : 0 }</span>{" "}
-                  </NavLink> */}
                 </li>
               </ul>
             </div>

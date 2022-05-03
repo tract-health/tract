@@ -291,9 +291,6 @@ class Patients extends Component {
                       <DropdownItem onClick={() => this.handleDeleteAll()}>
                         Delete
                       </DropdownItem>
-                      {/* <DropdownItem onClick={() => this.handleDischargeAll()}>
-                        Discharge
-                      </DropdownItem> */}
                     </DropdownMenu>
       patientListButtons = <div className="float-sm-right mb-2">
                             <Button
@@ -312,33 +309,6 @@ class Patients extends Component {
                             >
                               <IntlMessages id="todo.discharge" />
                             </Button>
-                            {/* <div className="btn btn-primary pl-3 pr-2 mr-2 check-button">
-                              <Label
-                                for="checkAll"
-                                className="custom-control custom-checkbox mb-0 d-inline-block"
-                              >
-                                <Input
-                                  className="custom-control-input"
-                                  type="checkbox"
-                                  id="checkAll"
-                                  checked={
-                                    loading
-                                      ? selectedItems.length >= patientsItems.length
-                                      : false
-                                  }
-                                  onChange={() => this.handleChangeSelectAll()}
-                                />
-                                <span
-                                  className={`custom-control-label ${
-                                    loading &&
-                                    selectedItems.length > 0 &&
-                                    selectedItems.length < patientsItems.length
-                                      ? "indeterminate"
-                                      : ""
-                                    }`}
-                                />
-                              </Label>
-                            </div> */}
                             <Modal
                               isOpen={this.state.modalOpen}
                               toggle={this.toggleModal}
@@ -433,9 +403,6 @@ class Patients extends Component {
                       <DropdownItem onClick={() => this.handleDeleteDischargedAll()}>
                         Delete
                       </DropdownItem>
-                      {/* <DropdownItem onClick={() => this.handleAdmitAll()}>
-                        Admit
-                      </DropdownItem> */}
                     </DropdownMenu>
       patientListButtons = <div className="float-sm-right mb-2">
                               <Button
