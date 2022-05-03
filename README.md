@@ -13,7 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Environmental Variables
 
-This project required Firebase authentication credentials provided in .env file. The variables needed are:
+This project requires Firebase authentication credentials provided in .env file. The variables needed are:
 
 ```
 REACT_APP_FIREBASE_APIKEY
