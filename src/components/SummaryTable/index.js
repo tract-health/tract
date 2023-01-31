@@ -22,7 +22,7 @@ export default class SummaryTable extends React.Component {
 
     const daysStrings = [];
     for (let day of days) {
-      daysStrings.push(format(day, "YYYY-MM-DD"))
+      daysStrings.push(format(day, "DD/MM/YYYY"))
     }
 
     const getClassName = (variable) => {
