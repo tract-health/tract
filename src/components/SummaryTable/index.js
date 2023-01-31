@@ -17,12 +17,11 @@ export default class SummaryTable extends React.Component {
     try {
       days = eachDay(startDate, endDate);
     } catch(e) {
-
     }
 
     const daysStrings = [];
     for (let day of days) {
-      daysStrings.push(format(day, "DD/MM/YYYY"))
+      daysStrings.push(format(day, "YYYY-MM-DD"))
     }
 
     const getClassName = (variable) => {
@@ -59,13 +58,13 @@ export default class SummaryTable extends React.Component {
 
     return (
       <div className="summary-table">
-        <Table>
+        <Table bordered hover>
           <thead>
           <tr>
             <th>{ leftUp }</th>
             {
               daysStrings.map((item) =>
-                <th key={item}>{ item }</th>
+                <th key={item}>{ format(item, "DD/MM/YYYY") }</th>
               )
             }
           </tr>
