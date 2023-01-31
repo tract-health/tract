@@ -48,6 +48,9 @@ import { database } from '../../firebase'
 
 import { saveAs } from 'file-saver';
 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 const surveyData = [];
 
 
@@ -551,25 +554,82 @@ class PatientsDetail extends Component {
   }
 
   exportPlanner() {
+
     const patient = this.getPatient();
-    let data = [
-      ["Patient ID", patient.id],
-      ["Patient name", patient.name],
-      ["Patient admitted date", patient.createDate],
-      [''],
-      ["Planner item", "Created date", "Updated date", "Issue", "Action", "Notes", "Completion status"]
-    ]
-    for (let i = 0; i < this.state.plannerItems.length; i++) {
-      let item = this.state.plannerItems[i];
+
+    // get list of tasks as a deep copy
+    let savedItems = JSON.parse(JSON.stringify(this.state.plannerItems))
+
+    savedItems = savedItems.sort((a, b) => {     
+      return moment(a.createdDate, "DD/MM/YYYY, hh:mm:ss").diff(moment(b.createdDate, "DD/MM/YYYY, hh:mm:ss"));
+    });
+    
+    // saving to pdf
+    const doc = new jsPDF({orientation: "portrait"});
+    doc.setFontSize(15)
+    let lineCoordinate = 10;
+    doc.text(`Patient name: ${patient.name}`, 5, lineCoordinate);
+    lineCoordinate += 10;
+    doc.text(`Patient ID: ${patient.id}`, 5, lineCoordinate);
+    lineCoordinate += 10;
+    doc.text(`Date admitted: ${patient.createDate}`, 5, lineCoordinate);
+    lineCoordinate += 10;
+    
+
+    for (let i = 0; i < savedItems.length; i++) {
+      let item = savedItems[i];
       let createdDate = item.createdDate.substring(0, item.createdDate.indexOf(',')) + item.createdDate.substring(item.createdDate.indexOf(',') + 1, item.createdDate.length);
       let updatedDate = item.updatedDate.substring(0, item.updatedDate.indexOf(',')) + item.updatedDate.substring(item.updatedDate.indexOf(',') + 1, item.updatedDate.length);
       let complete = item.complete ? "Complete" : "Incomplete";
-      data.push([`Planner Item ${i}`, createdDate, updatedDate, item.issue, item.action, item.note, complete])
+
+      doc.setFontSize(13)
+      doc.text(`Planner item ${i + 1}`, 13, lineCoordinate);
+      lineCoordinate += 5;
+      doc.setFontSize(15)
+      doc.autoTable({
+        theme: 'grid',
+        startY: lineCoordinate,
+        columnStyles: {
+          0: { fillColor: [0, 166, 115], textColor: 255, fontStyle: 'bold', cellWidth: 35 },
+        },
+        body: [
+          ['Care trajectory management issue', item.issue],
+          ['Created', createdDate],
+          ['Last updated', updatedDate],
+          ['Action', item.action],
+          ['Notes', item.note],
+          ['Action complete?', complete]
+        ]
+
+      });
+      lineCoordinate = doc.lastAutoTable.finalY + 10;
+      
     }
+    
+    doc.save(`Planner_${patient.id}.pdf`);
+
+
+    // saving to csv
+    
+    // let data = [
+    //   ["Patient name", patient.name],
+    //   ["Patient ID", patient.id],
+    //   ["Date admitted", patient.createDate],
+    //   [''],
+    //   ["Planner item", "Created date", "Updated date", "Issue", "Action", "Notes", "Completion status"]
+    // ]
+    // for (let i = 0; i < this.state.plannerItems.length; i++) {
+    //   let item = this.state.plannerItems[i];
+    //   let createdDate = item.createdDate.substring(0, item.createdDate.indexOf(',')) + item.createdDate.substring(item.createdDate.indexOf(',') + 1, item.createdDate.length);
+    //   let updatedDate = item.updatedDate.substring(0, item.updatedDate.indexOf(',')) + item.updatedDate.substring(item.updatedDate.indexOf(',') + 1, item.updatedDate.length);
+    //   let complete = item.complete ? "Complete" : "Incomplete";
+    //   data.push([`Planner Item ${i + 1}`, createdDate, updatedDate, item.issue, item.action, item.note, complete])
+    // }
  
-    let csvContent = data.map(e => e.join(",")).join("\n");
-    let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-    saveAs(blob, `Planner_${patient.id}.csv`)
+    // let csvContent = data.map(e => e.join(",")).join("\n");
+    // let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    // saveAs(blob, `Planner_${patient.id}.csv`)
+
   }
 
   createPlannerUI() {
