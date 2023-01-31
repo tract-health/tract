@@ -114,14 +114,12 @@ class Factors extends Component {
     const { survey } = this.props.surveyDetailApp;
 
     let rowHeaders = survey && survey.survey
-      ? survey.survey.filter((i) => i.id !== "S").map((i) => {return {id: i.id, name: i.factor}})
+      ? survey.survey.map((i) => {return {id: i.id, name: i.factor}})
       : [];
     let data = {};
 
     if (survey && survey.survey) {
       for (let s of survey.survey) {
-        if (s.id === "S")
-          continue;
         data[s.id] = {}
       }
     }
@@ -131,8 +129,6 @@ class Factors extends Component {
         if (this.state.selectedPatient.id === "A") {
           for (let date in patient.surveys) {
             for (let id in patient.surveys[date].answers) {
-              if (id === "S")
-                continue;
               if (typeof data[id][date] === "undefined") {
                 data[id][date] = [];
               }
@@ -143,8 +139,6 @@ class Factors extends Component {
           if (patient.id === this.state.selectedPatient.id) {
             for (let date in patient.surveys) {
               for (let id in patient.surveys[date].answers) {
-                if (id === "S")
-                  continue;
                 data[id][date] = patient.surveys[date].answers[id];
               }
             }

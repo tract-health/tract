@@ -24,7 +24,7 @@ export default class SummaryTable extends React.Component {
       daysStrings.push(format(day, "YYYY-MM-DD"))
     }
 
-    const getClassName = (variable) => {
+    const getTableCellClassName = (variable) => {
       let score = 0;
       const scores  = {
         "na": 0,
@@ -55,6 +55,14 @@ export default class SummaryTable extends React.Component {
         return variable;
       }
     };
+    
+    const getRowClassName = (variable) => {
+      if (variable === 'S') {
+        return 'overallAssessmentScore';
+      } else {
+        return 'normal';
+      }
+    }
 
     return (
       <div className="summary-table">
@@ -73,10 +81,10 @@ export default class SummaryTable extends React.Component {
             {
               rowHeaders.map((item) =>
                 <tr key={item.id}>
-                  <td>{ item.name }</td>
+                  <td className={item.id ? getRowClassName(item.id) : null}>{ item.name }</td>
                   {
                     daysStrings.map((item2) =>
-                      <td key={item2} className={data[item.id] && data[item.id][item2] ? getClassName(data[item.id][item2]) : null}>&nbsp;</td>
+                      <td key={item2} className={data[item.id] && data[item.id][item2] ? getTableCellClassName(data[item.id][item2]) : null}>&nbsp;</td>
                     )
                   }
                 </tr>

@@ -5581,3 +5581,11 @@ div.summary-table td.na {
   background-color: $na-color !important;
 }
 
+div.summary-table td.normal {
+  font-weight: normal;
+}
+
+div.summary-table td.overallAssessmentScore {
+  font-weight: bolder;
+}
+
