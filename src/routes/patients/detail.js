@@ -102,7 +102,8 @@ class PatientsDetail extends Component {
         10: '',
         "S": ''
       },
-      warningMessage: '',
+      surveyWarningMessage: '',
+      plannerWarningMessage: '',
       deleteModalOpen: false,
       completeModalOpen: false,
       inCompleteModalOpen: false,
@@ -182,7 +183,7 @@ class PatientsDetail extends Component {
     const patientSurvey = this.getSurvey();
     if (!this.patientSurveyUpdated) {
       this.setState({
-        warningMessage: "",
+        surveyWarningMessage: "",
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
         survey: patientSurvey ? patientSurvey.answers : this.state.defaultSurvey
       });
@@ -213,7 +214,7 @@ class PatientsDetail extends Component {
 
       // set the displayed and true planner items
       this.setState({
-        warningMessage: "",
+        plannerWarningMessage: "",
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
         plannerItems: plannerItems,
         displayPlannerItems: displayPlannerItems
@@ -288,12 +289,12 @@ class PatientsDetail extends Component {
 
       if (!this.state.survey.S) {
         this.setState({
-          warningMessage: `Please decide for "Overall Tract Assessment"!`,
+          surveyWarningMessage: `Please decide for "Overall Tract Assessment"!`,
         });
         return;
       } else {
         this.setState({
-          warningMessage: ``,
+          surveyWarningMessage: ``,
         });
         return database.ref(surveyPath).set({
           answers: this.state.survey,
@@ -346,7 +347,7 @@ class PatientsDetail extends Component {
           !this.state.survey['10'])) 
         {
           this.setState({
-            warningMessage: 'Please score all TRACT factors first before deciding for overall assessment!'
+            surveyWarningMessage: 'Please score all TRACT factors first before deciding for overall assessment!'
           })
       } else {
         let className = null;
@@ -375,7 +376,7 @@ class PatientsDetail extends Component {
             ...prevState.survey,
             [id]: prevState.survey[id] !== className ? className: null
           },
-          warningMessage: `You have unsaved changes!`
+          surveyWarningMessage: `You have unsaved changes!`
         }))
       }      
     } else {
@@ -388,8 +389,8 @@ class PatientsDetail extends Component {
       this.setState({
         activeTab: tab
       });
-      this.patientSurveyUpdated = false;
-      this.patientPlannerUpdated = false;
+      this.patientSurveyUpdated = true;
+      this.patientPlannerUpdated = true;
     }
   }
 
@@ -578,10 +579,10 @@ class PatientsDetail extends Component {
       "textAlign": "center",
       "fontWeight": "bolder"
     };
-    if (this.state.warningMessage.length > 0) {
+    if (this.state.plannerWarningMessage.length > 0) {
       warningBox = 
       <div className="notification-error mt-2 mb-2" style={warningStyle}>
-        {this.state.warningMessage}
+        {this.state.plannerWarningMessage}
       </div>
     } else {
       warningBox = null;
@@ -859,10 +860,10 @@ class PatientsDetail extends Component {
       "textAlign": "center",
       "fontWeight": "bolder"
     };
-    if (this.state.warningMessage.length > 0) {
+    if (this.state.surveyWarningMessage.length > 0) {
       warningBox = 
       <div className="notification-error mb-2" style={warningStyle}>
-        {this.state.warningMessage}
+        {this.state.surveyWarningMessage}
       </div>
     } else {
       warningBox = null;
