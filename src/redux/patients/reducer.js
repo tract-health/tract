@@ -82,19 +82,23 @@ export default (state = INIT_STATE, action) => {
 				return { ...state, loading: true, patientsItems: state.patientsItems, orderColumn: null };
 			} else {
 				const sortedItems = state.patientsItems.sort((a, b) => {
-					if (
-						a[action.payload] <
-						b[action.payload]
-					)
+					// determine sort string based on the input. Different for date
+					var aSort, bSort;
+					if (action.payload === 'createDate') {
+						aSort = a[action.payload].split('.').reverse().join('');
+						bSort = b[action.payload].split('.').reverse().join('');
+					} else {
+						aSort = a[action.payload];
+						bSort = b[action.payload];
+					}
+					if (aSort < bSort) {
 						return -1;
-					else if (
-						a[action.payload] >
-						b[action.payload]
-					)
+					} else if (aSort > bSort) {
 						return 1;
+					}
 					return 0;
 				});
-
+			
 				return { ...state, loading: true, patientsItems: sortedItems, orderColumn: state.orderColumns.find(x => x.column === action.payload) }
 			}
 
