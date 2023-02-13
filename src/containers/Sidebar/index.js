@@ -263,7 +263,7 @@ class Sidebar extends Component {
                   <DropdownToggle caret color="outline-dark" size="xs">
                     {this.state.currentWard}
                   </DropdownToggle>
-                  <DropdownMenu positionFixed={true}>
+                  <DropdownMenu>
                     {this.state.wardsList.map((val, index) => {
                       return (
                         <DropdownItem
