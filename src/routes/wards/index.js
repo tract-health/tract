@@ -23,8 +23,6 @@ import { saveAs } from 'file-saver';
 import IntlMessages from "Util/IntlMessages";
 import { ThemeColors } from "Util/ThemeColors";
 
-import { database } from '../../firebase'
-
 class Wards extends Component {
   constructor(props) {
     super(props);
@@ -71,77 +69,6 @@ class Wards extends Component {
       });
     }
   }
-
-  getWardsData = async () => {
-    // get user wards list
-    let userWardsList = []
-    if (JSON.parse(localStorage.getItem('user_wards'))[0] === 'all' || localStorage.getItem('user_wards') == null) {
-      userWardsList = JSON.parse(localStorage.getItem('wards_all'));
-    } else {
-      userWardsList = JSON.parse(localStorage.getItem('user_wards'));
-    }
-
-    // get all wards data
-    const allWardsData = await this.getAllWardsListRequest();
-
-    // collate data for user wards from all wards data
-    let rowHeaders = [];
-    let data = {};
-    for (let i = 0; i < allWardsData.length; i++) {
-      // check if ward is included in user wards access
-      if (userWardsList.includes(allWardsData[i].name)) {
-        // push row header
-        rowHeaders.push({
-          id: i,
-          name: allWardsData[i].name
-        });
-        // aggregate data for ward and push it
-        data[i] = {}
-        // cycle through all the patients in that ward
-        for (let patient_key in allWardsData[i].patients) {
-          let patient = allWardsData[i].patients[patient_key];
-          // cycle through all the surveys for that patient
-          for (let survey_key in patient.surveys) {
-            let survey = patient.surveys[survey_key];
-            // check if date is already there for current ward
-            if (data[i].hasOwnProperty(survey_key)) {
-              // push the result into that array
-              data[i][survey_key].push(survey.answers.S);
-            } else {
-              // if date is not there add it as a first element in array
-              data[i][survey_key] = [survey.answers.S];
-            }
-          }
-        }
-      }
-    }
-
-    return {
-      'data': data,
-      'rowHeaders': rowHeaders
-    }
-  }
-
-  getAllWardsListRequest = async () => {
-    // path to wards in the database
-    let wardsPath = 'wards/';
-    // return all wards data as an array
-    return database.ref(wardsPath)
-      .once('value')
-      .then(response => {
-        response = response.val();
-        const array = [];
-        for (let k in response) {
-          if (response.hasOwnProperty(k)) {
-            let item = response[k];
-            item.name = k;
-            array.push(item)
-          }
-        }
-        return array;
-      })
-      .catch(error => error);
-  };
 
   render() {
 
@@ -319,7 +246,7 @@ class Wards extends Component {
   }
 }
 
-const mapStateToProps = ({ patientsApp, surveyDetailApp, wardsApp }) => {
+const mapStateToProps = ({ wardsApp }) => {
   return {
     wardsApp
   };

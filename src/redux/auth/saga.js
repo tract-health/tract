@@ -31,7 +31,6 @@ function* loginWithEmailPassword({ payload }) {
 
             // if wards access is set to all then get all wards from the database
             if (wards[0] === 'all' || wards.length === 0) {
-
                 const allWards = yield call(getAllWardsListRequest);
                 // store all wards into a list
                 localStorage.setItem('wards_all', JSON.stringify(allWards));

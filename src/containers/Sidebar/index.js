@@ -52,7 +52,7 @@ class Sidebar extends Component {
       state.selectedMenu = "wards";
     }
 
-    if (JSON.parse(localStorage.getItem('user_wards'))[0] === 'all' || localStorage.getItem('user_wards') == null) {
+    if (JSON.parse(localStorage.getItem('user_wards'))[0] === 'all' || JSON.parse(localStorage.getItem('user_wards')).length === 0) {
       state.wardsList = JSON.parse(localStorage.getItem('wards_all'));
     } else {
       state.wardsList = JSON.parse(localStorage.getItem('user_wards'));
@@ -330,7 +330,8 @@ const mapStateToProps = ({ menu }) => {
     containerClassnames,
     subHiddenBreakpoint,
     menuHiddenBreakpoint,
-    menuClickCount
+    menuClickCount,
+    
   } = menu;
   return {
     containerClassnames,
