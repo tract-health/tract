@@ -8,6 +8,7 @@ import Ward from './ward';
 import Factors from './factors';
 import Patients from './patients';
 import PatientsDetail from './patients/detail'
+import Wards from './wards'
 
 import { connect } from 'react-redux';
 
@@ -24,6 +25,7 @@ class MainApp extends Component {
 						<Switch>
               <Route path={`${match.url}/ward`} component={Ward} />
               <Route path={`${match.url}/factors`} component={Factors} />
+			  <Route path={`${match.url}/wards`} component={Wards} />
               <Route
                 path={`${match.url}/patients/detail/:patientId/:date/:status`}
                 component={PatientsDetail}

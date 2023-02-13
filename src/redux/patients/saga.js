@@ -30,7 +30,7 @@ import {
 
 
 const getPatientsListRequest = async () => {
-  return database.ref(localStorage.getItem('user_id') + '/patients')
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients')
     .once('value')
     .then(response => {
       response = response.val();
@@ -59,17 +59,17 @@ const addPatientsItemRequest = async item => {
   item.createDate = getDateWithFormat();
 
   // search in discharged patients first
-  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + item.id)
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + item.id)
     .once('value')
     .then(response => {
       // if no entry in discharged patients by the same ID
       if (!response.exists()) {
-        return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id)
+        return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + item.id)
           .once('value')
           .then(response => {
             // if found update existing entry
             if (response.exists()) {
-              return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id).update({
+              return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + item.id).update({
                 name: item.name
               }).then(response => {
                 return getPatientsListRequest()
@@ -77,7 +77,7 @@ const addPatientsItemRequest = async item => {
             }
             // if not found add a new entry
             else {
-              return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id).set({
+              return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + item.id).set({
                 name: item.name,
                 createDate: item.createDate,
                 assessmentLevel: null,
@@ -107,7 +107,7 @@ const addPatientsItemRequest = async item => {
           existingPatientPlanner = response.val().planner;
         } 
         // add that entry into active patients
-        return database.ref(localStorage.getItem('user_id') + '/patients/' + item.id)
+        return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + item.id)
           .set({
             name: existingPatientName,
             createDate: existingPatientCreateDate,
@@ -117,7 +117,7 @@ const addPatientsItemRequest = async item => {
           })
           .then(response => {
             // delete entry from discharged patients
-            return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + item.id)
+            return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + item.id)
               .remove()
               .then(response => {
                 return getPatientsListRequest()
@@ -140,7 +140,7 @@ function* addPatientsItem({ payload }) {
 }
 
 const removePatientsItemRequest = async id => {
-  return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + id)
     .remove()
     .then(response => {
       return getPatientsListRequest()
@@ -158,7 +158,7 @@ function* removePatientsItem({ payload }) {
 
 const dischargePatientsItemRequest = async id => {
   // find the correct patient
-  return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + id)
     .once('value')
     .then(response => {
       // get values
@@ -175,7 +175,7 @@ const dischargePatientsItemRequest = async id => {
         assessmentLevel = response.val().assessmentLevel;
       } 
       // copy the patient into discharged
-      return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+      return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + id)
         .set({
           name: response.val().name,
           createDate: response.val().createDate,
@@ -185,7 +185,7 @@ const dischargePatientsItemRequest = async id => {
         })
         .then(response => {
           // delete patient from active patients
-          return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
+          return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + id)
             .remove()
             .then(response => {
               return getPatientsListRequest();
@@ -207,7 +207,7 @@ function* dischargePatientsItem({ payload }) {
 }
 
 const removeDischargedPatientsItemRequest = async id => {
-  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + id)
     .remove()
     .then(response => {
       return getDischargedPatientsListRequest()
@@ -224,7 +224,7 @@ function* removeDischargedPatientsItem({ payload }) {
 }
 
 const getDischargedPatientsListRequest = async () => {
-  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients')
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients')
     .once('value')
     .then(response => {
       response = response.val();
@@ -251,7 +251,7 @@ function* getDischargedPatientsListItems() {
 
 const admitPatientsItemRequest = async id => {
   // find the correct discharged patient
-  return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + id)
     .once('value')
     .then(response => {
       // get values
@@ -268,7 +268,7 @@ const admitPatientsItemRequest = async id => {
         assessmentLevel = response.val().assessmentLevel;
       } 
       // copy the discharged patient into active patients list
-      return database.ref(localStorage.getItem('user_id') + '/patients/' + id)
+      return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients/' + id)
         .set({
           name: response.val().name,
           createDate: response.val().createDate,
@@ -278,7 +278,7 @@ const admitPatientsItemRequest = async id => {
         })
         .then(response => {
           // delete patient from discharged patients
-          return database.ref(localStorage.getItem('user_id') + '/dischargedPatients/' + id)
+          return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + id)
             .remove()
             .then(response => {
               return getPatientsListRequest();

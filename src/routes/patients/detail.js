@@ -179,7 +179,6 @@ class PatientsDetail extends Component {
   }
 
   componentDidUpdate() {
-    //console.log(this.props.match.params);
     this.date = this.props.match.params.date;
 
     // update survey
@@ -288,7 +287,7 @@ class PatientsDetail extends Component {
   handleSaveSurvey() {
     if (this.patientId) {
       const surveyId = this.getDate();
-      const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
+      const surveyPath = `wards/${localStorage.getItem('user_currentWard')}/patients/${this.patientId}/surveys/${surveyId}`;
 
       if (!this.state.survey.S) {
         this.setState({
@@ -312,14 +311,14 @@ class PatientsDetail extends Component {
         }).catch(error => error);
       }
 
-      
+
     }
   }
 
   handleDeleteSurvey() {
     if (this.patientId) {
       const surveyId = this.getDate();
-      const surveyPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/surveys/${surveyId}`;
+      const surveyPath = `wards/${localStorage.getItem('user_currentWard')}/patients/${this.patientId}/surveys/${surveyId}`;
 
       return database.ref(surveyPath).remove()
         .then(response => {
@@ -335,7 +334,6 @@ class PatientsDetail extends Component {
     // if active patient, then allow changes
     if (this.status === 'Active') {
       const id = e.target.getAttribute('data-id');
-      console.log(id);
       // if click on overall assessment but other factors have not been selected first
       if ((id === 'S') && 
           (!this.state.survey['1'] ||
@@ -417,7 +415,7 @@ class PatientsDetail extends Component {
     // check if we have a patient
     if (this.patientId) {
       // path for firebase
-      const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planner`;
+      const plannerPath = `wards/${localStorage.getItem('user_currentWard')}/patients/${this.patientId}/planner`;
 
       // check if that is an empty itemplanner
       let isPlannerEmpty = true;
@@ -536,7 +534,7 @@ class PatientsDetail extends Component {
     });
 
     // path for firebase
-    const plannerPath = `${localStorage.getItem('user_id')}/patients/${this.patientId}/planner`;
+    const plannerPath = `wards/${localStorage.getItem('user_currentWard')}/patients/${this.patientId}/planner`;
     // save planner into database
     return database.ref(plannerPath).set({
       data: plannerItems
@@ -1037,6 +1035,9 @@ class PatientsDetail extends Component {
       saveAssessmentButton = null;
     }
 
+    // let title = <IntlMessages id="menu.patients" />
+    let title = `Patient assessment and planning: ${localStorage.getItem('user_currentWard')} `
+
     return (
       <Fragment>
         <style>{`
@@ -1050,7 +1051,7 @@ class PatientsDetail extends Component {
         <Row className="app-row survey-app">
           <Colxx xxs="12">
             <h1>
-              <span className="align-middle d-inline-block pt-1"><IntlMessages id="menu.patients" /></span>
+              <span className="align-middle d-inline-block pt-1">{title}</span>
             </h1>
             
 

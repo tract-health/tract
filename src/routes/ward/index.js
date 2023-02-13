@@ -66,7 +66,7 @@ class Ward extends Component {
     for (var i = 0; i < data.length; i++) {
       htmlToImage.toPng(data[i])
       .then((dataUrl) => {
-        saveAs(dataUrl, 'Ward Data.png');
+        saveAs(dataUrl, `${localStorage.getItem('user_currentWard')}_caseload.png`);
       });
     }
   }
@@ -116,7 +116,8 @@ class Ward extends Component {
     let veryhighStyle = setupColor('veryhigh').style;
     let veryhighClass = setupColor('veryhigh').class;
 
-    let title = <IntlMessages id="menu.ward" />
+    // let title = <IntlMessages id="menu.ward" />
+    let title = `Caseload heatmap: ${localStorage.getItem('user_currentWard')}`
 
     return (
       <div className="mainfragment">

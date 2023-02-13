@@ -32,5 +32,6 @@ module.exports = {
   "todo.complete": "MARK AS COMPLETE",
   "todo.incomplete": "MARK AS INCOMPLETE",
   "todo.save": "SAVE",
-  "todo.confirm": "CONFIRM"
+  "todo.confirm": "CONFIRM",
+  "todo.ward": "Ward:"
 };

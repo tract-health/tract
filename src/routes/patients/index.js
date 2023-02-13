@@ -443,7 +443,8 @@ class Patients extends Component {
                             </div>
     }
 
-
+    // let title = <IntlMessages id="menu.patients" />
+    let title = `Patient assessment and planning: ${localStorage.getItem('user_currentWard')} `
 
     return (
       <Fragment>
@@ -451,7 +452,7 @@ class Patients extends Component {
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
-                <IntlMessages id="menu.patients" />
+                {title}
               </h1>
 
               {patientListButtons}

@@ -74,7 +74,6 @@ class Factors extends Component {
   }
 
   selectPatient(item) {
-    console.log(item);
     this.setState({selectedPatient: item});
   }
 
@@ -98,7 +97,7 @@ class Factors extends Component {
     for (var i = 0; i < data.length; i++) {
       htmlToImage.toPng(data[i])
       .then((dataUrl) => {
-        saveAs(dataUrl, 'Factors Data.png');
+        saveAs(dataUrl, `${localStorage.getItem('user_currentWard')}_factors.png`);
       });
     }
   }
@@ -173,7 +172,8 @@ class Factors extends Component {
     let veryhighStyle = setupColor('veryhigh').style;
     let veryhighClass = setupColor('veryhigh').class;
 
-    let title = <IntlMessages id="menu.factors" />
+    // let title = <IntlMessages id="menu.factors" />
+    let title = `TRACT factor heatmap: ${localStorage.getItem('user_currentWard')} `
 
     return (
       <div className="mainfragment">
