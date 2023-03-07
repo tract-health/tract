@@ -1118,7 +1118,7 @@ class PatientsDetail extends Component {
                   }}
                   to="#"
                 >
-                  PLANNER TOOL
+                  TRACT PLANNER
                 </NavLink>
               </NavItem>
             </Nav>
