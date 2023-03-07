@@ -105,6 +105,7 @@ class PatientsDetail extends Component {
         10: '',
         "S": ''
       },
+      surveyNote: '',
       surveyWarningMessage: '',
       plannerWarningMessage: '',
       deleteModalOpen: false,
@@ -195,7 +196,8 @@ class PatientsDetail extends Component {
       this.setState({
         surveyWarningMessage: "",
         embeddedDate: moment(this.date, "YYYY-MM-DD"),
-        survey: patientSurvey ? patientSurvey.answers : this.state.defaultSurvey
+        survey: patientSurvey ? patientSurvey.answers : this.state.defaultSurvey,
+        surveyNote: patientSurvey ? patientSurvey.note : ''
       });
       this.patientSurveyUpdated = true
     }
@@ -313,13 +315,12 @@ class PatientsDetail extends Component {
           low: this.getSum("low"),
           medium: this.getSum("medium"),
           high: this.getSum("high"),
-          veryhigh: this.getSum("veryhigh")
+          veryhigh: this.getSum("veryhigh"),
+          note: this.state.surveyNote
         }).then(response => {
           this.props.getPatientsList();
         }).catch(error => error);
       }
-
-
     }
   }
 
@@ -391,6 +392,18 @@ class PatientsDetail extends Component {
     } else {
       // do nothing because discharged patient
     }
+  }
+
+  // function that handles change of the survey note
+  handleSurveyNoteChange(event) {
+    // get survey note from the event
+    let surveyNote = event.target.value;
+    // update state for current surveyNote and warning message
+    this.setState((prevState) => ({ 
+      ...prevState,
+      surveyNote: surveyNote,
+      surveyWarningMessage: `You have unsaved changes!`
+    }))
   }
 
   toggleTab(tab) {
@@ -1219,6 +1232,17 @@ class PatientsDetail extends Component {
                           );
                         }) : null}
                     </ul>
+                    <div className="mb-3">
+                      <Label className="list-item-heading mt-2">
+                          Notes:
+                      </Label>
+                      <Input
+                        disabled={this.status !== 'Active'}
+                        type="textarea"
+                        value={this.state.surveyNote}
+                        onChange={this.handleSurveyNoteChange.bind(this)}
+                      />
+                    </div>
                     {warningBox}
                     <div className="float-sm-right mb-4">
                       {saveAssessmentButton}
