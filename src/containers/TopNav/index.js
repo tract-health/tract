@@ -88,6 +88,11 @@ class TopNav extends Component {
     this.props.logoutUser(this.props.history);
   };
 
+  guideClick = () => {
+    this.props.history.push('/app/guidance')
+    // window.location.reload();
+  }
+
   menuButtonClick(e, menuClickCount, containerClassnames) {
     e.preventDefault();
 
@@ -156,6 +161,9 @@ class TopNav extends Component {
                 <span className="name mr-1">{localStorage.getItem('user_email')}</span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
+                <DropdownItem onClick={() => this.guideClick()}>
+                  User guide
+                </DropdownItem>
                 <DropdownItem onClick={() => this.handleLogout()}>
                   Sign out
                 </DropdownItem>

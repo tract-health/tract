@@ -7,8 +7,9 @@ import Sidebar from 'Containers/Sidebar';
 import Ward from './ward';
 import Factors from './factors';
 import Patients from './patients';
-import PatientsDetail from './patients/detail'
-import Wards from './wards'
+import PatientsDetail from './patients/detail';
+import Wards from './wards';
+import Guidance from './guidance';
 
 import { connect } from 'react-redux';
 
@@ -23,15 +24,16 @@ class MainApp extends Component {
 				<main>
 					<div className="container-fluid">
 						<Switch>
-              <Route path={`${match.url}/ward`} component={Ward} />
-              <Route path={`${match.url}/factors`} component={Factors} />
-			  <Route path={`${match.url}/wards`} component={Wards} />
-              <Route
-                path={`${match.url}/patients/detail/:patientId/:date/:status`}
-                component={PatientsDetail}
-                isExact
-              />
-              <Route path={`${match.url}/patients`} component={Patients} />
+							<Route path={`${match.url}/ward`} component={Ward} />
+							<Route path={`${match.url}/factors`} component={Factors} />
+							<Route path={`${match.url}/wards`} component={Wards} />
+							<Route path={`${match.url}/guidance`} component={Guidance} />
+							<Route
+								path={`${match.url}/patients/detail/:patientId/:date/:status`}
+								component={PatientsDetail}
+								isExact
+							/>
+							<Route path={`${match.url}/patients`} component={Patients} />
 							<Redirect to="/error" />
 						</Switch>
 					</div>

@@ -12,7 +12,7 @@ import 'Assets/css/vendor/bootstrap.min.css'
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 
-const InitialPath = ({ component: Component, ...rest, authUser }) =>
+const InitialPath = ({ component: Component, authUser, ...rest }) =>
 	<Route
 		{...rest}
 		render={props =>
