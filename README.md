@@ -26,6 +26,10 @@ REACT_APP_FIREBASE_APPID
 REACT_APP_FIREBASE_MEASUREMENTID
 ```
 
+### TRACT Factors
+
+TRACT factors, questions and definitions can be adjusted in `data\survey.detail.json` file before building the application.
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
