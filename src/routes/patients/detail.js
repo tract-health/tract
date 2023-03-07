@@ -115,6 +115,8 @@ class PatientsDetail extends Component {
       defaultPlannerItem: {
         createdDate: new Date().toLocaleString('en-UK'),
         updatedDate: new Date().toLocaleString('en-UK'),
+        raisedBy: localStorage.getItem('user_email'),
+        completedBy: '',
         issue: '',
         action: '',
         note: '',
@@ -125,6 +127,8 @@ class PatientsDetail extends Component {
         {
           createdDate: new Date().toLocaleString('en-UK'),
           updatedDate: new Date().toLocaleString('en-UK'),
+          raisedBy: localStorage.getItem('user_email'),
+          completedBy: '',
           issue: '',
           action: '',
           note: '',
@@ -136,6 +140,8 @@ class PatientsDetail extends Component {
         {
           createdDate: '',
           updatedDate: '',
+          raisedBy: localStorage.getItem('user_email'),
+          completedBy: '',
           issue: '',
           action: '',
           note: '',
@@ -147,6 +153,8 @@ class PatientsDetail extends Component {
         {
           createdDate: '',
           updatedDate: '',
+          raisedBy: localStorage.getItem('user_email'),
+          completedBy: '',
           issue: '',
           action: '',
           note: '',
@@ -492,6 +500,8 @@ class PatientsDetail extends Component {
       displayPlannerItems[i].complete = !displayPlannerItems[i].complete;
       // update the time and date
       displayPlannerItems[i].updatedDate = new Date().toLocaleString('en-UK');
+      // update the complete by:
+      displayPlannerItems[i].completedBy = localStorage.getItem('user_email');
       // adjust plannerItems accordingly
       let plannerItems = JSON.parse(JSON.stringify(this.state.plannerItems));
       plannerItems[i] = displayPlannerItems[i];
@@ -695,6 +705,15 @@ class PatientsDetail extends Component {
                                                   </Label>
                                               </div>
 
+                                              <div className="d-flex flex-row">
+                                                <Label className="list-item-heading">
+                                                  Raised by:&nbsp;&nbsp;
+                                                </Label>
+                                                <Label className="list-item-heading">
+                                                  {plannerItem[0].raisedBy}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </Label>
+                                              </div>
+
                                               <Label className="list-item-heading">
                                                 Care trajectory managemenent issue:
                                               </Label>
@@ -820,6 +839,21 @@ class PatientsDetail extends Component {
                                                 </Label>
                                                 <Label className="list-item-heading">
                                                   {plannerItem[0].updatedDate}
+                                                </Label>
+                                            </div>
+
+                                            <div className="d-flex flex-row">
+                                                <Label className="list-item-heading">
+                                                  Raised by:&nbsp;&nbsp;
+                                                </Label>
+                                                <Label className="list-item-heading">
+                                                  {plannerItem[0].raisedBy}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </Label>
+                                                <Label className="list-item-heading">
+                                                  Completed by:&nbsp;&nbsp;
+                                                </Label>
+                                                <Label className="list-item-heading">
+                                                  {plannerItem[0].completedBy}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 </Label>
                                             </div>
 
