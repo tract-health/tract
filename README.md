@@ -26,9 +26,18 @@ REACT_APP_FIREBASE_APPID
 REACT_APP_FIREBASE_MEASUREMENTID
 ```
 
+### Firebase management
+
+You can create new users in the Firebase console.
+
+In order to provide access to certain named wards a following record needs to be added in the Firebase database after user was created:
+
+`userSettings\{userID}\wards` with a comma-separated list of Wards.
+
 ### TRACT Factors
 
 TRACT factors, questions and definitions can be adjusted in `data\survey.detail.json` file before building the application.
+
 
 ### Installing
 
