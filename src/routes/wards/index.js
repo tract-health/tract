@@ -136,7 +136,8 @@ class Wards extends Component {
     let veryhighClass = setupColor('veryhigh').class;
 
     // let title = <IntlMessages id="menu.ward" />
-    let title = `Wards heatmap`;
+    // let title = `Wards heatmap`;
+    let title = `TRACT Wards Data`;
 
     return (
       <div className="mainfragment">

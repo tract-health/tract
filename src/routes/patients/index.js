@@ -444,8 +444,9 @@ class Patients extends Component {
     }
 
     // let title = <IntlMessages id="menu.patients" />
-    let title = `Patient assessment and planning: ${localStorage.getItem('user_currentWard')} `
-
+    // let title = `Patient assessment and planning: ${localStorage.getItem('user_currentWard')} `
+    let title = `TRACT Patient Data: ${localStorage.getItem('user_currentWard')} `;
+    
     return (
       <Fragment>
         <Row className="app-row survey-app">

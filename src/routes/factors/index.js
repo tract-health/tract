@@ -173,7 +173,8 @@ class Factors extends Component {
     let veryhighClass = setupColor('veryhigh').class;
 
     // let title = <IntlMessages id="menu.factors" />
-    let title = `TRACT factor heatmap: ${localStorage.getItem('user_currentWard')} `
+    // let title = `TRACT factor heatmap: ${localStorage.getItem('user_currentWard')} `
+    let title = `TRACT Activity Data: ${localStorage.getItem('user_currentWard')} `;
 
     return (
       <div className="mainfragment">

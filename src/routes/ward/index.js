@@ -117,7 +117,8 @@ class Ward extends Component {
     let veryhighClass = setupColor('veryhigh').class;
 
     // let title = <IntlMessages id="menu.ward" />
-    let title = `Caseload heatmap: ${localStorage.getItem('user_currentWard')}`
+    // let title = `Caseload heatmap: ${localStorage.getItem('user_currentWard')}`
+    let title = `TRACT Caseload Data: ${localStorage.getItem('user_currentWard')}`
 
     return (
       <div className="mainfragment">
