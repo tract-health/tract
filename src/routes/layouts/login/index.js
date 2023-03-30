@@ -50,7 +50,8 @@ class LoginLayout extends Component {
               <Colxx xxs="12" md="10" className="mx-auto my-auto">
                 <Card className="auth-card">
                   <div className="position-relative image-side ">
-                    <p className="text-white h2">TRACT - TRAJECTORY COMPLEXITY ASSESSMENT TOOL</p>
+                    {/* <p className="text-white h2">TRACT - TRAJECTORY COMPLEXITY ASSESSMENT TOOL</p> */}
+                    <p className="text-white h2">TRACT: CARE TRAJECTORY MANAGEMENT TOOL</p>
                     <p className="white mb-0">
                       Please use your credentials to login.
                     </p>

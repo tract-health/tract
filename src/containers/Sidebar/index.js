@@ -283,7 +283,7 @@ class Sidebar extends Component {
                     style = {hightlightedMenuText}
                   >
                     <i className="iconsmind-MaleFemale" style={hightlightedMenuText}/>{" "}
-                    <div style={menuStyle}>Patient<br />assessment</div>
+                    <div style={menuStyle}>Patient<br />Assessment</div>
                   </NavLink>
                 </NavItem>
 
@@ -303,7 +303,7 @@ class Sidebar extends Component {
                     onClick={e => {this.setState({selectedMenu: "factors"})}}
                   >
                     <i className="iconsmind-Digital-Drawing" />{" "}
-                    <div style={menuStyle}>TRACT factors</div>
+                    <div style={menuStyle}>TRACT Factors</div>
                   </NavLink>
                 </NavItem>
 

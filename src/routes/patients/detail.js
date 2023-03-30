@@ -720,7 +720,7 @@ class PatientsDetail extends Component {
 
                                               <div className="d-flex flex-row">
                                                 <Label className="list-item-heading">
-                                                  Raised by:&nbsp;&nbsp;
+                                                  Created by:&nbsp;&nbsp;
                                                 </Label>
                                                 <Label className="list-item-heading">
                                                   {plannerItem[0].raisedBy}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -857,7 +857,7 @@ class PatientsDetail extends Component {
 
                                             <div className="d-flex flex-row">
                                                 <Label className="list-item-heading">
-                                                  Raised by:&nbsp;&nbsp;
+                                                  Created by:&nbsp;&nbsp;
                                                 </Label>
                                                 <Label className="list-item-heading">
                                                   {plannerItem[0].raisedBy}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1235,7 +1235,7 @@ class PatientsDetail extends Component {
                     </ul>
                     <div className="mb-3">
                       <Label className="list-item-heading mt-2">
-                          Notes:
+                          Rationale:
                       </Label>
                       <Input
                         disabled={this.status !== 'Active'}

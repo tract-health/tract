@@ -43,7 +43,7 @@ class Guidance extends Component {
 
   render() {
 
-    let title = `User guidance`;
+    let title = `User Guide`;
 
     return (
       <div className="mainfragment">
