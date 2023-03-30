@@ -4,7 +4,8 @@ import {
   UncontrolledDropdown,
   DropdownItem,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
+  Button
 } from "reactstrap";
 
 import { NavLink } from "react-router-dom";
@@ -110,6 +111,12 @@ class TopNav extends Component {
 
   render() {
     const { containerClassnames, menuClickCount } = this.props;
+
+    let usernameStyle = { 
+      "textAlign": "center",
+      "fontWeight": "bolder"
+    };
+
     return (
       <nav className="navbar fixed-top">
         <NavLink
@@ -155,22 +162,30 @@ class TopNav extends Component {
           <h3>TRACT: CARE TRAJECTORY MANAGEMENT TOOL</h3>
         </a>
 
-        <div className="ml-auto">
+        <div className="ml-auto mt-1 mb-1">
           <div className="user d-inline-block">
             <UncontrolledDropdown className="dropdown-menu-right">
               <DropdownToggle className="p-0" color="empty">
-                <span className="name mr-1">{localStorage.getItem('user_email')}</span>
+                <span className="name mr-1" style={usernameStyle}>{localStorage.getItem('user_email')}</span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
-                <DropdownItem onClick={() => this.guideClick()}>
-                  User guide
-                </DropdownItem>
                 <DropdownItem onClick={() => this.handleLogout()}>
                   Sign out
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
+          <div className="ml-1">
+            <Button
+              color="empty"
+              size='sm'
+              id="guide"
+              onClick={() => this.guideClick()}
+              >
+              User Guide
+            </Button>
+          </div>
+
         </div>
       </nav>
     );
