@@ -62,10 +62,13 @@ class Guidance extends Component {
                 />
               </div> */}
               <Separator className="mb-5" />
+              <div>
+                User Guide Will Be Here.
+              </div>
             </Colxx>
 
           </Row>
-          <div className="float-sm-right mt-3">
+          {/* <div className="float-sm-right mt-3">
             <Button 
               className="mb-4"
               color="primary"
@@ -73,7 +76,7 @@ class Guidance extends Component {
               >
               <IntlMessages id="todo.exportimage" />
             </Button>
-          </div>
+          </div> */}
 
         </Fragment>
       </div>
