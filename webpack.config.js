@@ -108,7 +108,8 @@ module.exports = (env, argv) => ({
                   {
                     loader: "sass-loader",
                     options: {
-                        data: `$publicPath: ' ';`
+                        data: `$publicPath: ' ';` // dev empty baseref
+                        //data: `$publicPath: '/tract';` // production baseref
                         //data: `$publicPath : ${argv.mode === 'production' ? '/tract' : ' '};`,
                     }
                   }
