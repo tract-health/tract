@@ -283,7 +283,7 @@ class Sidebar extends Component {
                     style = {hightlightedMenuText}
                   >
                     <i className="iconsmind-MaleFemale" style={hightlightedMenuText}/>{" "}
-                    <div style={menuStyle}>Patient<br />Assessment</div>
+                    <div style={menuStyle}>Patient<br />Assessment<br />and Planner</div>
                   </NavLink>
                 </NavItem>
 
