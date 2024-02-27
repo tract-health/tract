@@ -20,7 +20,9 @@ import DatePicker from "react-datepicker";
 import {
   getPatientsList,
   getSurveyDetail,
-  getPatientsListSearch
+  getPatientsListSearch,
+  getAllPatientsList,
+  getDischargedPatientsList
 } from 'Redux/actions'
 
 import { connect } from 'react-redux'
@@ -50,13 +52,28 @@ class Factors extends Component {
       startDateRange: moment(startDate),
       endDateRange: moment(endDate),
       selectedPatient: defaultPatient,
-      displayOptionsIsOpen: false
+      displayOptionsIsOpen: false,
+      showOptions: ['All', 'Active', 'Discharged'],
+      showOptionCurrent: "All"
     };
 
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
     this.selectPatient = this.selectPatient.bind(this);
     this.toggleDisplayOptions = this.toggleDisplayOptions.bind(this);
+  }
+
+  changeShow(value) {
+    this.setState({
+      showOptionCurrent: value
+    });
+    if (value === 'Active') {
+      this.props.getPatientsList();
+    } else if (value === "Discharged") {
+      this.props.getDischargedPatientsList();
+    } else if (value === "All") {
+      this.props.getAllPatientsList();
+    }
   }
 
   toggleDisplayOptions() {
@@ -80,8 +97,11 @@ class Factors extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      showOptionCurrent: "All"
+    });
     this.props.getSurveyDetail();
-    this.props.getPatientsList();
+    this.props.getAllPatientsList();
   }
 
   handleKeyPress(e) {
@@ -300,6 +320,24 @@ class Factors extends Component {
                   <div className="mb-2">
                     <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                       <DropdownToggle caret color="outline-dark" size="xs">
+                        <IntlMessages id="todo.show" />
+                        {this.state.showOptionCurrent}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {this.state.showOptions.map((val, index) => {
+                          return (
+                            <DropdownItem
+                              key={index}
+                              onClick={() => this.changeShow(val)}
+                            >
+                              {val}
+                            </DropdownItem>
+                          );
+                        })}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                    <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                      <DropdownToggle caret color="outline-dark" size="xs">
                         { this.state.selectedPatient ? this.state.selectedPatient.name : 'Select Patient ...'}
                       </DropdownToggle>
                       <DropdownMenu style={dropdownStyle}>
@@ -429,6 +467,8 @@ export default connect(
   {
     getSurveyDetail,
     getPatientsList,
-    getPatientsListSearch
+    getPatientsListSearch,
+    getDischargedPatientsList,
+    getAllPatientsList
   }
 )(Factors);

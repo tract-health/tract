@@ -6,13 +6,17 @@ import {
   Collapse,
   Badge,
   Button,
-  Col
+  Col,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu,
 } from "reactstrap";
 import { Colxx, Separator } from "Components/CustomBootstrap";
 import BreadcrumbContainer from "Components/BreadcrumbContainer";
 
 import DatePicker from "react-datepicker";
-import {getPatientsList, getSurveyDetail} from 'Redux/actions'
+import {getPatientsList, getSurveyDetail, getDischargedPatientsList, getAllPatientsList} from 'Redux/actions'
 
 import { connect } from 'react-redux'
 import SummaryTable from "Components/SummaryTable";
@@ -36,19 +40,43 @@ class Ward extends Component {
     this.state = {
       startDateRange: moment(startDate),
       endDateRange: moment(endDate),
+      displayOptionsIsOpen: false,
+      showOptions: ['All', 'Active', 'Discharged'],
+      showOptionCurrent: "All"
     };
 
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.toggleDisplayOptions = this.toggleDisplayOptions.bind(this);
 
     this.heatMapXLabels = ['N/A', 'VERY LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY HIGH'];
     this.heatMapYLabels = [''];
     this.heatMapData = [[100],[2],[3],[4],[88],[88]];
   }
 
+  toggleDisplayOptions() {
+    this.setState({ displayOptionsIsOpen: !this.state.displayOptionsIsOpen });
+  }
+
+  changeShow(value) {
+    this.setState({
+      showOptionCurrent: value
+    });
+    if (value === 'Active') {
+      this.props.getPatientsList();
+    } else if (value === "Discharged") {
+      this.props.getDischargedPatientsList();
+    } else if (value === "All") {
+      this.props.getAllPatientsList();
+    }
+  }
+
   componentDidMount() {
+    this.setState({
+      showOptionCurrent: "All"
+    });
     this.props.getSurveyDetail();
-    this.props.getPatientsList();
+    this.props.getAllPatientsList();
   }
 
   handleChangeStart(date) {
@@ -72,8 +100,6 @@ class Ward extends Component {
       });
     }
   }
-
-  
 
   render() {
 
@@ -206,10 +232,39 @@ class Ward extends Component {
                 </Row>
               </div>
               <div className="mb-2">
+                <Button
+                  color="empty"
+                  id="displayOptions"
+                  className="pt-0 pl-0 d-inline-block d-md-none"
+                  onClick={this.toggleDisplayOptions}
+                >
+                  <IntlMessages id="todo.display-options" />{" "}
+                  <i className="simple-icon-arrow-down align-middle" />
+                </Button>
                 <Collapse
                   className="d-md-block"
-                  isOpen={true}
+                  isOpen={this.state.displayOptionsIsOpen}
                 >
+                  <div className="mb-2">
+                    <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                      <DropdownToggle caret color="outline-dark" size="xs">
+                        <IntlMessages id="todo.show" />
+                        {this.state.showOptionCurrent}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {this.state.showOptions.map((val, index) => {
+                          return (
+                            <DropdownItem
+                              key={index}
+                              onClick={() => this.changeShow(val)}
+                            >
+                              {val}
+                            </DropdownItem>
+                          );
+                        })}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </div>
                   <div className="d-block mb-2 d-md-inline-block">
                     <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                       <DatePicker
@@ -224,8 +279,6 @@ class Ward extends Component {
                         popperPlacement="bottom-start"
                       />
                     </div>
-                  </div>
-                  <div className="d-block mb-2 d-md-inline-block">
                     <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                       <DatePicker
                         dateFormat='DD/MM/YYYY'
@@ -303,6 +356,8 @@ export default connect(
   mapStateToProps,
   {
     getSurveyDetail,
-    getPatientsList
+    getPatientsList,
+    getDischargedPatientsList,
+    getAllPatientsList
   }
 )(Ward);

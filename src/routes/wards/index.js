@@ -6,7 +6,11 @@ import {
   Collapse,
   Badge,
   Button,
-  Col
+  Col,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu,
 } from "reactstrap";
 import { Colxx, Separator } from "Components/CustomBootstrap";
 import BreadcrumbContainer from "Components/BreadcrumbContainer";
@@ -35,18 +39,35 @@ class Wards extends Component {
 
     this.state = {
       startDateRange: moment(startDate),
-      endDateRange: moment(endDate)
+      endDateRange: moment(endDate),
+      displayOptionsIsOpen: false,
+      showOptions: ['All', 'Active', 'Discharged'],
+      showOptionCurrent: "All"
     };
 
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.toggleDisplayOptions = this.toggleDisplayOptions.bind(this);
 
     this.heatMapXLabels = ['N/A', 'VERY LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY HIGH'];
     this.heatMapYLabels = [''];
     this.heatMapData = [[100],[2],[3],[4],[88],[88]];
   }
 
+  toggleDisplayOptions() {
+    this.setState({ displayOptionsIsOpen: !this.state.displayOptionsIsOpen });
+  }
+
+  changeShow(value) {
+    this.setState({
+      showOptionCurrent: value
+    });
+  }
+
   componentDidMount() {
+    this.setState({
+      showOptionCurrent: "All"
+    });
     this.props.getWardsList();
   }
 
@@ -92,19 +113,74 @@ class Wards extends Component {
         });
         // aggregate data for ward and push it
         data[i] = {}
-        // cycle through all the patients in that ward
-        for (let patient_key in allWardsItems[i].patients) {
-          let patient = allWardsItems[i].patients[patient_key];
-          // cycle through all the surveys for that patient
-          for (let survey_key in patient.surveys) {
-            let survey = patient.surveys[survey_key];
-            // check if date is already there for current ward
-            if (data[i].hasOwnProperty(survey_key)) {
-              // push the result into that array
-              data[i][survey_key].push(survey.answers.S);
-            } else {
-              // if date is not there add it as a first element in array
-              data[i][survey_key] = [survey.answers.S];
+        // if active patients
+        if (this.state.showOptionCurrent === 'Active') {
+          // cycle through all the active patients in that ward
+          for (let patient_key in allWardsItems[i].patients) {
+            let patient = allWardsItems[i].patients[patient_key];
+            // cycle through all the surveys for that patient
+            for (let survey_key in patient.surveys) {
+              let survey = patient.surveys[survey_key];
+              // check if date is already there for current ward
+              if (data[i].hasOwnProperty(survey_key)) {
+                // push the result into that array
+                data[i][survey_key].push(survey.answers.S);
+              } else {
+                // if date is not there add it as a first element in array
+                data[i][survey_key] = [survey.answers.S];
+              }
+            }
+          }
+        } 
+        // if discharged patients
+        else if (this.state.showOptionCurrent === "Discharged") {
+          // cycle through all the discharged patients in that ward
+          for (let patient_key in allWardsItems[i].dischargedPatients) {
+            let patient = allWardsItems[i].dischargedPatients[patient_key];
+            // cycle through all the surveys for that patient
+            for (let survey_key in patient.surveys) {
+              let survey = patient.surveys[survey_key];
+              // check if date is already there for current ward
+              if (data[i].hasOwnProperty(survey_key)) {
+                // push the result into that array
+                data[i][survey_key].push(survey.answers.S);
+              } else {
+                // if date is not there add it as a first element in array
+                data[i][survey_key] = [survey.answers.S];
+              }
+            }
+          }
+        } else if (this.state.showOptionCurrent === "All") {
+          // cycle through all the active patients in that ward
+          for (let patient_key in allWardsItems[i].dischargedPatients) {
+            let patient = allWardsItems[i].dischargedPatients[patient_key];
+            // cycle through all the surveys for that patient
+            for (let survey_key in patient.surveys) {
+              let survey = patient.surveys[survey_key];
+              // check if date is already there for current ward
+              if (data[i].hasOwnProperty(survey_key)) {
+                // push the result into that array
+                data[i][survey_key].push(survey.answers.S);
+              } else {
+                // if date is not there add it as a first element in array
+                data[i][survey_key] = [survey.answers.S];
+              }
+            }
+          }
+          // cycle through all the discharged patients in that ward
+          for (let patient_key in allWardsItems[i].patients) {
+            let patient = allWardsItems[i].patients[patient_key];
+            // cycle through all the surveys for that patient
+            for (let survey_key in patient.surveys) {
+              let survey = patient.surveys[survey_key];
+              // check if date is already there for current ward
+              if (data[i].hasOwnProperty(survey_key)) {
+                // push the result into that array
+                data[i][survey_key].push(survey.answers.S);
+              } else {
+                // if date is not there add it as a first element in array
+                data[i][survey_key] = [survey.answers.S];
+              }
             }
           }
         }
@@ -230,10 +306,39 @@ class Wards extends Component {
                 </Row>
               </div>
               <div className="mb-2">
+                <Button
+                  color="empty"
+                  id="displayOptions"
+                  className="pt-0 pl-0 d-inline-block d-md-none"
+                  onClick={this.toggleDisplayOptions}
+                >
+                  <IntlMessages id="todo.display-options" />{" "}
+                  <i className="simple-icon-arrow-down align-middle" />
+                </Button>
                 <Collapse
                   className="d-md-block"
-                  isOpen={true}
+                  isOpen={this.state.displayOptionsIsOpen}
                 >
+                  <div className="mb-2">
+                    <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                      <DropdownToggle caret color="outline-dark" size="xs">
+                        <IntlMessages id="todo.show" />
+                        {this.state.showOptionCurrent}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {this.state.showOptions.map((val, index) => {
+                          return (
+                            <DropdownItem
+                              key={index}
+                              onClick={() => this.changeShow(val)}
+                            >
+                              {val}
+                            </DropdownItem>
+                          );
+                        })}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </div>
                   <div className="d-block mb-2 d-md-inline-block">
                     <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                       <DatePicker
@@ -248,8 +353,6 @@ class Wards extends Component {
                         popperPlacement="bottom-start"
                       />
                     </div>
-                  </div>
-                  <div className="d-block mb-2 d-md-inline-block">
                     <div className="calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                       <DatePicker
                         dateFormat='DD/MM/YYYY'

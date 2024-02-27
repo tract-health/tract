@@ -21,6 +21,9 @@ import {
   PATIENTS_GET_LIST_DISCHARGED,
   PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
   PATIENTS_GET_LIST_DISCHARGED_ERROR,
+  PATIENTS_GET_LIST_ALL,
+  PATIENTS_GET_LIST_ALL_SUCCESS,
+  PATIENTS_GET_LIST_ALL_ERROR,
   PATIENTS_ADMIT_ITEM,
   PATIENTS_ADMIT_ITEM_SUCCESS,
   PATIENTS_ADMIT_ITEM_ERROR
@@ -160,6 +163,15 @@ export default (state = INIT_STATE, action) => {
 			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
 
 		case PATIENTS_GET_LIST_DISCHARGED_ERROR:
+			return { ...state, loading: true, error: action.payload };
+
+		case PATIENTS_GET_LIST_ALL:
+			return { ...state, loading: false };
+
+		case PATIENTS_GET_LIST_ALL_SUCCESS:
+			return { ...state, loading: true, allPatientsItems: action.payload, patientsItems: action.payload };
+
+		case PATIENTS_GET_LIST_ALL_ERROR:
 			return { ...state, loading: true, error: action.payload };
 
 		case PATIENTS_ADMIT_ITEM:

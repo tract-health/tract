@@ -7,6 +7,7 @@ import {
   PATIENTS_REMOVE_ITEM,
   PATIENTS_DISCHARGE_ITEM,
   PATIENTS_GET_LIST_DISCHARGED,
+  PATIENTS_GET_LIST_ALL,
   PATIENTS_ADMIT_ITEM,
   PATIENTS_DISCHARGED_REMOVE_ITEM
 } from 'Constants/actionTypes'
@@ -24,6 +25,8 @@ import {
   removeDischargedPatientsItemError,
   getDischargedPatientsListSuccess,
   getDischargedPatientsListError,
+  getAllPatientsListSuccess,
+  getAllPatientsListError,
   admitPatientsItemSuccess,
   admitPatientsItemError
 } from "./actions";
@@ -249,6 +252,45 @@ function* getDischargedPatientsListItems() {
   }
 }
 
+const getAllPatientsListRequest = async () => {
+  return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/patients')
+    .once('value')
+    .then(response => {
+      response = response.val();
+      const array = [];
+      for (let k in response) {
+        if (response.hasOwnProperty(k)) {
+          let item = response[k];
+          item.id = k;
+          array.push(item)
+        }
+      }
+      // get also discharged patients
+      return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients')
+        .once('value')
+        .then(response => {
+          response = response.val();
+          for (let k in response) {
+            if (response.hasOwnProperty(k)) {
+              let item = response[k];
+              item.id = k;
+              array.push(item)
+            }
+          }
+          return array
+      }).catch(error => error);
+    }).catch(error => error);
+};
+
+function* getAllPatientsListItems() {
+  try {
+    const response = yield call(getAllPatientsListRequest);
+    yield put(getAllPatientsListSuccess(response));
+  } catch (error) {
+    yield put(getAllPatientsListError(error));
+  }
+}
+
 const admitPatientsItemRequest = async id => {
   // find the correct discharged patient
   return database.ref('wards/' + localStorage.getItem('user_currentWard') + '/dischargedPatients/' + id)
@@ -323,6 +365,10 @@ export function* watchGetDischargedList() {
   yield takeEvery(PATIENTS_GET_LIST_DISCHARGED, getDischargedPatientsListItems);
 }
 
+export function* watchGetAllList() {
+  yield takeEvery(PATIENTS_GET_LIST_ALL, getAllPatientsListItems);
+}
+
 export function* watchAdmitItem() {
   yield takeEvery(PATIENTS_ADMIT_ITEM, admitPatientsItem);
 }
@@ -335,6 +381,7 @@ export default function* rootSaga() {
     fork(watchDischargeItem),
     fork(watchGetDischargedList),
     fork(watchAdmitItem),
-    fork(watchRemoveDischargedItem)
+    fork(watchRemoveDischargedItem),
+    fork(watchGetAllList)
   ]);
 }

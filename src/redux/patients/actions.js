@@ -21,6 +21,9 @@ import {
     PATIENTS_GET_LIST_DISCHARGED,
     PATIENTS_GET_LIST_DISCHARGED_SUCCESS,
     PATIENTS_GET_LIST_DISCHARGED_ERROR,
+    PATIENTS_GET_LIST_ALL,
+    PATIENTS_GET_LIST_ALL_SUCCESS,
+    PATIENTS_GET_LIST_ALL_ERROR,
     PATIENTS_ADMIT_ITEM,
     PATIENTS_ADMIT_ITEM_SUCCESS,
     PATIENTS_ADMIT_ITEM_ERROR,
@@ -132,6 +135,20 @@ export const getDischargedPatientsListSuccess = (items) => ({
 
 export const getDischargedPatientsListError = (error) => ({
     type: PATIENTS_GET_LIST_DISCHARGED_ERROR,
+    payload: error
+});
+
+export const getAllPatientsList = () => ({
+    type: PATIENTS_GET_LIST_ALL
+});
+
+export const getAllPatientsListSuccess = (items) => ({
+    type: PATIENTS_GET_LIST_ALL_SUCCESS,
+    payload: items
+});
+
+export const getAllPatientsListError = (error) => ({
+    type: PATIENTS_GET_LIST_ALL_ERROR,
     payload: error
 });
 
