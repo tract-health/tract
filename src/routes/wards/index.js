@@ -23,6 +23,8 @@ import { saveAs } from 'file-saver';
 import IntlMessages from "Util/IntlMessages";
 import { ThemeColors } from "Util/ThemeColors";
 
+import { CSVLink } from "react-csv";
+
 class Wards extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +67,7 @@ class Wards extends Component {
     for (var i = 0; i < data.length; i++) {
       htmlToImage.toPng(data[i])
       .then((dataUrl) => {
-        saveAs(dataUrl, `${localStorage.getItem('user_currentWard')}_wards.png`);
+        saveAs(dataUrl, `Wards.png`);
       });
     }
   }
@@ -108,6 +110,64 @@ class Wards extends Component {
         }
       }
     }
+
+    // get data for csv
+    // define score values
+    const scores  = {
+      "na": 0,
+      "verylow": 1,
+      "low": 2,
+      "medium": 3,
+      "high": 4,
+      "veryhigh": 5
+    };
+    // first headers are "Ward Name" and dates between start date and end date
+    let csvData = [];
+    let dates = [];
+    let datesForFilename = [];
+    let csv_data_headers = ['Ward'];
+    let currentDate = this.state.startDateRange.clone();
+    let endDate = this.state.endDateRange.clone();
+    // push first date
+    csv_data_headers.push(currentDate.clone().format('DD/MM/YYYY').toString());
+    dates.push(currentDate.clone().format('YYYY-MM-DD').toString());
+    datesForFilename.push(currentDate.clone().format('DD-MM-YYYY').toString());
+    // push each subsequent date
+    while(currentDate.add(1, "days").diff(endDate) <= 0) {
+      csv_data_headers.push(currentDate.clone().format('DD/MM/YYYY').toString())
+      dates.push(currentDate.clone().format('YYYY-MM-DD').toString());
+      datesForFilename.push(currentDate.clone().format('DD-MM-YYYY').toString());
+    }
+    csvData.push(csv_data_headers)
+
+    // now form data based on the date range
+    for(const [wardID, surveys] of Object.entries(data)) {
+      // form an entry
+      let csv_data_entry = [];
+      // find name by id and push it into the data entry
+      let wardIdNamePair = rowHeaders.find(val => val.id.toString() === wardID);
+      let wardName = wardIdNamePair.name;
+      csv_data_entry.push(wardName);
+      // push data based on necessary dates
+      for(let currDate of dates) {
+        // if no scores at all on this date then we just add 0
+        if(surveys[currDate] === undefined) {
+          csv_data_entry.push('undefined');
+        } else {
+          let totalScore = 0;
+          let totalValues = 0;
+          for(let surveyAnswer of surveys[currDate]) {
+            totalScore = totalScore + scores[surveyAnswer];
+            totalValues = totalValues + 1;
+          }
+          csv_data_entry.push(Math.round(totalScore / totalValues));
+        }
+      }
+      // push entry to array of arrays
+      csvData.push(csv_data_entry);
+    }
+    // generate csv filename
+    let csvFilename = `Wards_${datesForFilename[0]}_${datesForFilename[datesForFilename.length - 1]}.csv`
 
     // set up badge colours
     function setupColor(id) {
@@ -238,6 +298,16 @@ class Wards extends Component {
               >
               <IntlMessages id="todo.exportimage" />
             </Button>
+            <CSVLink 
+              data={csvData}
+              filename={csvFilename}
+            >
+              <Button 
+                className="ml-2 mb-4"
+                color="primary">
+                <IntlMessages id="todo.exportdata" />
+              </Button>
+            </CSVLink>
           </div>
 
         </Fragment>
