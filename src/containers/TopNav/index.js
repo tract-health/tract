@@ -117,6 +117,10 @@ class TopNav extends Component {
       "fontWeight": "bolder"
     };
 
+    let userGuideButtonStyle = {
+      "textAlign": "center",
+    }
+
     return (
       <nav className="navbar fixed-top">
         <NavLink
@@ -174,17 +178,18 @@ class TopNav extends Component {
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+            <div style={userGuideButtonStyle}>
+              <Button
+                color="empty"
+                size='sm'
+                id="guide"
+                onClick={() => this.guideClick()}
+                >
+                User Guide
+              </Button>
+            </div>
           </div>
-          <div className="ml-1">
-            <Button
-              color="empty"
-              size='sm'
-              id="guide"
-              onClick={() => this.guideClick()}
-              >
-              User Guide
-            </Button>
-          </div>
+          
 
         </div>
       </nav>
