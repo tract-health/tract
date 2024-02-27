@@ -218,7 +218,7 @@ class Wards extends Component {
                     <CardBody>
                       <SummaryTable
                         id='summary-table'
-                        leftUp="Patient Name"
+                        leftUp="Ward"
                         startDateRange={this.state.startDateRange}
                         endDateRange={this.state.endDateRange}
                         rowHeaders={rowHeaders}
