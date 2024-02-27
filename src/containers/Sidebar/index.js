@@ -250,6 +250,12 @@ class Sidebar extends Component {
       fontWeight: "bold"
     };
 
+    let dropdownStyle = {
+      "min-height": "100px",
+      "max-height": "300px",
+      "overflow-y": "scroll",
+    }
+
     return (
       <div className="sidebar">
         <div className="main-menu">
@@ -259,23 +265,28 @@ class Sidebar extends Component {
                 <div className="align-self-center mt-4">
                   <IntlMessages id="todo.ward" />
                 </div>
-                <UncontrolledDropdown className='align-self-center mb-2'>
-                  <DropdownToggle caret color="outline-dark" size="xs">
-                    {this.state.currentWard}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {this.state.wardsList.map((val, index) => {
-                      return (
-                        <DropdownItem
-                          key={index}
-                          onClick={() => this.changeWard(val)}
-                        >
-                          {val}
-                        </DropdownItem>
-                      );
-                    })}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+                <div className="align-self-center mb-2">
+                  <div className="d-inline-block">
+                    <UncontrolledDropdown className='dropdown-menu-right'>
+                      <DropdownToggle caret color="outline-dark" size="xs">
+                        {this.state.currentWard}
+                      </DropdownToggle>
+                      <DropdownMenu className="mt-3" style={dropdownStyle} right>
+                        {this.state.wardsList.map((val, index) => {
+                          return (
+                            <DropdownItem
+                              key={index}
+                              onClick={() => this.changeWard(val)}
+                            >
+                              {val}
+                            </DropdownItem>
+                          );
+                        })}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </div>
+                </div>
+                
                 <NavItem className={classnames({active: this.state.selectedMenu.toString() === "patients"})} style={highlightedMenuItem}>
                   <NavLink
                     to="/app/patients"

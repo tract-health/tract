@@ -172,6 +172,12 @@ class Factors extends Component {
     let veryhighStyle = setupColor('veryhigh').style;
     let veryhighClass = setupColor('veryhigh').class;
 
+    let dropdownStyle = {
+      "min-height": "100px",
+      "max-height": "300px",
+      "overflow-y": "scroll"
+    }
+
     // let title = <IntlMessages id="menu.factors" />
     // let title = `TRACT factor heatmap: ${localStorage.getItem('user_currentWard')} `
     let title = `TRACT Activity Data: ${localStorage.getItem('user_currentWard')} `;
@@ -226,7 +232,7 @@ class Factors extends Component {
                       <DropdownToggle caret color="outline-dark" size="xs">
                         { this.state.selectedPatient ? this.state.selectedPatient.name : 'Select Patient ...'}
                       </DropdownToggle>
-                      <DropdownMenu>
+                      <DropdownMenu style={dropdownStyle}>
                         <DropdownItem
                           key="A"
                           onClick={() => this.selectPatient({id: "A", name: "All Patients"})}
