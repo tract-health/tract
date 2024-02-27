@@ -159,7 +159,7 @@ class Ward extends Component {
       // push data based on necessary dates
       for(let currDate of dates) {
         if (surveys[currDate] === undefined) {
-          csv_data_entry.push('undefined');
+          csv_data_entry.push('');
         } else {
           csv_data_entry.push(scores[surveys[currDate]]);
         }

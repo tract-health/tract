@@ -211,7 +211,7 @@ class Factors extends Component {
         if (this.state.selectedPatient.id === 'A') {
           // if no scores at all on this date then we just add 0
           if(surveys[currDate] === undefined) {
-            csv_data_entry.push('undefined');
+            csv_data_entry.push('');
           } else {
             let totalScore = 0;
             let totalValues = 0;
@@ -224,7 +224,7 @@ class Factors extends Component {
         } else {
           // if specific patient is selected instead
           if(surveys[currDate] === undefined) {
-            csv_data_entry.push('undefined');
+            csv_data_entry.push('');
           } else {
             csv_data_entry.push(scores[surveys[currDate]]);
           }

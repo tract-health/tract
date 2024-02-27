@@ -228,7 +228,7 @@ class Wards extends Component {
       for(let currDate of dates) {
         // if no scores at all on this date then we just add 0
         if(surveys[currDate] === undefined) {
-          csv_data_entry.push('undefined');
+          csv_data_entry.push('');
         } else {
           let totalScore = 0;
           let totalValues = 0;
