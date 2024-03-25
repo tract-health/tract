@@ -34,5 +34,7 @@ module.exports = {
   "todo.incomplete": "MARK AS INCOMPLETE",
   "todo.save": "SAVE",
   "todo.confirm": "CONFIRM",
-  "todo.ward": "Ward:"
+  "todo.ward": "Ward:",
+  "todo.nextpatient": "Next patient",
+  "todo.previouspatient": "Previous patient"
 };

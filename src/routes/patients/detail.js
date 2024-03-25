@@ -182,7 +182,7 @@ class PatientsDetail extends Component {
     this.props.getSurveyDetail();
     if (this.status === "Active") {
       this.props.getPatientsList();
-    } else if (this.stats === "Discharged") {
+    } else if (this.status === "Discharged") {
       this.props.getDischargedPatientsList();
     }
   }
@@ -653,6 +653,34 @@ class PatientsDetail extends Component {
 
   }
 
+  moveToPatient(patientType) {
+    // get current patients index in the patients items list
+    let currentPatientIndex = this.props.patientsApp.allPatientsItems.findIndex(x => x.id === this.patientId);
+
+    // check if the last patient and next patient clicked. If so - do nothing
+    if ((currentPatientIndex == this.props.patientsApp.allPatientsItems.length - 1) && (patientType === 'next')) {
+      return null;
+    }
+    // check if the first patient and previous patient clicked. If so - do nothing.
+    else if ((currentPatientIndex == 0) && (patientType === 'previous')) {
+      return null;
+    }
+    // else navigate to next/previous patient
+    else {
+      let switchPatientId = 0;
+      if (patientType === 'next') {
+        switchPatientId = this.props.patientsApp.allPatientsItems[currentPatientIndex + 1].id;
+      }
+      else {
+        switchPatientId = this.props.patientsApp.allPatientsItems[currentPatientIndex - 1].id;
+      }
+      this.patientId = switchPatientId;
+      this.patientSurveyUpdated = false;
+      this.patientPlannerUpdated = false;
+      this.props.history.push(`/app/patients/detail/${switchPatientId}/${moment().format("YYYY-MM-DD")}/${this.status}`)
+    }
+  }
+
   createPlannerUI() {
 
     let warningBox;
@@ -1098,12 +1126,31 @@ class PatientsDetail extends Component {
         `}</style>
         <Row className="app-row survey-app">
           <Colxx xxs="12">
-            <h1>
-              <span className="align-middle d-inline-block pt-1">{title}</span>
-            </h1>
+            <div>
+              <h1>
+                <span className="align-middle d-inline-block pt-1">{title}</span>
+              </h1>
+              <div className="float-sm-right mb-2">
+                <Button
+                  color="primary"
+                  size="sm"
+                  className="mr-2"
+                  onClick={() => this.moveToPatient('previous')}
+                >
+                  <IntlMessages id="todo.previouspatient" />
+                </Button>
+                <Button
+                  color="primary"
+                  size="sm"
+                  className="mr-2"
+                  onClick={() => this.moveToPatient('next')}
+                >
+                  <IntlMessages id="todo.nextpatient" />
+                </Button>
+              </div>
+              {/* <BreadcrumbItems match={this.props.match} /> */}
+            </div>
             
-
-            {/* <BreadcrumbItems match={this.props.match} /> */}
             {loading ?
             <Fragment>
             <Nav tabs className="separator-tabs ml-0 mb-5">
